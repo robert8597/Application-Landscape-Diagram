@@ -236,7 +236,7 @@ public onCommitForm() {
         key: ['', Validators.required],
         name: ['', Validators.required],
         version: ['', Validators.required],
-        cots: ['', Validators.required],
+        cots: [''],
         desc: ['', Validators.required],
         releaseDate: ['',[Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')] ],
         shutdownDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]]

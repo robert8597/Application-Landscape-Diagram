@@ -55,7 +55,7 @@ export class DiagramComponent {
     var myDiagram = 
       $(go.Diagram, "myDiagramDiv",
         { // allow double-click in background to create a new node
-          "clickCreatingTool.archetypeNodeData": { name: "Application", color: "lightblue" },
+          //"clickCreatingTool.archetypeNodeData": { name: "Application", color: "lightblue" },
           // allow Ctrl-G to group
           "commandHandler.archetypeGroupData": { text: "Group", isGroup: true, },
           // have mouse wheel events zoom in and out instead of scroll up and down
@@ -155,7 +155,8 @@ export class DiagramComponent {
 
     // this function creates a new node and inserts it at the last event's point
     function addNode(e, obj) {
-      var data = { name: "Application", color: "lightblue" }; 
+      var data = { name: "Application " + parseInt(e.diagram.nodes.count + 1), color: "lightblue", key: e.diagram.nodes.count + 1,
+      version: "Default", releaseDate: "01.01.0001", shutdownDate: "31.12.9999"}; 
       e.diagram.model.addNodeData(data);
       var node = e.diagram.findPartForData(data);
       node.location = e.diagram.lastInput.documentPoint;
