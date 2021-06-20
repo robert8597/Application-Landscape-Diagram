@@ -1,0 +1,8 @@
+/*In this file we declare the presentation of our GoJs diagram*/
+#myDiagramDiv {
+  width: 1500px;
+  height: 450px;
+  border: 1px solid black;
+  background-color: #ffffff;
+  margin: auto;
+}

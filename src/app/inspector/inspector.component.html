@@ -1,0 +1,79 @@
+<br>
+<form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()" >
+  <div class="group">
+  <label class="group">Key</label>
+  <small *ngIf="editForm.get('key').touched && editForm.get('key').hasError('required')">Enter Key</small>
+  <br>
+  <input id="key" name="key"  [(ngModel)]="data.key" formControlName="key">
+</div>
+
+<div class="group">
+  <label for="name">Name</label> <br />
+  <input name="name" [(ngModel)]="data.name" formControlName="name" />
+</div>
+<br>
+<div class="group">
+<label for="version">Version</label> <br />
+  <input name="version" [(ngModel)]="data.version" formControlName="version"/>
+</div>
+<div class="group">
+  <label for="cots">COTS</label>
+  <select name="cots" [(ngModel)]="data.cots" formControlName="cots" >
+    <option></option>
+    <option>COTS</option>
+    <option>Propietary</option>
+    <option>Unknown</option>
+  </select>
+</div>
+  <br>
+  <div class="group">
+    <label for="releaseDate">Release Date</label> 
+    <small *ngIf="editForm.get('releaseDate').touched && editForm.get('releaseDate').hasError('pattern')">Enter valid Date</small>
+    <br>
+    <input name="releaseDate" [(ngModel)]="data.releaseDate" formControlName="releaseDate"/> 
+</div>
+<div class="group">
+  <label for="shutdownDate">Shutdown Date</label> 
+  <small *ngIf="editForm.get('shutdownDate').touched && editForm.get('shutdownDate').hasError('pattern')">Enter valid Date</small>
+  <br />
+  <input name="shutdownDate" [(ngModel)]="data.shutdownDate" formControlName="shutdownDate"/>
+</div>
+  <br>
+  <div class="group">
+    <label for="desc">Description</label> <br />
+    <textarea  name="desc" rows="4" cols="50"  [(ngModel)]="data.desc" formControlName="desc"></textarea>
+</div>
+  <div class="buttonPosition">
+  <button class="commitButton" type="submit" [disabled]="!editForm.valid">Update Diagram</button>
+  <button class="btn btn-link" type="submit" (click)="cancelChanges()">Cancel</button> 
+</div>
+</form>
+
+
+
+
+<form  [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
+  <div class="group">
+    <label for="dataobject">Data Object</label><br />
+  <input  name="dataobject" [(ngModel)]="LinkData.dataobject"> 
+</div>
+
+<div class="group">
+  <label for="personaldata">Personal Data</label><br />
+<input type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData"> 
+</div>
+<div class="group">
+  <select id="mySelect" #device (change)="onChange($event, device.value)" size="4">
+    
+  </select>
+</div>
+<button type="button" (click)="myFunction()">Show Data Objects</button>
+<br>
+  <div class="group">
+    <label for="description">Description</label> <br />
+    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description"></textarea>
+</div>
+<div class="buttonPosition">
+  <button class="commitButton" type="submit">Update Data Object</button>
+</div>
+</form>
