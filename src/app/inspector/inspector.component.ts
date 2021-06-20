@@ -123,110 +123,110 @@ public onCommitForm2(){
     this.model.commitTransaction();
 }
 
-public onCommitForm()
-  {
-    this.model.startTransaction();
-
-    if(this.selectedNode.data.key != this.data.key)
-    {
-      var keepGoing = true;
-      this.model.nodeDataArray.forEach(element => {
-        if(keepGoing)
-        { 
-        if( element.key == this.data.key )
-           {
-             keepGoing = false;
-            //alert("Update not possible there is already an existing Object with that key!");
-            this.editForm.setValue({
-              key: this.selectedNode.data.key,
-              name: this.data.name,
-              version: this.data.version,
-              desc: this.data.desc,
-              cots: this.data.cots,
-              releaseDate: this.data.releaseDate,
-              shutdownDate: this.data.shutdownDate
-            }
-            )
-            alert("Update not possible there is already an existing Object with that key!");
-           }
-         }
+public onCommitForm() {
+  this.model.startTransaction();
+  if (this.selectedNode.data.key != this.data.key) {
+    var keepGoing = true;
+    this.model.nodeDataArray.forEach(element => {
+      if (keepGoing) {
+        if (element.key == this.data.key) {
+          keepGoing = false;
+          alert("Update not possible there is already an existing Object with that key!");    
+          this.editForm.setValue({
+            key: this.selectedNode.data.key,
+            name: this.selectedNode.data.name,
+            version: this.selectedNode.data.version,
+            desc: this.selectedNode.data.desc,
+            cots: this.selectedNode.data.cots,
+            releaseDate: this.selectedNode.data.releaseDate,
+            shutdownDate: this.selectedNode.data.shutdownDate
+          }
+          )
         }
-        )
-    this.model.set(this.selectedNode.data, 'key', this.data.key);          
-    }
-    else if(this.selectedNode.data.name != this.data.name)
-    {
-      this.model.set(this.selectedNode.data, 'name', this.data.name);  
-    }
-    else if(this.selectedNode.data.version != this.data.version)
-    {
-      this.model.set(this.selectedNode.data, 'version', this.data.version);
-    }
-    else if(this.selectedNode.data.desc != this.data.desc)
-    {
-      this.model.set(this.selectedNode.data, 'desc', this.data.desc);  
-    }
-    else if(this.selectedNode.data.cots != this.data.cots)
-    {
-      this.model.set(this.selectedNode.data, 'cots', this.data.cots);
-    }
-    else if(this.selectedNode.data.releaseDate != this.data.releaseDate)
-    {
-      const str = this.data.releaseDate;
-      const words = str.split(".");
-      const strShut = this.data.shutdownDate;
-      const wordsShut = strShut.split(".");
-      var temp = parseInt(words[1]);
-      temp = temp + 1;
-      
-      if(words[2] < wordsShut[2] || words[2]==wordsShut[2] && words[1] < wordsShut[1] 
-        || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0])
-      {
-        this.model.set(this.selectedNode.data, 'releaseDate', this.data.releaseDate);
-        if(words[1] == wordsShut[1] || parseInt(words[1])+1 == parseInt(wordsShut[1]) &&  parseInt(wordsShut[0]) - parseInt(words[0]) < 0 )
-      {
-        this.data.color = "red";
-        this.model.set(this.selectedNode.data, 'color', this.data.color);
-      }
-      else
-      {
-        this.data.color = "lightblue";
-        this.model.set(this.selectedNode.data, 'color', this.data.color);
-      } 
-      }
-      else
-      {
-        alert("Release Date can´t be later than Shutdown Date!");
       }
     }
-    else if(this.selectedNode.data.shutdownDate != this.data.shutdownDate)
-    {
-      const str = this.data.releaseDate;
-      const words = str.split(".");
-      const strShut = this.data.shutdownDate;
-      const wordsShut = strShut.split(".");
-      if(words[2] < wordsShut[2] || words[2]==wordsShut[2] && words[1] < wordsShut[1] 
-        || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0])
-      {
-        this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
-        if(words[1] == wordsShut[1] || parseInt(words[1])+1 == parseInt(wordsShut[1]) &&  parseInt(wordsShut[0]) - parseInt(words[0]) < 0 )
-      {
-        this.data.color = "red";
-        this.model.set(this.selectedNode.data, 'color', this.data.color);
-      }
-      else
-      {
-        this.data.color = "lightblue";
-        this.model.set(this.selectedNode.data, 'color', this.data.color);
-      } 
-      }
-      else
-      {
-        alert("Shutdown Date can´t be earlier than Release Date!");
-      } 
-    }
-    this.model.commitTransaction();
+    )
+    this.model.set(this.selectedNode.data, 'key', this.data.key);
   }
+  if (this.selectedNode.data.name != this.data.name) {
+    this.model.set(this.selectedNode.data, 'name', this.data.name);
+  }
+  if (this.selectedNode.data.version != this.data.version) {
+    this.model.set(this.selectedNode.data, 'version', this.data.version);
+  }
+  if (this.selectedNode.data.desc != this.data.desc) {
+    this.model.set(this.selectedNode.data, 'desc', this.data.desc);
+  }
+  if (this.selectedNode.data.cots != this.data.cots) {
+    this.model.set(this.selectedNode.data, 'cots', this.data.cots);
+  }
+  if (this.selectedNode.data.releaseDate != this.data.releaseDate) {
+    const str = this.data.releaseDate;
+    const words = str.split(".");
+    const strShut = this.data.shutdownDate;
+    const wordsShut = strShut.split(".");
+    var temp = parseInt(words[1]);
+    temp = temp + 1;
+
+    if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
+      || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
+      this.model.set(this.selectedNode.data, 'releaseDate', this.data.releaseDate);
+      if (words[2] == wordsShut[2] && words[1] == wordsShut[1] || parseInt(words[1]) + 1 == parseInt(wordsShut[1]) && parseInt(wordsShut[0]) - parseInt(words[0]) < 0) {
+        this.data.color = "red";
+        this.model.set(this.selectedNode.data, 'color', this.data.color);
+      }
+      else {
+        this.data.color = "lightblue";
+        this.model.set(this.selectedNode.data, 'color', this.data.color);
+      }
+    }
+    else {
+      alert("Release Date can´t be later than Shutdown Date!");
+      this.editForm.setValue({
+        key: this.data.key,
+        name: this.data.name,
+        version: this.data.version,
+        desc: this.data.desc,
+        cots: this.data.cots,
+        releaseDate: this.selectedNode.data.releaseDate,
+        shutdownDate: this.selectedNode.data.shutdownDate
+      }
+      )
+    }
+  }
+  if (this.selectedNode.data.shutdownDate != this.data.shutdownDate) {
+    const str = this.data.releaseDate;
+    const words = str.split(".");
+    const strShut = this.data.shutdownDate;
+    const wordsShut = strShut.split(".");
+    if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
+      || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
+      this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
+      if (words[2] == wordsShut[2] && words[1] == wordsShut[1]  || parseInt(words[1]) + 1 == parseInt(wordsShut[1]) && parseInt(wordsShut[0]) - parseInt(words[0]) < 0) {
+        this.data.color = "red";
+        this.model.set(this.selectedNode.data, 'color', this.data.color);
+      }
+      else {
+        this.data.color = "lightblue";
+        this.model.set(this.selectedNode.data, 'color', this.data.color);
+      }
+    }
+    else {
+      alert("Shutdown Date can´t be earlier than Release Date!");
+      this.editForm.setValue({
+        key: this.data.key,
+        name: this.data.name,
+        version: this.data.version,
+        desc: this.data.desc,
+        cots: this.data.cots,
+        releaseDate: this.selectedNode.data.releaseDate,
+        shutdownDate: this.selectedNode.data.shutdownDate
+      }
+      )
+    }
+  }
+  this.model.commitTransaction();
+}
 
 
    editForm: FormGroup;
