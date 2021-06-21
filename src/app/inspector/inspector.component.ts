@@ -65,6 +65,10 @@ set selectedLink(link: go.Link)
 this.LinkData.dataobject = this._selectedLink.data.dataobject;
 this.LinkData.personalData = this._selectedLink.data.personalData;
 this.LinkData.description = this._selectedLink.data.description;
+var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
+    while (DropdownList.options.length > 0) {                
+      DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+  }
 }
 else{
 
