@@ -41,9 +41,15 @@ export class ExcelsheetComponent implements OnInit {
       const bstr: string = e.target.result;
 
       const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-
-      const wsname : string = wb.SheetNames[4];//CHOOSE SHEET
-      console.log("exceltabllenamen="+wsname)
+      var wsname : string = wb.SheetNames[0];
+for(var i=0;i<wb.SheetNames.length;i++){
+      if(wb.SheetNames[i].includes("Application"||"Apps"||"App")){//CHOOSE SHEET
+        wsname = wb.SheetNames[i]
+        break;
+      }
+      
+    }
+      
 
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 

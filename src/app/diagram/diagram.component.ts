@@ -262,14 +262,8 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
       
      
       if (link instanceof go.Link) {
-       
-
-        
-
-        
        // myDiagram.remove(linki);
 
-        
         // var dataobjectz = myDiagram.model.nodeDataArray;
          var modelAsText = myDiagram.model.toJson();
  
@@ -286,8 +280,7 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
        //console.log("node", node.data);
    //}
 
-    node = null;
-   link = null;
+    
      }
     );
   }
