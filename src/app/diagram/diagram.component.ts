@@ -256,12 +256,20 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
 
     myDiagram.addDiagramListener('ChangedSelection', (e) => {
 
-      const node = myDiagram.selection.first();
-      const link = myDiagram.selection.first();
+      var node = myDiagram.selection.first();
+      var link = myDiagram.selection.first();
       
       
      
       if (link instanceof go.Link) {
+       
+
+        
+
+        
+       // myDiagram.remove(linki);
+
+        
         // var dataobjectz = myDiagram.model.nodeDataArray;
          var modelAsText = myDiagram.model.toJson();
  
@@ -277,6 +285,9 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
        this.nodeClicked.emit(node);
        //console.log("node", node.data);
    //}
+
+    node = null;
+   link = null;
      }
     );
   }

@@ -59,7 +59,7 @@ set selectedLink(link: go.Link)
     this.AppSehen = 'none';
     this._selectedLink = link;
 
-    console.log("LINKizzzDA", link.data)
+    console.log("LINKizzzDA")
 
 //this.data.fromi = this._selectedLink.data.fromi;
 this.LinkData.dataobject = this._selectedLink.data.dataobject;
@@ -260,22 +260,33 @@ set selectedDataObject(dataobject: string) {
 
   public myFunction() {
   
+  
+
         var jsonDataObjects = JSON.parse(this.dataobject);
 
-        console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
+       // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
     var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
-    
-
-  for(var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
-    var y = 1;
-    if(jsonDataObjects.linkDataArray[i].dataobject==jsonDataObjects.linkDataArray[y].dataobject){
-      console.log(i+"+"+y)
-    }
-    if(y<jsonDataObjects.linkDataArray.length){
-      y++;
-    }
-    
+    while (DropdownList.options.length > 0) {                
+      DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
   }
+
+   for(var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
+    
+  for(var y = 1; y<jsonDataObjects.linkDataArray.length; y++){
+    if(i!=y){
+
+    
+     if(jsonDataObjects.linkDataArray[i].dataobject!=jsonDataObjects.linkDataArray[y].dataobject){
+        console.log(i+"+"+y)
+       //delete jsonDataObjects.linkDataArray[i]
+       }
+     }
+    }
+
+   
+   
+    
+   }
 
     for(var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
       
@@ -292,16 +303,16 @@ set selectedDataObject(dataobject: string) {
   }
 
   public onChange($event, deviceValue) {
-    console.log(deviceValue); //device Value zb Data Object 1
+    //console.log(deviceValue); //device Value zb Data Object 1
 
     var jsonDataObjects = JSON.parse(this.dataobject);
-    console.log("supertest"+jsonDataObjects.linkDataArray[0].dataobject);
+    //console.log("supertest"+jsonDataObjects.linkDataArray[0].dataobject);
     for(var i = 0;i<jsonDataObjects.linkDataArray.length;i++){
       if(jsonDataObjects.linkDataArray[i].dataobject==deviceValue){
         this.LinkData.dataobject = jsonDataObjects.linkDataArray[i].dataobject;
         this.LinkData.description = jsonDataObjects.linkDataArray[i].description;
         this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
-        break;
+        //break; ohne break nimmt er immer den neusten dataobject ausm array
       }
       
     }

@@ -44,7 +44,7 @@ public LinkDataArray: Object[] = [
 
 public setDataObject(dataobject){
   this.selectedDataObject = dataobject;
-  console.log("test"+dataobject);
+  //console.log("test"+dataobject);
 }
   
   public setSelectedLink(link)
