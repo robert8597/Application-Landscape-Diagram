@@ -90,15 +90,20 @@ export class DiagramComponent {
 
     myDiagram.nodeTemplate =
       $(go.Node, "Auto", // set the context menu
-        { resizable: true },
+        {// linkValidation: function(fromnode, fromport, tonode, toport) {
+          // total number of links connecting with a node is limited to 1:
+          //return fromnode.linksConnected.count + tonode.linksConnected.count < 1;
+        //},
+          resizable: false },
         $(go.Shape, "Procedure",
           { 
             width: 150, height: 60, //Standard size
             //stroke: null,
             portId: "",
             cursor: "pointer",
-            fromLinkable: true, fromLinkableDuplicates: true,
-            toLinkable: true, toLinkableDuplicates: true
+            fromLinkable: true, fromLinkableDuplicates: false,
+            toLinkable: true, toLinkableDuplicates: false,
+            
           },
           new go.Binding("fill", "color")),
         $(go.Panel, "Table",
@@ -201,6 +206,7 @@ export class DiagramComponent {
           // draw the link path shorter than normal,
           // so that it does not interfere with the appearance of the arrowhead
           toShortLength: 2
+          
         },
         $(go.Shape,
           { strokeWidth: 2 }),
@@ -248,7 +254,7 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
   for(var i = 1;i<jsonDataObjects.nodeDataArray.length;i++){
     ApplicationsAScsv.push({name: jsonDataObjects.nodeDataArray[i].name, version: jsonDataObjects.nodeDataArray[i].version, key: jsonDataObjects.nodeDataArray[i].key,  desc: jsonDataObjects.nodeDataArray[i].desc, cots: jsonDataObjects.nodeDataArray[i].cots,  releaseDate: jsonDataObjects.nodeDataArray[i].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[i].shutdownDate });
   }
-      CsvDataService.exportToCsv('test.csv', ApplicationsAScsv);
+      CsvDataService.exportToCsv('Applications.csv', ApplicationsAScsv);
     });
     
 
@@ -258,12 +264,15 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
 
       var node = myDiagram.selection.first();
       var link = myDiagram.selection.first();
-      
-      
+
      
+
       if (link instanceof go.Link) {
        // myDiagram.remove(linki);
+   //    this.model.startTransaction('remove nodes and links');
+    
 
+ //this.model.commitTransaction('remove nodes and links');
         // var dataobjectz = myDiagram.model.nodeDataArray;
          var modelAsText = myDiagram.model.toJson();
  

@@ -3,6 +3,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl,FormGroup,FormBuilder, NgForm, Validators } from '@angular/forms';
 import { version } from 'xlsx/types';
+import * as go from 'gojs';
 
 
 @Component({
@@ -23,6 +24,11 @@ public options = {
 text: "testi",
 }
 
+public LinkDataArray: Object[] = [
+  { from: "1", to: "2", description: "hello!", personalData: true, dataobject: "Data Object 4" },
+  { from: "2", to: "3" , description: "hello2!", personalData: false, dataobject: "Data Object 5" },
+  { from: "3", to: "1" , description: "hello3!, blablablablalblalsffsal", personalData: false, dataobject: "Data Object 6" }
+];
 
 public data = {
   key: null,
@@ -38,8 +44,9 @@ public data = {
 public LinkData = {
   dataobject: null,
   personalData: false,
-  description: null
- 
+  description: null,
+ from: null,
+ to: null
 }
 
 AppSehen = 'none';
@@ -65,6 +72,8 @@ set selectedLink(link: go.Link)
 this.LinkData.dataobject = this._selectedLink.data.dataobject;
 this.LinkData.personalData = this._selectedLink.data.personalData;
 this.LinkData.description = this._selectedLink.data.description;
+this.LinkData.from = this._selectedLink.data.from;
+this.LinkData.to = this._selectedLink.data.to;
 var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
     while (DropdownList.options.length > 0) {                
       DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
@@ -124,8 +133,48 @@ public onCommitForm2(){
     this.model.set(this.selectedLink.data, 'dataobject', this.LinkData.dataobject);
     this.model.set(this.selectedLink.data, 'personalData', this.LinkData.personalData);
     this.model.set(this.selectedLink.data, 'description', this.LinkData.description);
+    
     this.model.commitTransaction();
+    
+     
+     
 }
+
+public changeDataObject(){
+
+
+
+
+  var jsonDataObjects = JSON.parse(this.dataobject);
+console.log("txt:"+this.dataobject);
+    if(this.model instanceof go.GraphLinksModel) {
+      for(var z=0;z<this.model.linkDataArray.length+5;z++){ //Falls doppelte DataObjects kommen +5 erhöhen !
+       this.model.removeLinkDataCollection(this.model.linkDataArray);
+        
+    }
+     
+      this.DataObjectSehen = 'none';
+      
+     // this.model.addLinkDataCollection(this.LinkDataArray); 
+     for(var i =0;i<jsonDataObjects.linkDataArray.length;i++){
+
+   if(jsonDataObjects.linkDataArray[i].dataobject==this.LinkData.dataobject){
+    //jsonDataObjects.linkDataArray[i].dataobject=this.LinkData.dataobject;
+    jsonDataObjects.linkDataArray[i].personalData=this.LinkData.personalData;
+    jsonDataObjects.linkDataArray[i].description=this.LinkData.description;
+   }
+   console.log("test:"+i+jsonDataObjects.linkDataArray[i].dataobject);
+    }
+   
+
+  //jsonDataObjects['linkDataArray'].push({"from":this.LinkData.from,"to":this.LinkData.to,"dataobject":this.LinkData.dataobject,"personalData":this.LinkData.personalData,"description":this.LinkData.description});
+
+
+     this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
+     }
+}
+
+
 
 public onCommitForm() {
   this.model.startTransaction();
@@ -278,6 +327,7 @@ set selectedDataObject(dataobject: string) {
     
      if(jsonDataObjects.linkDataArray[i].dataobject!=jsonDataObjects.linkDataArray[y].dataobject){
         console.log(i+"+"+y)
+        break;
        //delete jsonDataObjects.linkDataArray[i]
        }
      }
@@ -297,8 +347,21 @@ set selectedDataObject(dataobject: string) {
       el.value = opt;
   
       DropdownList.add(el);
+      DropdownList[0].remove;
+     console.log(DropdownList[0]);
+    
       
   }​
+//Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
+  var fruits = DropdownList; 
+[].slice.call(fruits.options)
+.map(function(a){
+if(this[a.value]){
+fruits.removeChild(a);
+} else {
+this[a.value]=1;
+}
+},{});
 
   }
 
