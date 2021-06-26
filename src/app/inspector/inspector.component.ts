@@ -60,13 +60,10 @@ export class InspectorComponent implements OnInit {
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
     if (link) {
-
       this.DataObjectSehen = 'block';
       this.AppSehen = 'none';
       this._selectedLink = link;
-
       console.log("LINKizzzDA")
-
       //this.data.fromi = this._selectedLink.data.fromi;
       this.LinkData.dataobject = this._selectedLink.data.dataobject;
       this.LinkData.personalData = this._selectedLink.data.personalData;
@@ -79,7 +76,6 @@ export class InspectorComponent implements OnInit {
       }
     }
     else {
-
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.AppSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
     }
