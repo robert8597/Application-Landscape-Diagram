@@ -52,19 +52,18 @@
 
 
 
-<form  [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
+<form [formGroup]="editData" [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
   <div class="group">
     <label for="dataobject">Data Object</label><br />
-  <input  name="dataobject" [(ngModel)]="LinkData.dataobject"> 
+  <input id="dataobject" name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject"> 
 </div>
 
 <div class="group">
   <label for="personaldata">Personal Data</label><br />
-<input type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData"> 
+<input type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personaldata"> 
 </div>
 <div class="group">
-  <select id="mySelect" #device (change)="onChange($event, device.value)" size="4">
-    
+  <select id="mySelect" #device (change)="onChange($event, device.value)" size="4">    
   </select>
 </div>
 <button type="button" (click)="myFunction()">Show Data Objects</button>
@@ -72,10 +71,11 @@
 <br>
   <div class="group">
     <label for="description">Description</label> <br />
-    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description"></textarea>
+    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"></textarea>
 </div>
 <div class="buttonPosition">
   <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Objects</button>
   <button class="commitButton" type="submit">Update Data Object</button>
+  <button class="btn btn-link" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>
 </form>
