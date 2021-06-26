@@ -110,9 +110,18 @@ set selectedNode(node: go.Node)
   this.AppSehen = 'none';//Damit wenn man leer klickt beide verschwinden
   this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
    
+  }
+}
+public cancelChangesData() {
+  this.editData.setValue(
+    {
+      dataobject: this.selectedLink.data.dataobject,
+      personalData: this.selectedLink.data.personalData,
+      description: this.selectedLink.data.description
+    }
+  )
 }
 
-}
  public cancelChanges()
  {
   this.editForm.setValue(
@@ -281,7 +290,7 @@ public onCommitForm() {
   this.model.commitTransaction();
 }
 
-
+   editData: FormGroup; 
    editForm: FormGroup;
   constructor(private formBuilder: FormBuilder) { 
     this.editForm = formBuilder.group(
@@ -293,6 +302,13 @@ public onCommitForm() {
         desc: ['', Validators.required],
         releaseDate: ['',[Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')] ],
         shutdownDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]]
+      }
+    )
+    this.editData = formBuilder.group(
+      {
+        dataobject: [''],
+        personalData: [''],
+        description: ['']
       }
     )
   }
