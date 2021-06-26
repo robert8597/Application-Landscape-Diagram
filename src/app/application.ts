@@ -59,13 +59,32 @@ if(ExcelRow[i][2]!=null){
 
 if(ExcelRow[i][3]!=null){
     var StartDate =  this.ExcelDateToJSDate(ExcelRow[i][3]);
-   // this.StartDate = SDate.toDateString();
-    this.StartDate = StartDate.toLocaleDateString();
+    var calc = StartDate.toLocaleDateString()
+    var Test = calc.split(".");
+    if(parseInt(Test[0]) < 10)
+    {
+        Test[0] = "0" + Test[0];
+    }
+    if(parseInt(Test[1]) < 10)
+    {
+        Test[1] = "0" + Test[1];
+    }
+    this.StartDate = Test[0] + "." +Test[1] + "." + Test[2];
 }
 
 if(ExcelRow[i][4]!=null){
     var ShutDate = this.ExcelDateToJSDate(ExcelRow[i][4]);
-    this.ShutdownDate = ShutDate.toLocaleDateString();
+    var calc = ShutDate.toLocaleDateString()
+    var Test = calc.split(".");
+    if(parseInt(Test[0]) < 10)
+    {
+        Test[0] = "0" + Test[0];
+    }
+    if(parseInt(Test[1]) < 10)
+    {
+        Test[1] = "0" + Test[1];
+    }
+    this.ShutdownDate = Test[0] + "." +Test[1] + "." + Test[2];
 }
 
     this.NodeData = {
