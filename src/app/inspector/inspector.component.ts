@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl,FormGroup,FormBuilder, NgForm, Validators } from '@angular/forms';
-import { version } from 'xlsx/types';
+
 import * as go from 'gojs';
 
 
@@ -309,8 +309,6 @@ set selectedDataObject(dataobject: string) {
 
   public myFunction() {
   
-  
-
         var jsonDataObjects = JSON.parse(this.dataobject);
 
        // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
