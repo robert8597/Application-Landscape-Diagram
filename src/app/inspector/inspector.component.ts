@@ -83,7 +83,7 @@ export class InspectorComponent implements OnInit {
     }
   }
 
-
+  today = new Date();
   @Input()
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
@@ -222,18 +222,32 @@ export class InspectorComponent implements OnInit {
       const words = str.split(".");
       const strShut = this.data.shutdownDate;
       const wordsShut = strShut.split(".");
-      var temp = parseInt(words[1]);
-      temp = temp + 1;
+      const strTest = this.today.toLocaleDateString();
+      const Test = strTest.split(".");
+     
+
+      if(parseInt(Test[0]) < 10)
+    {
+        Test[0] = "0" + Test[0];
+    }
+    if(parseInt(Test[1]) < 10)
+    {
+        Test[1] = "0" + Test[1];
+    }
+    const temp = Test[0] + "." +Test[1] + "." + Test[2];
+    const wordsTest = temp.split(".");
 
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'releaseDate', this.data.releaseDate);
-        if (words[2] == wordsShut[2] && words[1] == wordsShut[1] || parseInt(words[1]) + 1 == parseInt(wordsShut[1]) && parseInt(wordsShut[0]) - parseInt(words[0]) < 0) {
+        if(wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
+          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0])
+        {
           this.data.color = "red";
-          this.model.set(this.selectedNode.data, 'color', this.data.color);
-        }
-        else {
-          this.data.color = "lightblue";
+          this.model.set(this.selectedNode.data, 'color', this.data.color);  
+        }else
+        {
+          this.data.color ="lightblue";
           this.model.set(this.selectedNode.data, 'color', this.data.color);
         }
       }
@@ -256,18 +270,34 @@ export class InspectorComponent implements OnInit {
       const words = str.split(".");
       const strShut = this.data.shutdownDate;
       const wordsShut = strShut.split(".");
+      const strTest = this.today.toLocaleDateString();
+      const Test = strTest.split(".");
+     
+
+      if(parseInt(Test[0]) < 10)
+    {
+        Test[0] = "0" + Test[0];
+    }
+    if(parseInt(Test[1]) < 10)
+    {
+        Test[1] = "0" + Test[1];
+    }
+    const temp = Test[0] + "." +Test[1] + "." + Test[2];
+    const wordsTest = temp.split(".");
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
-        if (words[2] == wordsShut[2] && words[1] == wordsShut[1] || parseInt(words[1]) + 1 == parseInt(wordsShut[1]) && parseInt(wordsShut[0]) - parseInt(words[0]) < 0) {
+        if(wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
+          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0])
+        {
           this.data.color = "red";
+          this.model.set(this.selectedNode.data, 'color', this.data.color);  
+        }else
+        {
+          this.data.color ="lightblue";
           this.model.set(this.selectedNode.data, 'color', this.data.color);
         }
-        else {
-          this.data.color = "lightblue";
-          this.model.set(this.selectedNode.data, 'color', this.data.color);
         }
-      }
       else {
         alert("Shutdown Date can´t be earlier than Release Date!");
         this.editForm.setValue({
