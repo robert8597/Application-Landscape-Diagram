@@ -32,9 +32,9 @@ export class AppComponent {
     
 
 public LinkDataArray: Object[] = [
-  { from: "1", to: "2", description: "hello!", personalData: true, dataobject: "Data Object 1" },
-  { from: "2", to: "3" , description: "hello2!", personalData: false, dataobject: "Data Object 2" },
-  { from: "3", to: "1" , description: "hello3!, blablablablalblalsffsal", personalData: false, dataobject: "Data Object 3" }
+  { text: "Data Object 1", from: "1", to: "2", description: "hello!", personalData: true, dataobject: "Data Object 1" },
+  { text: "Data Object 2",from: "2", to: "3" , description: "hello2!", personalData: false, dataobject: "Data Object 2" },
+  { text: "Data Object 3", from: "3", to: "1" , description: "hello3!, blablablablalblalsffsal", personalData: false, dataobject: "Data Object 3" }
 ];
 
   public model: go.GraphLinksModel = new go.GraphLinksModel(this.NodeDataArray,this.LinkDataArray);

@@ -212,7 +212,7 @@ export class DiagramComponent {
           { strokeWidth: 2 }),
         $(go.Shape,
           { toArrow: "Standard", stroke: null }),
-          $(go.TextBlock, "DataObject", { segmentOffset: new go.Point(0, 10) , margin: 3 },
+          $(go.TextBlock, { segmentOffset: new go.Point(0, 10) , margin: 3 },
             new go.Binding("text", "text"))
        // $(go.TextBlock, "Text", { editable: true, segmentOffset: new go.Point(0, -10) }),
         //$(go.TextBlock, "Text", { editable: true, segmentOffset: new go.Point(0, 10) })
@@ -272,28 +272,67 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
     //   }
     // }
     // );
-    myDiagram.addDiagramListener('ChangedSelection', (e) => {
-      var node = myDiagram.selection.first();
-      var link = myDiagram.selection.first();
-    
-      if (link instanceof go.Link) {
-        this.linkClicked.emit(link);
-      } else 
-      {
-        this.linkClicked.emit(null);
-        this.nodeClicked.emit(node);
-      }
-      if(node instanceof go.Node)
-      {
-        this.nodeClicked.emit(node);
-      }else
-      {
-        this.nodeClicked.emit(null);
-        this.linkClicked.emit(link);
-      }
+  //   myDiagram.addDiagramListener('ChangedSelection', (e) => {
+
+  //     var node = myDiagram.selection.first();
+  //     var link = myDiagram.selection.first();
       
+      
+     
+  //     if (link instanceof go.Link) {
+  //      // myDiagram.remove(linki);
+
+  //       // var dataobjectz = myDiagram.model.nodeDataArray;
+  //        var modelAsText = myDiagram.model.toJson();
+ 
+  //        var jsonDataObjects = JSON.parse(modelAsText);
+  //       // const myArr = JSON.parse(dataobjectz);
+ 
+  //        console.log("linkz="+jsonDataObjects.linkDataArray[0].dataobject);
+  //        
+  //        this.linkClicked.emit(link);
+  //        console.log("link", link.data);
+  //    } //vielleicht ein ELSE lieber
+  //    //if (node instanceof go.Node) {
+  //      this.nodeClicked.emit(node);
+  //      //console.log("node", node.data);
+  //  //}
+
+    
+  //    }
+  //   );
+  myDiagram.addDiagramListener('ChangedSelection', (e) => {
+    var node = myDiagram.selection.first();
+    var link = myDiagram.selection.first();
+  
+    if (link instanceof go.Link) {
+      var modelAsText = myDiagram.model.toJson();
+      var jsonDataObjects = JSON.parse(modelAsText);
+      this.dataobjectShow.emit(modelAsText)
+      this.linkClicked.emit(link);
+    } else 
+    {
+      this.linkClicked.emit(null);
+      this.nodeClicked.emit(node);
     }
-    );
+    if(node instanceof go.Node)
+    {
+      this.nodeClicked.emit(node);
+    }else
+    {
+      this.nodeClicked.emit(null);
+      this.linkClicked.emit(link);
+    }
+    
+  }
+  );
+
+
+
+
+
+
+
   }
 
 }

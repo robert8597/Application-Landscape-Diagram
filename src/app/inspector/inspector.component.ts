@@ -47,7 +47,8 @@ export class InspectorComponent implements OnInit {
     personalData: false,
     description: null,
     from: null,
-    to: null
+    to: null,
+    text: null
   }
 
   AppSehen = 'none';
@@ -70,6 +71,7 @@ export class InspectorComponent implements OnInit {
       this.LinkData.description = this._selectedLink.data.description;
       this.LinkData.from = this._selectedLink.data.from;
       this.LinkData.to = this._selectedLink.data.to;
+      this.LinkData.text = this._selectedLink.data.text;
       var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
       while (DropdownList.options.length > 0) {
         DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
@@ -134,7 +136,7 @@ export class InspectorComponent implements OnInit {
     this.model.set(this.selectedLink.data, 'dataobject', this.LinkData.dataobject);
     this.model.set(this.selectedLink.data, 'personalData', this.LinkData.personalData);
     this.model.set(this.selectedLink.data, 'description', this.LinkData.description);
-
+    this.model.set(this.selectedLink.data, 'text', this.LinkData.dataobject);
     this.model.commitTransaction();
 
 
@@ -163,6 +165,7 @@ export class InspectorComponent implements OnInit {
           //jsonDataObjects.linkDataArray[i].dataobject=this.LinkData.dataobject;
           jsonDataObjects.linkDataArray[i].personalData = this.LinkData.personalData;
           jsonDataObjects.linkDataArray[i].description = this.LinkData.description;
+          jsonDataObjects.linkDataArray[i].text = this.LinkData.text;
         }
         console.log("test:" + i + jsonDataObjects.linkDataArray[i].dataobject);
       }
@@ -289,7 +292,7 @@ export class InspectorComponent implements OnInit {
       {
         key: ['', Validators.required],
         name: ['', Validators.required],
-        version: ['', Validators.required],
+        version: [''],
         cots: [''],
         desc: ['', Validators.required],
         releaseDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]],
@@ -382,6 +385,7 @@ export class InspectorComponent implements OnInit {
         this.LinkData.dataobject = jsonDataObjects.linkDataArray[i].dataobject;
         this.LinkData.description = jsonDataObjects.linkDataArray[i].description;
         this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
+        this.LinkData.text = jsonDataObjects.linkDataArray[i].text;
         //break; ohne break nimmt er immer den neusten dataobject ausm array
       }
 
