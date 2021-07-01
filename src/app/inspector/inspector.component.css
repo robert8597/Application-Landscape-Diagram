@@ -61,6 +61,12 @@ input:focus {
     font-size:10pt;
     }
 
+    .inputPersonalData{
+      width: 20%; max-width: 100%;
+      
+      font-size:10pt;
+      }
+
 
     .topnav {
       overflow: hidden;
