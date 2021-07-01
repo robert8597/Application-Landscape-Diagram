@@ -178,7 +178,8 @@ export class InspectorComponent implements OnInit {
           //jsonDataObjects.linkDataArray[i].dataobject=this.LinkData.dataobject;
           jsonDataObjects.linkDataArray[i].personalData = this.LinkData.personalData;
           jsonDataObjects.linkDataArray[i].description = this.LinkData.description;
-          jsonDataObjects.linkDataArray[i].text = this.LinkData.text;
+         // jsonDataObjects.linkDataArray[i].text = this.LinkData.text; damit gibts einen bugg das name auf linie nach cancel und dann change geändert wird !
+          jsonDataObjects.linkDataArray[i].text = this.LinkData.dataobject;
         }
         console.log("test:" + i + jsonDataObjects.linkDataArray[i].dataobject);
       }
