@@ -54,7 +54,7 @@
 </div>
   <div class="buttonPosition">
   <button class="commitButton" type="submit" [disabled]="!editForm.valid">Update Application</button>
-  <button class="btn btn-link" type="submit" (click)="cancelChanges()">Cancel</button> 
+  <button class="cancelButton" type="submit" (click)="cancelChanges()">Cancel</button> 
 </div>
 </form>
 
@@ -88,7 +88,7 @@
 <div class="buttonPosition">
   
   <button class="commitButton" type="submit">Select Data Object</button>
-  <button class="btn btn-link" type="submit" (click)="cancelChangesData()">Cancel</button> 
+  <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>
 </form>
 
@@ -119,6 +119,6 @@
 <div class="buttonPosition">
   <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Objects</button>
   
-  <button class="btn btn-link" type="submit" (click)="cancelChangesData()">Cancel</button> 
+  <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>
 </form>
