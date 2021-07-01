@@ -7,6 +7,9 @@
   
 }
 
+select{
+  /* overflow: hidden; */
+}
 small {
   font-size: 10px;
   font-style: normal;
@@ -57,3 +60,39 @@ input:focus {
     
     font-size:10pt;
     }
+
+
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+     width: 75%;
+     margin: auto;
+    }
+    
+    .topnav button {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 8px 10px;
+      text-decoration: none;
+      font-size: 14px;
+      background-color: #333;
+      border: none;
+    }
+    
+    .topnav button:hover {
+      background-color: #ddd;
+  color: black;
+    }
+    
+    .topnav button.active {
+      background-color: #04AA6D;
+  color: white;
+    }
+
+    .NavButtons {   
+      background-color: Transparent;
+      border: none;             /* Your can add different style/properties of button Here*/
+      cursor:pointer;    
+      color: #f2f2f2;
+      }

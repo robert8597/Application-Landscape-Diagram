@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
-
+import { CsvDataService } from '../csv/csv-data.service';
 import * as go from 'gojs';
 
 
@@ -53,6 +53,9 @@ export class InspectorComponent implements OnInit {
 
   AppSehen = 'none';
   DataObjectSehen = 'none';
+  DataObjectCustomize = 'none';
+  DataObjectListe = "none";
+  ChooseDataObject = "";
 
   @Input()
   public model: go.Model;
@@ -61,10 +64,16 @@ export class InspectorComponent implements OnInit {
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
     if (link) {
+      
       this.DataObjectSehen = 'block';
       this.AppSehen = 'none';
+      this.DataObjectCustomize = 'none';
+      this.DataObjectListe = "none";
+      this.ChooseDataObject = "";
+
       this._selectedLink = link;
       console.log("LINKizzzDA")
+    ////////////  this.myFunction();///////////////////////////////////
       //this.data.fromi = this._selectedLink.data.fromi;
       this.LinkData.dataobject = this._selectedLink.data.dataobject;
       this.LinkData.personalData = this._selectedLink.data.personalData;
@@ -72,6 +81,7 @@ export class InspectorComponent implements OnInit {
       this.LinkData.from = this._selectedLink.data.from;
       this.LinkData.to = this._selectedLink.data.to;
       this.LinkData.text = this._selectedLink.data.text;
+     
       var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
       while (DropdownList.options.length > 0) {
         DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
@@ -80,9 +90,10 @@ export class InspectorComponent implements OnInit {
     else {
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.AppSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
+      this.DataObjectCustomize = 'none';
     }
   }
-
+  
   today = new Date();
   @Input()
   get selectedNode() { return this._selectedNode; }
@@ -91,6 +102,8 @@ export class InspectorComponent implements OnInit {
 
       this.AppSehen = 'block';
       this.DataObjectSehen = 'none';
+      this.DataObjectCustomize = 'none';
+
       this._selectedNode = node;
       this.data.key = this._selectedNode.data.key;
       this.data.name = this._selectedNode.data.name;
@@ -104,7 +117,7 @@ export class InspectorComponent implements OnInit {
     } else {
       this.AppSehen = 'none';//Damit wenn man leer klickt beide verschwinden
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
-
+      this.DataObjectCustomize = 'none';
     }
   }
   public cancelChangesData() {
@@ -146,9 +159,10 @@ export class InspectorComponent implements OnInit {
   public changeDataObject() {
 
 
+    var modelAsText = this.model.toJson();
+    var jsonDataObjects = JSON.parse(modelAsText);
 
-
-    var jsonDataObjects = JSON.parse(this.dataobject);
+    //var jsonDataObjects = JSON.parse(this.dataobject);
     console.log("txt:" + this.dataobject);
     if (this.model instanceof go.GraphLinksModel) {
       for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
@@ -350,22 +364,30 @@ export class InspectorComponent implements OnInit {
   }
 
   public myFunction() {
+    this.DataObjectListe = "block";
+    this.ChooseDataObject = "none";
+   // console.log("DUKLEINERhs"+test)
+    var modelAsText2 = this.model.toJson();
+    var jsonDataObjects2 = JSON.parse(modelAsText2);
+    console.log("superwichtigerTest"+jsonDataObjects2.linkDataArray[0].dataobject)
 
-    var jsonDataObjects = JSON.parse(this.dataobject);
+
+    //var jsonDataObjects = JSON.parse(this.dataobject);
 
     // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
     var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
+    if(DropdownList != null){
     while (DropdownList.options.length > 0) {
       DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
     }
+  }
+    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
 
-    for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
-
-      for (var y = 1; y < jsonDataObjects.linkDataArray.length; y++) {
+      for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
         if (i != y) {
 
 
-          if (jsonDataObjects.linkDataArray[i].dataobject != jsonDataObjects.linkDataArray[y].dataobject) {
+          if (jsonDataObjects2.linkDataArray[i].dataobject != jsonDataObjects2.linkDataArray[y].dataobject) {
             console.log(i + "+" + y)
             break;
             //delete jsonDataObjects.linkDataArray[i]
@@ -377,10 +399,114 @@ export class InspectorComponent implements OnInit {
 
 
     }
+if(jsonDataObjects2.linkDataArray[0].dataobject != null){
+    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
 
+      var opt = jsonDataObjects2.linkDataArray[i].dataobject;
+
+      var el = document.createElement("option");
+      el.text = opt;
+      el.value = opt;
+
+      DropdownList.add(el);
+      DropdownList[0].remove;
+      console.log(DropdownList[0]);
+
+
+    }}
+    //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
+    var fruits = DropdownList;
+    [].slice.call(fruits.options)
+      .map(function (a) {
+        if (this[a.value]) {
+          fruits.removeChild(a);
+        } else {
+          this[a.value] = 1;
+        }
+      }, {});
+
+  }
+
+  public onChange($event, deviceValue) {
+    //console.log(deviceValue); //device Value zb Data Object 1
+    var modelAsText = this.model.toJson();
+    var jsonDataObjects = JSON.parse(modelAsText);
+    //var jsonDataObjects = JSON.parse(this.dataobject);
+    //console.log("supertest"+jsonDataObjects.linkDataArray[0].dataobject);
     for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
+      if (jsonDataObjects.linkDataArray[i].dataobject == deviceValue) {
+        this.LinkData.dataobject = jsonDataObjects.linkDataArray[i].dataobject;
+        this.LinkData.description = jsonDataObjects.linkDataArray[i].description;
+        this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
+        this.LinkData.text = jsonDataObjects.linkDataArray[i].text;
+        //break; ohne break nimmt er immer den neusten dataobject ausm array
+      }
 
-      var opt = jsonDataObjects.linkDataArray[i].dataobject;
+    }
+  }
+  public resetDropdown() {
+    var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
+    while (DropdownList.options.length > 0) {
+      DropdownList.remove(0);
+
+    }
+  }
+
+//EXPORT
+//const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
+public exportDataObjectz() {
+  var modelAsText = this.model.toJson();
+var jsonDataObjects = JSON.parse(modelAsText);
+var DataObjectsAScsv = [{dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData  }];
+for(var i = 1;i<jsonDataObjects.linkDataArray.length;i++){
+DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData  });
+}
+
+  CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
+};
+//EXPORT
+
+public customizeDataObject() {
+  this.DataObjectSehen = "none";
+  this.AppSehen = "none";
+this.DataObjectCustomize = 'block';
+
+     
+     
+     
+
+console.log("duHS")
+
+  var modelAsText2 = this.model.toJson();
+    var jsonDataObjects2 = JSON.parse(modelAsText2);
+    console.log("superwichtigerTest"+jsonDataObjects2.linkDataArray[0].dataobject)
+
+
+    //var jsonDataObjects = JSON.parse(this.dataobject);
+
+    // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
+    var DropdownList = (document.getElementById("mySelect2")) as HTMLSelectElement;
+    while (DropdownList.options.length > 0) {
+      DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+    }
+
+    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
+
+      for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
+        if (i != y) {
+
+
+          if (jsonDataObjects2.linkDataArray[i].dataobject != jsonDataObjects2.linkDataArray[y].dataobject) {
+            console.log(i + "+" + y)
+            break;
+            //delete jsonDataObjects.linkDataArray[i]
+          }
+        }
+      }
+    }
+    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
+
+      var opt = jsonDataObjects2.linkDataArray[i].dataobject;
 
       var el = document.createElement("option");
       el.text = opt;
@@ -405,30 +531,7 @@ export class InspectorComponent implements OnInit {
 
   }
 
-  public onChange($event, deviceValue) {
-    //console.log(deviceValue); //device Value zb Data Object 1
 
-    var jsonDataObjects = JSON.parse(this.dataobject);
-    //console.log("supertest"+jsonDataObjects.linkDataArray[0].dataobject);
-    for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
-      if (jsonDataObjects.linkDataArray[i].dataobject == deviceValue) {
-        this.LinkData.dataobject = jsonDataObjects.linkDataArray[i].dataobject;
-        this.LinkData.description = jsonDataObjects.linkDataArray[i].description;
-        this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
-        this.LinkData.text = jsonDataObjects.linkDataArray[i].text;
-        //break; ohne break nimmt er immer den neusten dataobject ausm array
-      }
-
-    }
-  }
-  public resetDropdown() {
-    var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
-    while (DropdownList.options.length > 0) {
-      DropdownList.remove(0);
-
-    }
-
-  }
 
   ngOnInit(): void {
   }

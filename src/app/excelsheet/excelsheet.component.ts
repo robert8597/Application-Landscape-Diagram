@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Application } from '../application';
 
+
 @Component({
   selector: 'app-excelsheet',
   templateUrl: './excelsheet.component.html',
@@ -74,5 +75,9 @@ this.messageEvent.emit(TestKey.NodeDataArray);
     reader.readAsBinaryString(target.files[0]);
 
   }
+
+
+
+
 
 }

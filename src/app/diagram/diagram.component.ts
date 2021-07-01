@@ -233,29 +233,29 @@ export class DiagramComponent {
     }
 
     */
-    const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
-    btnDataOb.addEventListener('click', () => {
-      var modelAsText = myDiagram.model.toJson();
-    var jsonDataObjects = JSON.parse(modelAsText);
-  var DataObjectsAScsv = [{dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData  }];
-  for(var i = 1;i<jsonDataObjects.linkDataArray.length;i++){
-DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData  });
-  }
+//     const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
+//     btnDataOb.addEventListener('click', () => {
+//       var modelAsText = myDiagram.model.toJson();
+//     var jsonDataObjects = JSON.parse(modelAsText);
+//   var DataObjectsAScsv = [{dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData  }];
+//   for(var i = 1;i<jsonDataObjects.linkDataArray.length;i++){
+// DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData  });
+//   }
 
-      CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
-    });
+//       CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
+//     });
 
-    const btnApps: HTMLElement = document.getElementById('exportApplications');
-    btnApps.addEventListener('click', () => {
-      var modelAsText = myDiagram.model.toJson();
-    var jsonDataObjects = JSON.parse(modelAsText);
+//     const btnApps: HTMLElement = document.getElementById('exportApplications');
+//     btnApps.addEventListener('click', () => {
+//       var modelAsText = myDiagram.model.toJson();
+//     var jsonDataObjects = JSON.parse(modelAsText);
    
-  var ApplicationsAScsv = [{name: jsonDataObjects.nodeDataArray[0].name, version: jsonDataObjects.nodeDataArray[0].version, key: jsonDataObjects.nodeDataArray[0].key,  desc: jsonDataObjects.nodeDataArray[0].desc, cots: jsonDataObjects.nodeDataArray[0].cots,  releaseDate: jsonDataObjects.nodeDataArray[0].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[0].shutdownDate }];
-  for(var i = 1;i<jsonDataObjects.nodeDataArray.length;i++){
-    ApplicationsAScsv.push({name: jsonDataObjects.nodeDataArray[i].name, version: jsonDataObjects.nodeDataArray[i].version, key: jsonDataObjects.nodeDataArray[i].key,  desc: jsonDataObjects.nodeDataArray[i].desc, cots: jsonDataObjects.nodeDataArray[i].cots,  releaseDate: jsonDataObjects.nodeDataArray[i].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[i].shutdownDate });
-  }
-      CsvDataService.exportToCsv('Applications.csv', ApplicationsAScsv);
-    });
+//   var ApplicationsAScsv = [{name: jsonDataObjects.nodeDataArray[0].name, version: jsonDataObjects.nodeDataArray[0].version, key: jsonDataObjects.nodeDataArray[0].key,  desc: jsonDataObjects.nodeDataArray[0].desc, cots: jsonDataObjects.nodeDataArray[0].cots,  releaseDate: jsonDataObjects.nodeDataArray[0].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[0].shutdownDate }];
+//   for(var i = 1;i<jsonDataObjects.nodeDataArray.length;i++){
+//     ApplicationsAScsv.push({name: jsonDataObjects.nodeDataArray[i].name, version: jsonDataObjects.nodeDataArray[i].version, key: jsonDataObjects.nodeDataArray[i].key,  desc: jsonDataObjects.nodeDataArray[i].desc, cots: jsonDataObjects.nodeDataArray[i].cots,  releaseDate: jsonDataObjects.nodeDataArray[i].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[i].shutdownDate });
+//   }
+//       CsvDataService.exportToCsv('Applications.csv', ApplicationsAScsv);
+//     });
     
 
     myDiagram.groupTemplate.ungroupable = true;
@@ -304,7 +304,7 @@ DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, 
   myDiagram.addDiagramListener('ChangedSelection', (e) => {
     var node = myDiagram.selection.first();
     var link = myDiagram.selection.first();
-  
+
     if (link instanceof go.Link) {
       var modelAsText = myDiagram.model.toJson();
       var jsonDataObjects = JSON.parse(modelAsText);
