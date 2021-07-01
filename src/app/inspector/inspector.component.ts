@@ -471,7 +471,19 @@ export class InspectorComponent implements OnInit {
     var jsonDataObjects = JSON.parse(modelAsText);
     var DataObjectsAScsv = [{ dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData }];
     for (var i = 1; i < jsonDataObjects.linkDataArray.length; i++) {
-      DataObjectsAScsv.push({ dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData });
+      //DataObjectsAScsv.push({ dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData });
+      function addItem(item) { //durch das ganze hier werden keine duplikate exportiert (CSV)
+        var index = DataObjectsAScsv.findIndex(x => x.dataobject == item.dataobject)
+        if (index === -1) {
+          DataObjectsAScsv.push(item);
+        }else {
+          console.log("object already exists")
+        }
+      }
+      
+      var item = {dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData};
+      addItem(item);
+ 
     }
 
     CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
