@@ -64,7 +64,7 @@ export class InspectorComponent implements OnInit {
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
     if (link) {
-      
+
       this.DataObjectSehen = 'block';
       this.AppSehen = 'none';
       this.DataObjectCustomize = 'none';
@@ -73,7 +73,7 @@ export class InspectorComponent implements OnInit {
 
       this._selectedLink = link;
       console.log("LINKizzzDA")
-    ////////////  this.myFunction();///////////////////////////////////
+      ////////////  this.myFunction();///////////////////////////////////
       //this.data.fromi = this._selectedLink.data.fromi;
       this.LinkData.dataobject = this._selectedLink.data.dataobject;
       this.LinkData.personalData = this._selectedLink.data.personalData;
@@ -81,7 +81,7 @@ export class InspectorComponent implements OnInit {
       this.LinkData.from = this._selectedLink.data.from;
       this.LinkData.to = this._selectedLink.data.to;
       this.LinkData.text = this._selectedLink.data.text;
-     
+
       var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
       while (DropdownList.options.length > 0) {
         DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
@@ -93,7 +93,7 @@ export class InspectorComponent implements OnInit {
       this.DataObjectCustomize = 'none';
     }
   }
-  
+
   today = new Date();
   @Input()
   get selectedNode() { return this._selectedNode; }
@@ -238,31 +238,33 @@ export class InspectorComponent implements OnInit {
       const wordsShut = strShut.split(".");
       const strTest = this.today.toLocaleDateString();
       const Test = strTest.split(".");
-     
 
-      if(parseInt(Test[0]) < 10)
-    {
+
+      if (parseInt(Test[0]) < 10) {
         Test[0] = "0" + Test[0];
-    }
-    if(parseInt(Test[1]) < 10)
-    {
+      }
+      if (parseInt(Test[1]) < 10) {
         Test[1] = "0" + Test[1];
-    }
-    const temp = Test[0] + "." +Test[1] + "." + Test[2];
-    const wordsTest = temp.split(".");
+      }
+      const temp = Test[0] + "." + Test[1] + "." + Test[2];
+      const wordsTest = temp.split(".");
 
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'releaseDate', this.data.releaseDate);
-        if(wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
-          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0])
-        {
+        if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
+          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
           this.data.color = "red";
-          this.model.set(this.selectedNode.data, 'color', this.data.color);  
-        }else
-        {
-          this.data.color ="lightblue";
           this.model.set(this.selectedNode.data, 'color', this.data.color);
+        } else {
+          if (wordsTest[2] < words[2] || wordsTest[2] == words[2] && wordsTest[1] < words[1]
+            || wordsTest[2] == words[2] && wordsTest[1] == words[1] && wordsTest[0] < words[0]) {
+            this.data.color = "yellow";
+            this.model.set(this.selectedNode.data, 'color', this.data.color);
+          } else {
+            this.data.color = "lightblue";
+            this.model.set(this.selectedNode.data, 'color', this.data.color);
+          }
         }
       }
       else {
@@ -286,32 +288,34 @@ export class InspectorComponent implements OnInit {
       const wordsShut = strShut.split(".");
       const strTest = this.today.toLocaleDateString();
       const Test = strTest.split(".");
-     
 
-      if(parseInt(Test[0]) < 10)
-    {
+
+      if (parseInt(Test[0]) < 10) {
         Test[0] = "0" + Test[0];
-    }
-    if(parseInt(Test[1]) < 10)
-    {
+      }
+      if (parseInt(Test[1]) < 10) {
         Test[1] = "0" + Test[1];
-    }
-    const temp = Test[0] + "." +Test[1] + "." + Test[2];
-    const wordsTest = temp.split(".");
+      }
+      const temp = Test[0] + "." + Test[1] + "." + Test[2];
+      const wordsTest = temp.split(".");
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
-        if(wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
-          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0])
-        {
+        if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
+          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
           this.data.color = "red";
-          this.model.set(this.selectedNode.data, 'color', this.data.color);  
-        }else
-        {
-          this.data.color ="lightblue";
           this.model.set(this.selectedNode.data, 'color', this.data.color);
+        } else {
+          if (wordsTest[2] < words[2] || wordsTest[2] == words[2] && wordsTest[1] < words[1]
+            || wordsTest[2] == words[2] && wordsTest[1] == words[1] && wordsTest[0] < words[0]) {
+            this.data.color = "yellow";
+            this.model.set(this.selectedNode.data, 'color', this.data.color);
+          } else {
+            this.data.color = "lightblue";
+            this.model.set(this.selectedNode.data, 'color', this.data.color);
+          }
         }
-        }
+      }
       else {
         alert("Shutdown Date can´t be earlier than Release Date!");
         this.editForm.setValue({
@@ -366,21 +370,21 @@ export class InspectorComponent implements OnInit {
   public myFunction() {
     this.DataObjectListe = "block";
     this.ChooseDataObject = "none";
-   // console.log("DUKLEINERhs"+test)
+    // console.log("DUKLEINERhs"+test)
     var modelAsText2 = this.model.toJson();
     var jsonDataObjects2 = JSON.parse(modelAsText2);
-    console.log("superwichtigerTest"+jsonDataObjects2.linkDataArray[0].dataobject)
+    console.log("superwichtigerTest" + jsonDataObjects2.linkDataArray[0].dataobject)
 
 
     //var jsonDataObjects = JSON.parse(this.dataobject);
 
     // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
     var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
-    if(DropdownList != null){
-    while (DropdownList.options.length > 0) {
-      DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+    if (DropdownList != null) {
+      while (DropdownList.options.length > 0) {
+        DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+      }
     }
-  }
     for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
 
       for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
@@ -399,21 +403,22 @@ export class InspectorComponent implements OnInit {
 
 
     }
-if(jsonDataObjects2.linkDataArray[0].dataobject != null){
-    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
+    if (jsonDataObjects2.linkDataArray[0].dataobject != null) {
+      for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
 
-      var opt = jsonDataObjects2.linkDataArray[i].dataobject;
+        var opt = jsonDataObjects2.linkDataArray[i].dataobject;
 
-      var el = document.createElement("option");
-      el.text = opt;
-      el.value = opt;
+        var el = document.createElement("option");
+        el.text = opt;
+        el.value = opt;
 
-      DropdownList.add(el);
-      DropdownList[0].remove;
-      console.log(DropdownList[0]);
+        DropdownList.add(el);
+        DropdownList[0].remove;
+        console.log(DropdownList[0]);
 
 
-    }}
+      }
+    }
     //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
     var fruits = DropdownList;
     [].slice.call(fruits.options)
@@ -452,34 +457,34 @@ if(jsonDataObjects2.linkDataArray[0].dataobject != null){
     }
   }
 
-//EXPORT
-//const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
-public exportDataObjectz() {
-  var modelAsText = this.model.toJson();
-var jsonDataObjects = JSON.parse(modelAsText);
-var DataObjectsAScsv = [{dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData  }];
-for(var i = 1;i<jsonDataObjects.linkDataArray.length;i++){
-DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData  });
-}
+  //EXPORT
+  //const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
+  public exportDataObjectz() {
+    var modelAsText = this.model.toJson();
+    var jsonDataObjects = JSON.parse(modelAsText);
+    var DataObjectsAScsv = [{ dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData }];
+    for (var i = 1; i < jsonDataObjects.linkDataArray.length; i++) {
+      DataObjectsAScsv.push({ dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData });
+    }
 
-  CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
-};
-//EXPORT
+    CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
+  };
+  //EXPORT
 
-public customizeDataObject() {
-  this.DataObjectSehen = "none";
-  this.AppSehen = "none";
-this.DataObjectCustomize = 'block';
+  public customizeDataObject() {
+    this.DataObjectSehen = "none";
+    this.AppSehen = "none";
+    this.DataObjectCustomize = 'block';
 
-     
-     
-     
 
-console.log("duHS")
 
-  var modelAsText2 = this.model.toJson();
+
+
+    console.log("duHS")
+
+    var modelAsText2 = this.model.toJson();
     var jsonDataObjects2 = JSON.parse(modelAsText2);
-    console.log("superwichtigerTest"+jsonDataObjects2.linkDataArray[0].dataobject)
+    console.log("superwichtigerTest" + jsonDataObjects2.linkDataArray[0].dataobject)
 
 
     //var jsonDataObjects = JSON.parse(this.dataobject);
