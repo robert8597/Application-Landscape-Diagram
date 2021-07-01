@@ -40,9 +40,15 @@ input:focus {
 }
 
 .commitButton {
-  height:40px;
+  height:40px;/* height:40px; */
     /*width:80px;*/
     width: 50%;
+}
+
+.cancelButton {
+  height:40px;/* height:40px; */
+    /*width:80px;*/
+    width: 25%;
 }
 .buttonPosition {
   text-align: center;
