@@ -56,6 +56,7 @@ export class InspectorComponent implements OnInit {
   DataObjectCustomize = 'none';
   DataObjectListe = "none";
   ChooseDataObject = "";
+  DataObjectCreate = "";
 
   @Input()
   public model: go.Model;
@@ -70,6 +71,7 @@ export class InspectorComponent implements OnInit {
       this.DataObjectCustomize = 'none';
       this.DataObjectListe = "none";
       this.ChooseDataObject = "";
+      this.DataObjectCreate = "none";
 
       this._selectedLink = link;
       console.log("LINKizzzDA")
@@ -91,6 +93,7 @@ export class InspectorComponent implements OnInit {
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.AppSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.DataObjectCustomize = 'none';
+      this.DataObjectCreate = "none";
     }
   }
 
@@ -103,6 +106,7 @@ export class InspectorComponent implements OnInit {
       this.AppSehen = 'block';
       this.DataObjectSehen = 'none';
       this.DataObjectCustomize = 'none';
+      this.DataObjectCreate = "none";
 
       this._selectedNode = node;
       this.data.key = this._selectedNode.data.key;
@@ -118,6 +122,7 @@ export class InspectorComponent implements OnInit {
       this.AppSehen = 'none';//Damit wenn man leer klickt beide verschwinden
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.DataObjectCustomize = 'none';
+      this.DataObjectCreate = "none";
     }
   }
   public cancelChangesData() {
@@ -163,13 +168,13 @@ export class InspectorComponent implements OnInit {
     var jsonDataObjects = JSON.parse(modelAsText);
 
     //var jsonDataObjects = JSON.parse(this.dataobject);
-    console.log("txt:" + this.dataobject);
+   // console.log("txt:" + this.dataobject);
     if (this.model instanceof go.GraphLinksModel) {
       for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
         this.model.removeLinkDataCollection(this.model.linkDataArray);
 
       }
-
+      this.DataObjectCreate = "none";
       this.DataObjectSehen = 'none';
 
       // this.model.addLinkDataCollection(this.LinkDataArray); 
@@ -443,7 +448,7 @@ export class InspectorComponent implements OnInit {
         this.LinkData.dataobject = jsonDataObjects.linkDataArray[i].dataobject;
         this.LinkData.description = jsonDataObjects.linkDataArray[i].description;
         this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
-        this.LinkData.text = jsonDataObjects.linkDataArray[i].text;
+        this.LinkData.text = jsonDataObjects.linkDataArray[i].dataobject; ///////////////////ODER
         //break; ohne break nimmt er immer den neusten dataobject ausm array
       }
 
@@ -475,7 +480,7 @@ export class InspectorComponent implements OnInit {
     this.DataObjectSehen = "none";
     this.AppSehen = "none";
     this.DataObjectCustomize = 'block';
-
+    this.DataObjectCreate = "none";
 
 
 
@@ -535,8 +540,71 @@ export class InspectorComponent implements OnInit {
       }, {});
 
   }
+public showCreateDataObject(){
+  this.DataObjectCreate = "block";
+  this.DataObjectSehen = "none";
+    this.AppSehen = "none";
+    this.DataObjectCustomize = 'none';
 
+      this.LinkData.dataobject = null;
+      this.LinkData.personalData = null;
+      this.LinkData.description = null;
+      this.LinkData.from = null;
+      this.LinkData.to = null;
+      this.LinkData.text = null;
 
+      var modelAsText2 = this.model.toJson();
+      var jsonDataObjects2 = JSON.parse(modelAsText2);
+      console.log("hsoderwas")
+      var DropdownList = (document.getElementById("mySelect3")) as HTMLSelectElement;
+      while (DropdownList.options.length > 0) {
+        DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+      }
+  
+      for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
+        for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
+          if (i != y) {
+            if (jsonDataObjects2.linkDataArray[i].dataobject != jsonDataObjects2.linkDataArray[y].dataobject) {
+              console.log(i + "+" + y)
+              break;
+            }
+          }
+        }
+      }
+      for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
+  
+        var opt = jsonDataObjects2.linkDataArray[i].dataobject;
+  
+        var el = document.createElement("option");
+        el.text = opt;
+        el.value = opt;
+  
+        DropdownList.add(el);
+        DropdownList[0].remove;
+        console.log(DropdownList[0]);
+  
+  
+      }
+      //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
+      var fruits = DropdownList;
+      [].slice.call(fruits.options)
+        .map(function (a) {
+          if (this[a.value]) {
+            fruits.removeChild(a);
+          } else {
+            this[a.value] = 1;
+          }
+        }, {});
+
+}
+  public createDataObject() {
+    
+    var newDataObject = 
+        { text: this.LinkData.dataobject,  description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject };
+    if (this.model instanceof go.GraphLinksModel) {
+       {  this.model.addLinkData(newDataObject);  }
+    }
+  }
 
   ngOnInit(): void {
   }

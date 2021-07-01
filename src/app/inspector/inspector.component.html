@@ -5,6 +5,7 @@
   <button  type="button" id="exportApplications">Export Applications</button>
   <button  type="button" (click)="exportDataObjectz()">Export Data Objects</button>
   <button  type="button" (click)="customizeDataObject()">Customize Data Object</button>
+  <button  type="button" (click)="showCreateDataObject()">Create Data Object</button>
 <!-- <a > <input type="file" (change)="onFileChange($event)" multiple="false" /></a> -->
 </div>
 <br>
@@ -72,15 +73,17 @@
 <input class="inputPersonalData" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData" readonly> 
 </div>
 <br>
-<div class="group">
-  <label for="selectDO" [ngStyle]="{'display': DataObjectListe}">Select another Data Object</label>
-  <select id="mySelect" [ngStyle]="{'display': DataObjectListe}" #device (change)="onChange($event, device.value)" size="1">
+<div [ngStyle]="{'display': DataObjectListe}" class="group">
+  <label for="selectDO" >Select another Data Object</label>
+  <br>
+  <select id="mySelect"  #device (change)="onChange($event, device.value)" size="1">
     
   </select>
 </div>
-<button type="button" [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data Object</button>
+<div class="buttonPosition">
+<button type="button"  [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data Object</button>
+</div>
 
-<br>
   <div class="group">
     <label for="description">Description</label> <br />
     <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description" readonly></textarea>
@@ -92,16 +95,18 @@
 </div>
 </form>
 
-<!-- UNTERE DataObject bearbeiten -->
+<!-- DataObject bearbeiten -->
 <form [formGroup]="editData" [ngStyle]="{'display': DataObjectCustomize}"  (ngSubmit)="onCommitForm2()">
   <div class="group">
-    <label for="dataobject">Data Object</label><br />
-  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject"> 
+    <label for="dataobject">Selected Data Object</label><br />
+  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly> 
 </div>
 
 <div class="group">
   <label for="personaldata">Personal Data</label><br />
-<input type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData"> 
+  <div style="text-align: center;">
+<input  type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData"> 
+</div>
 </div>
 <div class="group">
   <label for="selectDO">Select Object</label><br />
@@ -117,8 +122,43 @@
     <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"></textarea>
 </div>
 <div class="buttonPosition">
-  <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Objects</button>
+  <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
   
   <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>
 </form>
+<!-- DataObject bearbeiten -->
+
+<!-- DataObject erstellen -->
+<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCreate}"  (ngSubmit)="createDataObject()">
+  <div class="group">
+    <label for="dataobject">Name of Data Object</label><br />
+  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" > 
+</div>
+
+<div class="group">
+  <label for="personaldata">Personal Data</label><br />
+  <div style="text-align: center;">
+<input  type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData"> 
+</div>
+</div>
+<div class="group">
+  <label for="selectDO">Copy Object</label><br />
+  <select id="mySelect3" #device (change)="onChange($event, device.value)" size="1">
+    
+  </select>
+</div>
+
+
+<br>
+  <div class="group">
+    <label for="description">Description</label> <br />
+    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"></textarea>
+</div>
+<div class="buttonPosition">
+  <button class="commitButton" type="submit">Create Data Object</button>
+  
+  <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
+</div>
+</form>
+<!-- DataObject erstellen -->
