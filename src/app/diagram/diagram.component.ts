@@ -37,7 +37,7 @@ export class DiagramComponent {
 
   message:Object[] = [ ];
    receiveMessage($event) {
-
+    console.log("TESTdings");
     this.message = $event
    //this.model.addNodeData(this.message);
     this.model.addNodeDataCollection(this.message);

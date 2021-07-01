@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Model } from 'gojs';
 import * as XLSX from 'xlsx';
 import { Application } from '../application';
-
+import * as go from 'gojs';
 
 @Component({
   selector: 'app-excelsheet',
@@ -10,7 +11,8 @@ import { Application } from '../application';
 })
 export class ExcelsheetComponent implements OnInit {
 
-  
+  @Input()
+  public model: go.Model;
 
   ngOnInit(): void {
   }
@@ -32,6 +34,7 @@ export class ExcelsheetComponent implements OnInit {
   NodeDataArray: Object[] = [ ];
 
   onFileChange(evt: any) {
+    console.log("NodeDATaaaaaaaaaaaA");
     const target : DataTransfer =  <DataTransfer>(evt.target);
     
     if (target.files.length !== 1) throw new Error('Cannot use multiple files');
@@ -65,9 +68,15 @@ for(var i=0;i<wb.SheetNames.length;i++){
       var testWort = this.data.toString();
       //console.log("Test= "+testWort);
 
-      var TestKey = new Application(this.data);
+      var ExcelImportData = new Application(this.data);
+     
+     this.model.addNodeDataCollection(ExcelImportData.NodeDataArray);
 
-this.messageEvent.emit(TestKey.NodeDataArray);
+
+ 
+    
+    //this.messageEvent.emit(TestKey.NodeDataArray); Früher an diagram.component.ts geschickt!
+
 
     };
    

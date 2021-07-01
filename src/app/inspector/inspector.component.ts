@@ -4,6 +4,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { CsvDataService } from '../csv/csv-data.service';
 import * as go from 'gojs';
+import * as XLSX from 'xlsx';
+import { Application } from '../application';
 
 
 
@@ -17,19 +19,11 @@ export class InspectorComponent implements OnInit {
   public _selectedNode: go.Node;
   public _selectedLink: go.Link;
   public _selectedDataObject: string;
-
+  
+  
 
   public dataobject: string;
 
-  public options = {
-    text: "testi",
-  }
-
-  public LinkDataArray: Object[] = [
-    { from: "1", to: "2", description: "hello!", personalData: true, dataobject: "Data Object 4" },
-    { from: "2", to: "3", description: "hello2!", personalData: false, dataobject: "Data Object 5" },
-    { from: "3", to: "1", description: "hello3!, blablablablalblalsffsal", personalData: false, dataobject: "Data Object 6" }
-  ];
 
   public data = {
     key: null,
@@ -84,10 +78,10 @@ export class InspectorComponent implements OnInit {
       this.LinkData.to = this._selectedLink.data.to;
       this.LinkData.text = this._selectedLink.data.text;
 
-      var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
-      while (DropdownList.options.length > 0) {
-        DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
-      }
+     // var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
+    //  while (DropdownList.options.length > 0) {
+      //  DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+      //} AM END DOCH UNNÖTIG
     }
     else {
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
@@ -150,13 +144,13 @@ export class InspectorComponent implements OnInit {
   }
 
   public onCommitForm2() {
+    
     this.model.startTransaction();
     this.model.set(this.selectedLink.data, 'dataobject', this.LinkData.dataobject);
     this.model.set(this.selectedLink.data, 'personalData', this.LinkData.personalData);
     this.model.set(this.selectedLink.data, 'description', this.LinkData.description);
     this.model.set(this.selectedLink.data, 'text', this.LinkData.dataobject);
     this.model.commitTransaction();
-
 
 
   }
@@ -450,6 +444,13 @@ export class InspectorComponent implements OnInit {
         this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
         this.LinkData.text = jsonDataObjects.linkDataArray[i].dataobject; ///////////////////ODER
         //break; ohne break nimmt er immer den neusten dataobject ausm array
+
+        // this._selectedLink.data.dataobject = jsonDataObjects.linkDataArray[i].dataobject;///DIE VIER ZEILEN DAMIT BEI CANCEL richtig zurückgesetzt wird !
+        // this._selectedLink.data.personalData = jsonDataObjects.linkDataArray[i].personalData;
+        // this._selectedLink.data.description = jsonDataObjects.linkDataArray[i].description;
+        
+        // //this._selectedLink.data.text = jsonDataObjects.linkDataArray[i].dataobject; kp warum das net geht, sonst zeigt er keinen text auf linie
+
       }
 
     }
@@ -462,9 +463,9 @@ export class InspectorComponent implements OnInit {
     }
   }
 
-  //EXPORT
+  //EXPORT DATAOBJECTS
   //const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
-  public exportDataObjectz() {
+  public exportDataObjects() {
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
     var DataObjectsAScsv = [{ dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData }];
@@ -474,7 +475,19 @@ export class InspectorComponent implements OnInit {
 
     CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
   };
-  //EXPORT
+  //EXPORT DATAOBJECTS
+  //EXPORT APPLICATIONS
+  public exportApplications() {
+  var modelAsText = this.model.toJson();
+  var jsonDataObjects = JSON.parse(modelAsText);
+
+  var ApplicationsAScsv = [{name: jsonDataObjects.nodeDataArray[0].name, version: jsonDataObjects.nodeDataArray[0].version, key: jsonDataObjects.nodeDataArray[0].key,  desc: jsonDataObjects.nodeDataArray[0].desc, cots: jsonDataObjects.nodeDataArray[0].cots,  releaseDate: jsonDataObjects.nodeDataArray[0].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[0].shutdownDate }];
+  for(var i = 1;i<jsonDataObjects.nodeDataArray.length;i++){
+    ApplicationsAScsv.push({name: jsonDataObjects.nodeDataArray[i].name, version: jsonDataObjects.nodeDataArray[i].version, key: jsonDataObjects.nodeDataArray[i].key,  desc: jsonDataObjects.nodeDataArray[i].desc, cots: jsonDataObjects.nodeDataArray[i].cots,  releaseDate: jsonDataObjects.nodeDataArray[i].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[i].shutdownDate });
+  }
+      CsvDataService.exportToCsv('Applications.csv', ApplicationsAScsv);
+    };
+//EXPORT APPLICATIONS
 
   public customizeDataObject() {
     this.DataObjectSehen = "none";
@@ -605,7 +618,46 @@ public showCreateDataObject(){
        {  this.model.addLinkData(newDataObject);  }
     }
   }
+  
 
+
+  public removeDataObject() {
+
+
+    var modelAsText = this.model.toJson();
+    var jsonDataObjects = JSON.parse(modelAsText);
+
+    //var jsonDataObjects = JSON.parse(this.dataobject);
+   // console.log("txt:" + this.dataobject);
+    if (this.model instanceof go.GraphLinksModel) {
+      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
+        this.model.removeLinkDataCollection(this.model.linkDataArray);
+
+      }
+      this.DataObjectCreate = "none";
+      this.DataObjectSehen = 'none';
+
+      // this.model.addLinkDataCollection(this.LinkDataArray); 
+      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
+
+        if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject) {
+            jsonDataObjects.linkDataArray[i] = null;
+        }
+        console.log("gelöscht" );
+      }
+      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
+    }
+  }
+
+  public closeWindows() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectListe = "none";
+    this.ChooseDataObject = "none";
+    this.DataObjectCreate = "none";
+    }
+  
   ngOnInit(): void {
   }
 

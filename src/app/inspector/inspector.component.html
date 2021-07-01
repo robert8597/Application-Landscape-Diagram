@@ -1,12 +1,13 @@
 <div class="topnav">
   <!-- <a class="active" href="#home">Home</a> -->
   <button  type="button" id="exportApplications">Home</button>
-  <button  type="button" id="">Import</button>
-  <button  type="button" id="exportApplications">Export Applications</button>
-  <button  type="button" (click)="exportDataObjectz()">Export Data Objects</button>
+  
+  <button  type="button" (click)="exportApplications()">Export Applications</button>
+  <button  type="button" (click)="exportDataObjects()">Export Data Objects</button>
   <button  type="button" (click)="customizeDataObject()">Customize Data Object</button>
   <button  type="button" (click)="showCreateDataObject()">Create Data Object</button>
-<!-- <a > <input type="file" (change)="onFileChange($event)" multiple="false" /></a> -->
+  <!-- <input type="file" (change)="onFileChange($event)" multiple="false" /> -->
+  <app-excelsheet [model]='model'></app-excelsheet> 
 </div>
 <br>
 <form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()" >
@@ -55,13 +56,14 @@
 </div>
   <div class="buttonPosition">
   <button class="commitButton" type="submit" [disabled]="!editForm.valid">Update Application</button>
+  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
   <button class="cancelButton" type="submit" (click)="cancelChanges()">Cancel</button> 
 </div>
 </form>
 
 
 
-
+<!-- DataObject aussuchen -->
 <form [formGroup]="editData" [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
   <div class="group">
     <label for="dataobject">Data Object</label><br />
@@ -91,12 +93,15 @@
 <div class="buttonPosition">
   
   <button class="commitButton" type="submit">Select Data Object</button>
+  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
   <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>
 </form>
+<!-- DataObject aussuchen -->
+
 
 <!-- DataObject bearbeiten -->
-<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCustomize}"  (ngSubmit)="onCommitForm2()">
+<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCustomize}"  >
   <div class="group">
     <label for="dataobject">Selected Data Object</label><br />
   <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly> 
@@ -123,8 +128,9 @@
 </div>
 <div class="buttonPosition">
   <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
-  
+  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
   <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
+  <button class="cancelButton" type="submit" (click)="removeDataObject()">Delete</button> 
 </div>
 </form>
 <!-- DataObject bearbeiten -->
@@ -157,7 +163,7 @@
 </div>
 <div class="buttonPosition">
   <button class="commitButton" type="submit">Create Data Object</button>
-  
+  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
   <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>
 </form>
