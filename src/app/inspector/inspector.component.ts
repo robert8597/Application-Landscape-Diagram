@@ -349,7 +349,7 @@ export class InspectorComponent implements OnInit {
     )
     this.editData = formBuilder.group(
       {
-        dataobject: [''],
+        dataobject: ['',Validators.required],
         personalData: [''],
         description: ['']
       }
@@ -624,9 +624,12 @@ public showCreateDataObject(){
 
 }
   public createDataObject() {
-    
+    if(this.LinkData.personalData==null){
+      this.LinkData.personalData = false; //sonst ist personalData = null (wenn nicht gechecked)
+    }
     var newDataObject = 
         { text: this.LinkData.dataobject,  description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject };
+        console.log("hslink="+this.LinkData.personalData)
     if (this.model instanceof go.GraphLinksModel) {
        {  this.model.addLinkData(newDataObject);  }
     }

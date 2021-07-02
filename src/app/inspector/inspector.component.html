@@ -139,7 +139,9 @@
 <form [formGroup]="editData" [ngStyle]="{'display': DataObjectCreate}"  (ngSubmit)="createDataObject()">
   <div class="group">
     <label for="dataobject">Name of Data Object</label><br />
-  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" > 
+    
+  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" required> 
+  <small *ngIf="editData.get('dataobject').touched && editData.get('dataobject').hasError('required')">Enter Name</small>
 </div>
 
 <div class="group">
