@@ -108,7 +108,7 @@ export class DiagramComponent {
           new go.Binding("fill", "color")),
         $(go.Panel, "Table",
           { defaultAlignment: go.Spot.Left },
-          $(go.TextBlock, { row: 0, column: 0, columnSpan: 2, font: "bold 12pt sans-serif", editable: false, isMultiline: false },
+          $(go.TextBlock, { row: 0, column: 0, columnSpan: 4, font: "bold 10pt sans-serif", editable: false, isMultiline: true },
             new go.Binding("text", "name")),
           /*
          $(go.TextBlock, { row: 1, column: 0 }, "Name:"),
