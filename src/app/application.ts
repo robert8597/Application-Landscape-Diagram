@@ -58,69 +58,91 @@ if(ExcelRow[i][2]!=null){
 }
 
 if(ExcelRow[i][3]!=null){
+    var today = new Date();
     var StartDate =  this.ExcelDateToJSDate(ExcelRow[i][3]);
     var calc = StartDate.toLocaleDateString()
-    var Test = calc.split(".");
-    if(parseInt(Test[0]) < 10)
+    var newValue = calc.split(".");
+    if(parseInt(newValue[0]) < 10)
     {
+        newValue[0] = "0" + newValue[0];
+    }
+    if(parseInt(newValue[1]) < 10)
+    {
+        newValue[1] = "0" + newValue[1];
+    }
+    this.StartDate = newValue[0] + "." +newValue[1] + "." + newValue[2];
+
+    const str = this.StartDate;
+    const words = str.split(".");
+    const strShut = this.ShutdownDate;
+    const wordsShut = strShut.split(".");
+    const strTest = today.toLocaleDateString();
+    const Test = strTest.split(".");
+
+
+      if (parseInt(Test[0]) < 10) {
         Test[0] = "0" + Test[0];
-    }
-    if(parseInt(Test[1]) < 10)
-    {
+      }
+      if (parseInt(Test[1]) < 10) {
         Test[1] = "0" + Test[1];
-    }
-    this.StartDate = Test[0] + "." +Test[1] + "." + Test[2];
+      }
+      const temp = Test[0] + "." + Test[1] + "." + Test[2];
+      const wordsTest = temp.split(".");
+        if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
+          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
+          this.Color = "red";
+        } else {
+          if (wordsTest[2] < words[2] || wordsTest[2] == words[2] && wordsTest[1] < words[1]
+            || wordsTest[2] == words[2] && wordsTest[1] == words[1] && wordsTest[0] < words[0]) {
+            this.Color = "yellow";
+          } else {
+            this.Color = "lightblue";
+          }
+        }
 }
 
 if(ExcelRow[i][4]!=null){
     var today = new Date();
     var ShutDate = this.ExcelDateToJSDate(ExcelRow[i][4]);
     var calc = ShutDate.toLocaleDateString()
-    var Test = calc.split(".");
-    if(parseInt(Test[0]) < 10)
+    var newValue = calc.split(".");
+    if(parseInt(newValue[0]) < 10)
     {
+        newValue[0] = "0" + newValue[0];
+    }
+    if(parseInt(newValue[1]) < 10)
+    {
+        newValue[1] = "0" + newValue[1];
+    }
+    this.ShutdownDate = newValue[0] + "." +newValue[1] + "." + newValue[2];
+    
+    const str = this.StartDate;
+    const words = str.split(".");
+    const strShut = this.ShutdownDate;
+    const wordsShut = strShut.split(".");
+    const strTest = today.toLocaleDateString();
+    const Test = strTest.split(".");
+
+
+      if (parseInt(Test[0]) < 10) {
         Test[0] = "0" + Test[0];
-    }
-    if(parseInt(Test[1]) < 10)
-    {
+      }
+      if (parseInt(Test[1]) < 10) {
         Test[1] = "0" + Test[1];
-    }
-    this.ShutdownDate = Test[0] + "." +Test[1] + "." + Test[2];
-    // const str = this.ShutdownDate;
-    // const words = str.split(".");
-    // const str = this.data.releaseDate;
-    //   const words = str.split(".");
-    //   const strShut = this.data.shutdownDate;
-    //   const wordsShut = strShut.split(".");
-    //   const strTest = this.today.toLocaleDateString();
-    //   const Test = strTest.split(".");
-
-
-    //   if (parseInt(Test[0]) < 10) {
-    //     Test[0] = "0" + Test[0];
-    //   }
-    //   if (parseInt(Test[1]) < 10) {
-    //     Test[1] = "0" + Test[1];
-    //   }
-    //   const temp = Test[0] + "." + Test[1] + "." + Test[2];
-    //   const wordsTest = temp.split(".");
-    //   if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
-    //     || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
-    //     this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
-    //     if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
-    //       || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
-    //       this.data.color = "red";
-    //       this.model.set(this.selectedNode.data, 'color', this.data.color);
-    //     } else {
-    //       if (wordsTest[2] < words[2] || wordsTest[2] == words[2] && wordsTest[1] < words[1]
-    //         || wordsTest[2] == words[2] && wordsTest[1] == words[1] && wordsTest[0] < words[0]) {
-    //         this.data.color = "yellow";
-    //         this.model.set(this.selectedNode.data, 'color', this.data.color);
-    //       } else {
-    //         this.data.color = "lightblue";
-    //         this.model.set(this.selectedNode.data, 'color', this.data.color);
-    //       }
-    //     }
+      }
+      const temp = Test[0] + "." + Test[1] + "." + Test[2];
+      const wordsTest = temp.split(".");
+        if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
+          || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
+          this.Color = "red";
+        } else {
+          if (wordsTest[2] < words[2] || wordsTest[2] == words[2] && wordsTest[1] < words[1]
+            || wordsTest[2] == words[2] && wordsTest[1] == words[1] && wordsTest[0] < words[0]) {
+            this.Color = "yellow";
+          } else {
+            this.Color = "lightblue";
+          }
+        }
 }
 
     this.NodeData = {
