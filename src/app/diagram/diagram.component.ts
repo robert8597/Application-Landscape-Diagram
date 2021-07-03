@@ -110,7 +110,7 @@ export class DiagramComponent {
           { defaultAlignment: go.Spot.Left },
           $(go.TextBlock, { row: 0, column: 0, columnSpan: 4, font: "bold 10pt sans-serif", editable: false, isMultiline: true },
             new go.Binding("text", "name")),
-          /*
+          
          $(go.TextBlock, { row: 1, column: 0 }, "Name:"),
          $(go.TextBlock, { row: 1, column: 1, editable: true }, new go.Binding("text", "name")),
          $(go.TextBlock, { row: 2, column: 0 }, "Version:"),
@@ -123,7 +123,7 @@ export class DiagramComponent {
          $(go.TextBlock, { row: 5, column: 1, editable: true }, new go.Binding("text", "releaseDate")),
          $(go.TextBlock, { row: 6, column: 0 }, "Shutdown Date:"),
          $(go.TextBlock, { row: 6, column: 1, editable: true }, new go.Binding("text", "shutdownDate")),
-       */
+       
         ),
         {
           contextMenu:     // define a context menu for each node
