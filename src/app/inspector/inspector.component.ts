@@ -4,8 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { CsvDataService } from '../csv/csv-data.service';
 import * as go from 'gojs';
-import * as XLSX from 'xlsx';
-import { Application } from '../application';
+
 
 
 
@@ -23,7 +22,7 @@ export class InspectorComponent implements OnInit {
   
 
   public dataobject: string;
-
+  today = new Date();
 
   public data = {
     key: null,
@@ -91,7 +90,7 @@ export class InspectorComponent implements OnInit {
     }
   }
 
-  today = new Date();
+  
   @Input()
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
@@ -203,7 +202,7 @@ export class InspectorComponent implements OnInit {
           if (element.key == this.data.key) {
             keepGoing = false;
             alert("Update not possible there is already an existing Object with that key!");
-            this.editForm.setValue({
+            this.editForm.setValue({ //wenn key net upgedated werden kann wird auf stanni zurückgesetzt
               key: this.selectedNode.data.key,
               name: this.selectedNode.data.name,
               version: this.selectedNode.data.version,
@@ -370,15 +369,9 @@ export class InspectorComponent implements OnInit {
   public myFunction() {
     this.DataObjectListe = "block";
     this.ChooseDataObject = "none";
-    // console.log("DUKLEINERhs"+test)
     var modelAsText2 = this.model.toJson();
     var jsonDataObjects2 = JSON.parse(modelAsText2);
-    console.log("superwichtigerTest" + jsonDataObjects2.linkDataArray[0].dataobject)
 
-
-    //var jsonDataObjects = JSON.parse(this.dataobject);
-
-    // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
     var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
     if (DropdownList != null) {
       while (DropdownList.options.length > 0) {
@@ -390,7 +383,6 @@ export class InspectorComponent implements OnInit {
       for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
         if (i != y) {
 
-
           if (jsonDataObjects2.linkDataArray[i].dataobject != jsonDataObjects2.linkDataArray[y].dataobject) {
             console.log(i + "+" + y)
             break;
@@ -398,10 +390,6 @@ export class InspectorComponent implements OnInit {
           }
         }
       }
-
-
-
-
     }
     if (jsonDataObjects2.linkDataArray[0].dataobject != null) {
       for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
@@ -494,6 +482,8 @@ export class InspectorComponent implements OnInit {
   var modelAsText = this.model.toJson();
   var jsonDataObjects = JSON.parse(modelAsText);
 
+
+
   var ApplicationsAScsv = [{name: jsonDataObjects.nodeDataArray[0].name, version: jsonDataObjects.nodeDataArray[0].version, key: jsonDataObjects.nodeDataArray[0].key,  desc: jsonDataObjects.nodeDataArray[0].desc, cots: jsonDataObjects.nodeDataArray[0].cots,  releaseDate: jsonDataObjects.nodeDataArray[0].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[0].shutdownDate }];
   for(var i = 1;i<jsonDataObjects.nodeDataArray.length;i++){
     ApplicationsAScsv.push({name: jsonDataObjects.nodeDataArray[i].name, version: jsonDataObjects.nodeDataArray[i].version, key: jsonDataObjects.nodeDataArray[i].key,  desc: jsonDataObjects.nodeDataArray[i].desc, cots: jsonDataObjects.nodeDataArray[i].cots,  releaseDate: jsonDataObjects.nodeDataArray[i].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[i].shutdownDate });
@@ -508,14 +498,9 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCustomize = 'block';
     this.DataObjectCreate = "none";
 
-
-
-
-    console.log("duHS")
-
     var modelAsText2 = this.model.toJson();
     var jsonDataObjects2 = JSON.parse(modelAsText2);
-    console.log("superwichtigerTest" + jsonDataObjects2.linkDataArray[0].dataobject)
+    
 
 
     //var jsonDataObjects = JSON.parse(this.dataobject);
@@ -581,7 +566,7 @@ public showCreateDataObject(){
 
       var modelAsText2 = this.model.toJson();
       var jsonDataObjects2 = JSON.parse(modelAsText2);
-      console.log("hsoderwas")
+      
       var DropdownList = (document.getElementById("mySelect3")) as HTMLSelectElement;
       while (DropdownList.options.length > 0) {
         DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
@@ -629,7 +614,7 @@ public showCreateDataObject(){
     }
     var newDataObject = 
         { text: this.LinkData.dataobject,  description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject };
-        console.log("hslink="+this.LinkData.personalData)
+        
     if (this.model instanceof go.GraphLinksModel) {
        {  this.model.addLinkData(newDataObject);  }
     }
@@ -638,7 +623,6 @@ public showCreateDataObject(){
 
 
   public removeDataObject() {
-
 
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
@@ -658,9 +642,11 @@ public showCreateDataObject(){
 
         if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject) {
             jsonDataObjects.linkDataArray[i] = null;
-        }
-        console.log("gelöscht" );
+        } 
       }
+      alert(this.LinkData.dataobject+" Deleted !");
+      this.DataObjectSehen = 'none';
+      this.DataObjectCustomize = 'none';
       this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
     }
   }

@@ -19,7 +19,7 @@ export class AppComponent {
   receiveMessage($event) {
     this.message = $event
     
-    console.log("Schnecke")
+  
   };
 
 

@@ -1,13 +1,16 @@
 <div class="topnav">
   <!-- <a class="active" href="#home">Home</a> -->
-  <button  type="button" id="exportApplications">Home</button>
+  <button  type="button" >Help</button>
   
   <button  type="button" (click)="exportApplications()">Export Applications</button>
   <button  type="button" (click)="exportDataObjects()">Export Data Objects</button>
   <button  type="button" (click)="customizeDataObject()">Customize Data Object</button>
   <button  type="button" (click)="showCreateDataObject()">Create Data Object</button>
+  
   <!-- <input type="file" (change)="onFileChange($event)" multiple="false" /> -->
   <app-excelsheet [model]='model'></app-excelsheet> 
+  
+  
 </div>
 <br>
 <form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()" >
@@ -164,7 +167,8 @@
     <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"></textarea>
 </div>
 <div class="buttonPosition">
-  <button class="commitButton" type="submit">Create Data Object</button>
+  <button class="commitButton" type="submit" [disabled]="!editData.valid"
+  >Create Data Object</button>
   <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
   <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
 </div>

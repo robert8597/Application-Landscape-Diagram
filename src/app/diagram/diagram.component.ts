@@ -57,7 +57,7 @@ export class DiagramComponent {
         { // allow double-click in background to create a new node
           //"clickCreatingTool.archetypeNodeData": { name: "Application", color: "lightblue" },
           // allow Ctrl-G to group
-          "commandHandler.archetypeGroupData": { text: "Group", isGroup: true, },
+          
           // have mouse wheel events zoom in and out instead of scroll up and down
           "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
           "undoManager.isEnabled": true // enable undo & redo
@@ -166,23 +166,7 @@ export class DiagramComponent {
         // more ContextMenuButtons would go here
       );
 
-    myDiagram.groupTemplate =
-      $(go.Group, "Auto",
-        $(go.Shape, "Rectangle",
-          { fill: "white" }),
-        $(go.Panel, "Vertical",
-          {
-            margin: 5,
-            defaultAlignment: go.Spot.Left
-          },
-          $(go.Panel, "Horizontal",
-            $("SubGraphExpanderButton",
-              { margin: new go.Margin(0, 3, 5, 0) }),
-            $(go.TextBlock, "Group", { editable: true })
-          ),
-          $(go.Placeholder)
-        )
-      );
+    
 
     myDiagram.linkTemplate =
       $(go.Link,
@@ -204,97 +188,14 @@ export class DiagramComponent {
         //$(go.TextBlock, "Text", { editable: true, segmentOffset: new go.Point(0, 10) })
       );
 
-     
-    /*
-    for (var i = 0; i < nodeDataArray.length; i++) {
-      Difference_In_Time = nodeDataArray[i].shutdate2.getTime() - heute.getTime();
-      Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-      if (Difference_In_Days > 730) {
-        nodeDataArray[i].color = "green";
-      } else if (Difference_In_Days > 364) {
-        nodeDataArray[i].color = "yellow";
-      } else {
-        nodeDataArray[i].color = "red";
-      }
-    }
-
-    */
-//     const btnDataOb: HTMLElement = document.getElementById('exportDataObjects');
-//     btnDataOb.addEventListener('click', () => {
-//       var modelAsText = myDiagram.model.toJson();
-//     var jsonDataObjects = JSON.parse(modelAsText);
-//   var DataObjectsAScsv = [{dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData  }];
-//   for(var i = 1;i<jsonDataObjects.linkDataArray.length;i++){
-// DataObjectsAScsv.push({dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData  });
-//   }
-
-//       CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
-//     });
-
-//     const btnApps: HTMLElement = document.getElementById('exportApplications');
-//     btnApps.addEventListener('click', () => {
-//       var modelAsText = myDiagram.model.toJson();
-//     var jsonDataObjects = JSON.parse(modelAsText);
-   
-//   var ApplicationsAScsv = [{name: jsonDataObjects.nodeDataArray[0].name, version: jsonDataObjects.nodeDataArray[0].version, key: jsonDataObjects.nodeDataArray[0].key,  desc: jsonDataObjects.nodeDataArray[0].desc, cots: jsonDataObjects.nodeDataArray[0].cots,  releaseDate: jsonDataObjects.nodeDataArray[0].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[0].shutdownDate }];
-//   for(var i = 1;i<jsonDataObjects.nodeDataArray.length;i++){
-//     ApplicationsAScsv.push({name: jsonDataObjects.nodeDataArray[i].name, version: jsonDataObjects.nodeDataArray[i].version, key: jsonDataObjects.nodeDataArray[i].key,  desc: jsonDataObjects.nodeDataArray[i].desc, cots: jsonDataObjects.nodeDataArray[i].cots,  releaseDate: jsonDataObjects.nodeDataArray[i].releaseDate, shutdownDate: jsonDataObjects.nodeDataArray[i].shutdownDate });
-//   }
-//       CsvDataService.exportToCsv('Applications.csv', ApplicationsAScsv);
-//     });
-    
-
-    myDiagram.groupTemplate.ungroupable = true;
-
-    // myDiagram.addDiagramListener('ChangedSelection', (e) => {
-    //   var node = myDiagram.selection.first();
-    //   var link = myDiagram.selection.first();
-    //   if (link instanceof go.Link) {
-    //     this.linkClicked.emit(link);
-    //     this.nodeClicked.emit(null);
-    //   }if(node instanceof go.Node){
-    //   this.nodeClicked.emit(node);
-    //   this.linkClicked.emit(null);
-    //   }
-    // }
-    // );
-  //   myDiagram.addDiagramListener('ChangedSelection', (e) => {
-
-  //     var node = myDiagram.selection.first();
-  //     var link = myDiagram.selection.first();
-      
-      
-     
-  //     if (link instanceof go.Link) {
-  //      // myDiagram.remove(linki);
-
-  //       // var dataobjectz = myDiagram.model.nodeDataArray;
-  //        var modelAsText = myDiagram.model.toJson();
- 
-  //        var jsonDataObjects = JSON.parse(modelAsText);
-  //       // const myArr = JSON.parse(dataobjectz);
- 
-  //        console.log("linkz="+jsonDataObjects.linkDataArray[0].dataobject);
-  //        
-  //        this.linkClicked.emit(link);
-  //        console.log("link", link.data);
-  //    } //vielleicht ein ELSE lieber
-  //    //if (node instanceof go.Node) {
-  //      this.nodeClicked.emit(node);
-  //      //console.log("node", node.data);
-  //  //}
-
-    
-  //    }
-  //   );
   myDiagram.addDiagramListener('ChangedSelection', (e) => {
     var node = myDiagram.selection.first();
     var link = myDiagram.selection.first();
 
     if (link instanceof go.Link) {
-      var modelAsText = myDiagram.model.toJson();
-      var jsonDataObjects = JSON.parse(modelAsText);
-      this.dataobjectShow.emit(modelAsText)
+      //var modelAsText = myDiagram.model.toJson();
+      //var jsonDataObjects = JSON.parse(modelAsText);
+      //this.dataobjectShow.emit(modelAsText)
       this.linkClicked.emit(link);
     } else 
     {
@@ -312,12 +213,6 @@ export class DiagramComponent {
     
   }
   );
-
-
-
-
-
-
 
   }
 

@@ -85,7 +85,7 @@ if(ExcelRow[i][3]!=null){
       }
       if (parseInt(Test[1]) < 10) {
         Test[1] = "0" + Test[1];
-      }
+      } //Fehler abfangen wenn release Date später als Shutdowndate !
       const temp = Test[0] + "." + Test[1] + "." + Test[2];
       const wordsTest = temp.split(".");
         if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
