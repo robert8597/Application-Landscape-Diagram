@@ -97,7 +97,7 @@
   
   <button class="commitButton" type="submit">Select Data Object</button>
   <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
+  <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
 </div>
 </form>
 <!-- DataObject aussuchen -->
@@ -132,7 +132,7 @@
 <div class="buttonPosition">
   <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
   <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
+  <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
   <button class="cancelButton" type="submit" (click)="removeDataObject()">Delete</button> 
 </div>
 </form>
@@ -153,12 +153,12 @@
 <input  type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData"> 
 </div>
 </div>
-<div class="group">
+<!-- <div class="group">
   <label for="selectDO">Copy Object</label><br />
   <select id="mySelect3" #device (change)="onChange($event, device.value)" size="1">
     
   </select>
-</div>
+</div> -->
 
 
 <br>
@@ -170,7 +170,7 @@
   <button class="commitButton" type="submit" [disabled]="!editData.valid"
   >Create Data Object</button>
   <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button> 
+  <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
 </div>
 </form>
 <!-- DataObject erstellen -->

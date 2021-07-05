@@ -67,7 +67,7 @@ export class InspectorComponent implements OnInit {
       this.DataObjectCreate = "none";
 
       this._selectedLink = link;
-      console.log("LINKizzzDA")
+      
       ////////////  this.myFunction();///////////////////////////////////
       //this.data.fromi = this._selectedLink.data.fromi;
       this.LinkData.dataobject = this._selectedLink.data.dataobject;
@@ -110,7 +110,7 @@ export class InspectorComponent implements OnInit {
       this.data.releaseDate = this._selectedNode.data.releaseDate;
       this.data.shutdownDate = this._selectedNode.data.shutdownDate;
       this.data.color = this._selectedNode.data.color;
-      console.log("NODEizDA");
+      
     } else {
       this.AppSehen = 'none';//Damit wenn man leer klickt beide verschwinden
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
@@ -160,8 +160,6 @@ export class InspectorComponent implements OnInit {
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
 
-    //var jsonDataObjects = JSON.parse(this.dataobject);
-   // console.log("txt:" + this.dataobject);
     if (this.model instanceof go.GraphLinksModel) {
       for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
         this.model.removeLinkDataCollection(this.model.linkDataArray);
