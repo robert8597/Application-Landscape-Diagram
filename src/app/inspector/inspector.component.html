@@ -1,181 +1,170 @@
 <div class="topnav">
   <!-- <a class="active" href="#home">Home</a> -->
-  <button  type="button" >Help</button>
-  
-  <button  type="button" (click)="exportApplications()">Export Applications</button>
-  <button  type="button" (click)="exportDataObjects()">Export Data Objects</button>
-  <button  type="button" (click)="customizeDataObject()">Customize Data Object</button>
-  <button  type="button" (click)="showCreateDataObject()">Create Data Object</button>
-  
+  <button type="button">Help</button>
+  <button type="button" (click)="exportApplications()">Export Applications</button>
+  <button type="button" (click)="exportDataObjects()">Export Data Objects</button>
+  <button type="button" (click)="customizeDataObject()">Customize Data Object</button>
+  <button type="button" (click)="showCreateDataObject()">Create Data Object</button>
   <!-- <input type="file" (change)="onFileChange($event)" multiple="false" /> -->
-  <app-excelsheet [model]='model'></app-excelsheet> 
-  
-  
+  <app-excelsheet [model]='model'></app-excelsheet>
 </div>
 <br>
-<form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()" >
+<form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()">
   <div class="group">
-  <label class="group">Key</label>
-  <small *ngIf="editForm.get('key').touched && editForm.get('key').hasError('required')">Enter Key</small>
-  <br>
-  <input id="key" name="key"  [(ngModel)]="data.key" formControlName="key">
-</div>
-
-<div class="group">
-  <label for="name">Name</label> <br />
-  <input name="name" [(ngModel)]="data.name" formControlName="name" />
-</div>
-<br>
-<div class="group">
-<label for="version">Version</label> <br />
-  <input name="version" [(ngModel)]="data.version" formControlName="version"/>
-</div>
-<div class="group">
-  <label for="cots">COTS</label>
-  <select name="cots" [(ngModel)]="data.cots" formControlName="cots" >
-    
-    <option>COTS</option>
-    <option>Propietary</option>
-    <option>Unknown</option>
-  </select>
-</div>
-  <br>
-  <div class="group">
-    <label for="releaseDate">Release Date</label> 
-    <small *ngIf="editForm.get('releaseDate').touched && editForm.get('releaseDate').hasError('pattern')">Enter valid Date</small>
+    <label class="group">Key</label>
+    <small *ngIf="editForm.get('key').touched && editForm.get('key').hasError('required')">Enter Key</small>
     <br>
-    <input name="releaseDate" [(ngModel)]="data.releaseDate" formControlName="releaseDate"/> 
-</div>
-<div class="group">
-  <label for="shutdownDate">Shutdown Date</label> 
-  <small *ngIf="editForm.get('shutdownDate').touched && editForm.get('shutdownDate').hasError('pattern')">Enter valid Date</small>
-  <br />
-  <input name="shutdownDate" [(ngModel)]="data.shutdownDate" formControlName="shutdownDate"/>
-</div>
+    <input id="key" name="key" [(ngModel)]="data.key" formControlName="key">
+  </div>
+  <div class="group">
+    <label for="name">Name</label>
+    <small *ngIf="editForm.get('name').touched && editForm.get('name').hasError('required')">Enter Name</small>
+    <br />
+    <input name="name" [(ngModel)]="data.name" formControlName="name" />
+  </div>
   <br>
   <div class="group">
-    <label for="desc">Description</label> <br />
-    <textarea  name="desc" rows="4" cols="50"  [(ngModel)]="data.desc" formControlName="desc"></textarea>
-</div>
+    <label for="version">Version</label> <br />
+    <input name="version" [(ngModel)]="data.version" formControlName="version" />
+  </div>
+  <div class="group">
+    <label for="cots">COTS</label>
+    <select name="cots" [(ngModel)]="data.cots" formControlName="cots">
+      <option>COTS</option>
+      <option>Propietary</option>
+      <option>Unknown</option>
+    </select>
+  </div>
+  <br>
+  <div class="group">
+    <label for="releaseDate">Release Date</label>
+    <small *ngIf="editForm.get('releaseDate').touched && editForm.get('releaseDate').hasError('required')">Enter
+      Date</small>
+    <br>
+    <input name="releaseDate" [(ngModel)]="data.releaseDate" formControlName="releaseDate" />
+  </div>
+  <div class="group">
+    <label for="shutdownDate">Shutdown Date</label>
+    <small *ngIf="editForm.get('shutdownDate').touched && editForm.get('shutdownDate').hasError('required')">Enter
+      Date</small>
+    <br />
+    <input name="shutdownDate" [(ngModel)]="data.shutdownDate" formControlName="shutdownDate" />
+  </div>
+  <br>
+  <div class="group">
+    <label for="desc">Description</label>
+    <small *ngIf="editForm.get('desc').touched && editForm.get('desc').hasError('required')">Enter Description</small>
+    <br />
+    <textarea name="desc" rows="4" cols="50" [(ngModel)]="data.desc" formControlName="desc"></textarea>
+  </div>
   <div class="buttonPosition">
-  <button class="commitButton" type="submit" (click)="createApplication()" [disabled]="!editForm.valid">Update Application</button>
-  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <button class="cancelButton" type="submit" (click)="cancelChanges()">Cancel</button> 
-</div>
+    <button class="commitButton" type="submit" (click)="createApplication()" [disabled]="!editForm.valid">Update
+      Application</button>
+    <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
+    <button class="cancelButton" type="submit" (click)="cancelChanges()">Cancel</button>
+  </div>
 </form>
-
-
 
 <!-- DataObject aussuchen -->
 <form [formGroup]="editData" [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
   <div class="group">
     <label for="dataobject">Data Object</label><br />
-  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly> 
-</div>
-
-<div class="group">
-  <label for="personaldata">Personal Data</label><br />
-<input class="inputPersonalData" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData" readonly> 
-</div>
-<br>
-<div [ngStyle]="{'display': DataObjectListe}" class="group">
-  <label for="selectDO" >Select another Data Object</label>
+    <input name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly>
+  </div>
+  <div class="group">
+    <label for="personaldata">Personal Data</label><br />
+    <input class="inputPersonalData" name="personaldata" checked [(ngModel)]="LinkData.personalData"
+      formControlName="personalData" readonly>
+  </div>
   <br>
-  <select id="mySelect"  #device (change)="onChange($event, device.value)" size="1">
-    
-  </select>
-</div>
-<div class="buttonPosition">
-<button type="button"  [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data Object</button>
-</div>
-
+  <div [ngStyle]="{'display': DataObjectListe}" class="group">
+    <label for="selectDO">Select another Data Object</label>
+    <br>
+    <select id="mySelect" #device (change)="onChange($event, device.value)" size="1"></select>
+  </div>
+  <div class="buttonPosition">
+    <button type="button" [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data
+      Object</button>
+  </div>
   <div class="group">
     <label for="description">Description</label> <br />
-    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description" readonly></textarea>
-</div>
-<div class="buttonPosition">
-  
-  <button class="commitButton" type="submit">Select Data Object</button>
-  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
-</div>
+    <textarea name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"
+      readonly></textarea>
+  </div>
+  <div class="buttonPosition">
+
+    <button class="commitButton" type="submit">Select Data Object</button>
+    <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
+    <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
+  </div>
 </form>
 <!-- DataObject aussuchen -->
-
-
 <!-- DataObject bearbeiten -->
-<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCustomize}"  >
+<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCustomize}">
   <div class="group">
     <label for="dataobject">Selected Data Object</label><br />
-  <input  name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly> 
-</div>
-
-<div class="group">
-  <label for="personaldata">Personal Data</label><br />
-  <div style="text-align: center;">
-<input  type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData"> 
-</div>
-</div>
-<div class="group">
-  <label for="selectDO">Select Object</label><br />
-  <select id="mySelect2" #device (change)="onChange($event, device.value)" size="1">
-    
-  </select>
-</div>
-
-
-<br>
+    <input name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly>
+  </div>
+  <div class="group">
+    <label for="personaldata">Personal Data</label><br />
+    <div style="text-align: center;">
+      <input type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData"
+        formControlName="personalData">
+    </div>
+  </div>
+  <div class="group">
+    <label for="selectDO">Select Object</label><br />
+    <select id="mySelect2" #device (change)="onChange($event, device.value)" size="1"> </select>
+  </div>
+  <br>
   <div class="group">
     <label for="description">Description</label> <br />
-    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"></textarea>
-</div>
-<div class="buttonPosition">
-  <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
-  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
-  <button class="cancelButton" type="submit" (click)="removeDataObject()">Delete</button> 
-</div>
+    <textarea name="description" rows="4" cols="50" [(ngModel)]="LinkData.description"
+      formControlName="description"></textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
+    <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
+    <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
+    <button class="cancelButton" type="submit" (click)="removeDataObject()">Delete</button>
+  </div>
 </form>
 <!-- DataObject bearbeiten -->
 
 <!-- DataObject erstellen -->
-<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCreate}"  (ngSubmit)="createDataObject()">
+<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCreate}" (ngSubmit)="createDataObject()">
   <div class="group">
     <label for="dataobject">Name of Data Object</label><br />
-    
-  <input type="text" name="dataobject"  placeholder = "Enter Name" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" required/>
-  <small *ngIf="editData.get('dataobject').touched && editData.get('dataobject').hasError('required')">Enter Name</small>
-</div>
 
-<div class="group">
-  <label for="personaldata">Personal Data</label><br />
-  <div style="text-align: center;">
-<input  type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData" formControlName="personalData"> 
-</div>
-</div>
-<!-- <div class="group">
+    <input type="text" name="dataobject" placeholder="Enter Name" [(ngModel)]="LinkData.dataobject"
+      formControlName="dataobject" required />
+    <small *ngIf="editData.get('dataobject').touched && editData.get('dataobject').hasError('required')">Enter
+      Name</small>
+  </div>
+
+  <div class="group">
+    <label for="personaldata">Personal Data</label><br />
+    <div style="text-align: center;">
+      <input type="checkbox" name="personaldata" checked [(ngModel)]="LinkData.personalData"
+        formControlName="personalData">
+    </div>
+  </div>
+  <!-- <div class="group">
   <label for="selectDO">Copy Object</label><br />
   <select id="mySelect3" #device (change)="onChange($event, device.value)" size="1">
     
   </select>
 </div> -->
-
-
-<br>
+  <br>
   <div class="group">
     <label for="description">Description</label> <br />
-    <textarea  name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"></textarea>
-</div>
-<div class="buttonPosition">
-  <button class="commitButton" type="submit" [disabled]="!editData.valid"
-  >Create Data Object</button>
-  <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button> 
-  <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
-</div>
+    <textarea name="description" rows="4" cols="50" [(ngModel)]="LinkData.description"
+      formControlName="description"></textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="submit" [disabled]="!editData.valid">Create Data Object</button>
+    <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
+    <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
+  </div>
 </form>
 <!-- DataObject erstellen -->
-
-
-
-
-
