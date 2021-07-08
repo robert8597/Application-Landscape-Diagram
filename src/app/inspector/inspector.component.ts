@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { CsvDataService } from '../csv/csv-data.service';
 import * as go from 'gojs';
+import { CrudService } from '../service/crud.service';
 
 
 
@@ -19,7 +20,10 @@ export class InspectorComponent implements OnInit {
   public _selectedLink: go.Link;
   public _selectedDataObject: string;
   
-  
+  key:string;
+  name:string;
+  desc:string;
+
 
   public dataobject: string;
   today = new Date();
@@ -50,6 +54,40 @@ export class InspectorComponent implements OnInit {
   DataObjectListe = "none";
   ChooseDataObject = "";
   DataObjectCreate = "";
+
+
+  // constructor2
+  // (crudservice: CrudService) {
+
+  // }
+
+
+
+  // constructor(public crudservice: CrudService){
+
+  //}
+  createApplication(){
+    //alert("this submit");
+
+    let Application = {};
+    Application['key']=this.data.key;
+    Application['name']=this.data.name;
+    Application['desc']=this.data.desc;
+
+
+    this.crudservice.create_NewApplication(Application).then(res =>{
+       this.data.key = "";
+       this.data.name = "";
+       this.data.desc = "";
+      console.log(res);
+      alert( "Application data save done");
+    }).catch(error => {
+      console.log(error)
+    });
+  }
+
+
+
 
   @Input()
   public model: go.Model;
@@ -118,6 +156,9 @@ export class InspectorComponent implements OnInit {
       this.DataObjectCreate = "none";
     }
   }
+
+
+
   public cancelChangesData() {
     this.editData.setValue(
       {
@@ -332,7 +373,7 @@ export class InspectorComponent implements OnInit {
 
   editData: FormGroup;
   editForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, public crudservice: CrudService) {
     this.editForm = formBuilder.group(
       {
         key: ['', Validators.required],

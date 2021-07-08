@@ -9,6 +9,12 @@ import { InspectorComponent } from './inspector/inspector.component';
 import { SenderComponent } from './sender/sender.component';
 import { EmpfangComponent } from './diagram/empfang/emfpang.component';
 import { ExcelsheetComponent } from './excelsheet/excelsheet.component';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import { environment } from 'src/environments/environment';
+import {AngularFirestoreModule}  from '@angular/fire/firestore';
+import { CrudService } from './service/crud.service';
+
 
 @NgModule({
   declarations: [
@@ -22,9 +28,12 @@ import { ExcelsheetComponent } from './excelsheet/excelsheet.component';
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [CrudService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

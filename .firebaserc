@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "application-landscape": {
+      "hosting": {
+        "app-landscape-group2": [
+          "application-landscape"
+        ]
+      }
+    }
+  }
+}
