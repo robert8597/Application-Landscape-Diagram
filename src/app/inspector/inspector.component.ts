@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { ThisReceiver } from '@angular/compiler';
+import { DOCUMENT, JsonPipe } from '@angular/common';
+import { ThisReceiver, ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { CsvDataService } from '../csv/csv-data.service';
@@ -23,7 +23,7 @@ export class InspectorComponent implements OnInit {
   key:string;
   name:string;
   desc:string;
-
+Application:any;
 
   public dataobject: string;
   today = new Date();
@@ -56,38 +56,95 @@ export class InspectorComponent implements OnInit {
   DataObjectCreate = "";
 
 
-  // constructor2
-  // (crudservice: CrudService) {
+holAlles(){
+  //var test = this.crudservice.get_AllApplications();
+  //this.model.nodeDataArray.push(test);
+  
+  
+  //this.Application = this.crudservice.get_AllApplications();
+  //this.model.addNodeDataCollection(this.Application);
+console.log(this.Application);
+}
 
-  // }
 
 
+ ngOnInit(): void 
+  {
+   
 
-  // constructor(public crudservice: CrudService){
+this.Application = this.crudservice.get_AllApplications();
+console.log(this.Application);
+   var mySub = this.crudservice.get_AllApplications().subscribe( data2 =>{
+this.Application = data2.map(e=>{
+  
+  return{
+    id: e.payload.doc.id,
+    key: e.payload.doc.data()["key"],
+    name: e.payload.doc.data()["name"],
+    version: e.payload.doc.data()["version"],
+    color: e.payload.doc.data()["color"],
+    desc: e.payload.doc.data()["desc"],
+  };
 
-  //}
+})
+
+//var modelAsText = this.model.toJson();
+  //  var jsonDataObjects = JSON.parse(modelAsText);
+//var test = JSON.parse(this.data2.key);
+console.log("Täzt="+this.Application);
+
+//if(this.model.nodeDataArray.push==null){
+this.model.addNodeDataCollection(this.Application);
+mySub.unsubscribe(); //ich fick mein leben
+//}
+    })
+   
+  }
+
+
   createApplication(){
     //alert("this submit");
 
     let Application = {};
-    Application['key']=this.data.key;
-    Application['name']=this.data.name;
-    Application['desc']=this.data.desc;
+   // Application['key']=this.data.key;
+    //Application['name']=this.data.name;
+    //Application['desc']=this.data.desc;
+    Application['key']=(this.model.nodeDataArray.length + 1);
+    Application['name']="Application " + (this.model.nodeDataArray.length+1);
+    Application['desc']="";
+    Application['color']= "lightblue";
+    Application['version']= "Default";
+    Application['releaseDate']= "01.01.0001";
+    Application['shutdownDate']= "31.12.9999";
 
+    this.model.addNodeData(Application);
 
     this.crudservice.create_NewApplication(Application).then(res =>{
-       this.data.key = "";
-       this.data.name = "";
-       this.data.desc = "";
-      console.log(res);
-      alert( "Application data save done");
+       //this.data.key = "";
+       //this.data.name = "";
+      //  this.data.desc = "";
+      //  this.data.color = "";
+      //  this.data.version = "";
+      //  this.data.releaseDate = "";
+      //  this.data.shutdownDate = "";
+      console.log("RESDING="+res);
+      alert( "Application successfully created & saved in database");
     }).catch(error => {
       console.log(error)
     });
   }
 
 
-
+  // addNode() {
+  //   //var data = { name: "Application " + this.model.nodeDataArray.length + 1, color: "lightblue", key: this.model.nodeDataArray.length + 1,
+  //   var data = { name: "Application " + (this.model.nodeDataArray.length+1), color: "lightblue", key: this.model.nodeDataArray.length + 1,
+  //   version: "Default", releaseDate: "01.01.0001", shutdownDate: "31.12.9999"}; 
+  //  this.model.addNodeData(data);
+  //  //var node = this.model.findNodeDataForKey(data.key);
+  //   //var node = e.diagram.findPartForData(data);
+  //   //node.location = e.diagram.lastInput.documentPoint;
+    
+  // }
 
   @Input()
   public model: go.Model;
@@ -699,7 +756,6 @@ public showCreateDataObject(){
     this.DataObjectCreate = "none";
     }
   
-  ngOnInit(): void {
-  }
+
 
 }
