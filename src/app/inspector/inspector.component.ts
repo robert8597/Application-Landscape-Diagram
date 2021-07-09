@@ -29,6 +29,7 @@ Application:any;
   today = new Date();
 
   public data = {
+   
     key: null,
     name: null,
     version: null,
@@ -91,7 +92,7 @@ this.Application = data2.map(e=>{
 //var modelAsText = this.model.toJson();
   //  var jsonDataObjects = JSON.parse(modelAsText);
 //var test = JSON.parse(this.data2.key);
-console.log("Täzt="+this.Application);
+console.log("Täzt="+this.Application[0].id);
 
 //if(this.model.nodeDataArray.push==null){
 this.model.addNodeDataCollection(this.Application);
@@ -109,17 +110,19 @@ mySub.unsubscribe(); //ich fick mein leben
    // Application['key']=this.data.key;
     //Application['name']=this.data.name;
     //Application['desc']=this.data.desc;
+    //Application['id']=""; //vll unwichtig
     Application['key']=(this.model.nodeDataArray.length + 1);
     Application['name']="Application " + (this.model.nodeDataArray.length+1);
     Application['desc']="";
     Application['color']= "lightblue";
+    Application['cots']= "cots";
     Application['version']= "Default";
     Application['releaseDate']= "01.01.0001";
     Application['shutdownDate']= "31.12.9999";
 
     this.model.addNodeData(Application);
-
-    this.crudservice.create_NewApplication(Application).then(res =>{
+    var DocumentNr = Application['key'];
+    this.crudservice.create_NewApplication(Application,DocumentNr.toString()).then(res =>{
        //this.data.key = "";
        //this.data.name = "";
       //  this.data.desc = "";
@@ -134,6 +137,10 @@ mySub.unsubscribe(); //ich fick mein leben
     });
   }
 
+  deleteApplication(data_id){
+this.crudservice.delete_Application(data_id);
+alert("deleted"+data_id)
+  }
 
   // addNode() {
   //   //var data = { name: "Application " + this.model.nodeDataArray.length + 1, color: "lightblue", key: this.model.nodeDataArray.length + 1,
@@ -197,6 +204,7 @@ mySub.unsubscribe(); //ich fick mein leben
       this.DataObjectCreate = "none";
 
       this._selectedNode = node;
+      
       this.data.key = this._selectedNode.data.key;
       this.data.name = this._selectedNode.data.name;
       this.data.version = this._selectedNode.data.version;

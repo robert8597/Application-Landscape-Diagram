@@ -62,11 +62,13 @@
     <br />
     <textarea name="desc" rows="4" cols="50" [(ngModel)]="data.desc" formControlName="desc"></textarea>
   </div>
+
   <div class="buttonPosition">
-    <button class="commitButton" type="submit" (click)="createApplication()" [disabled]="!editForm.valid">Update
+    <button class="commitButton" type="submit" (click)="onCommitForm()" [disabled]="!editForm.valid">Update
       Application</button>
     <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
-    <button class="cancelButton" type="submit" (click)="cancelChanges()">Cancel</button>
+    <button class="cancelButton" type="submit" (click)="deleteApplication(data.key)">Delete</button>
+    <button class="cancelButton" type="submit" (click)="cancelChanges()">Reset</button>
   </div>
 </form>
 

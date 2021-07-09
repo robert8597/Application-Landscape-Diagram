@@ -9,8 +9,19 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class CrudService {
 
   constructor(public fireservices: AngularFirestore) { }
-  create_NewApplication(Application){
-    return this.fireservices.collection("Application").add(Application);
+  create_NewApplication(Application, DocumentNr){
+    return this.fireservices.collection("Application").doc(DocumentNr).set({
+    key: Application['key'],
+    name: Application['name'],
+    desc: Application['desc'],
+    color: Application['color'],
+    version: Application['version'],
+   
+    cots: Application['cots'],
+    
+    shutdownDate: Application['shutdownDate'],
+    releaseDate: Application['releaseDate']
+})//.add(Application);
   }
 
   get_AllApplications(){
@@ -22,5 +33,7 @@ export class CrudService {
     return this.fireservices.collection("Application").snapshotChanges();
   }
 
-
+  delete_Application(data_id){
+    this.fireservices.doc("Application/" + data_id).delete();
+  }
 }
