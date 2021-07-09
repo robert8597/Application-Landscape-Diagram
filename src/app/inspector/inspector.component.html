@@ -65,7 +65,7 @@
   </div>
 
   <div class="buttonPosition">
-    <button class="commitButton" type="submit" (click)="onCommitForm()" [disabled]="!editForm.valid">Update
+    <button class="commitButton" type="submit" (click)="onCommitForm(); updateApplication(data.key)" [disabled]="!editForm.valid">Update
       Application</button>
     <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
     <button class="cancelButton" type="submit" (click)="deleteApplication(data.key, data.name)">Delete</button>
