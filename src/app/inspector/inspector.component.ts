@@ -57,15 +57,7 @@ Application:any;
   DataObjectCreate = "";
 
 
-holAlles(){
-  //var test = this.crudservice.get_AllApplications();
-  //this.model.nodeDataArray.push(test);
-  
-  
-  //this.Application = this.crudservice.get_AllApplications();
-  //this.model.addNodeDataCollection(this.Application);
-console.log(this.Application);
-}
+
 
 
 
@@ -84,6 +76,7 @@ this.Application = data2.map(e=>{
     name: e.payload.doc.data()["name"],
     version: e.payload.doc.data()["version"],
     color: e.payload.doc.data()["color"],
+    cots: e.payload.doc.data()["cots"],
     desc: e.payload.doc.data()["desc"],
     releaseDate: e.payload.doc.data()["releaseDate"],
     shutdownDate: e.payload.doc.data()["shutdownDate"],
