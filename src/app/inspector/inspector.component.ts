@@ -85,6 +85,8 @@ this.Application = data2.map(e=>{
     version: e.payload.doc.data()["version"],
     color: e.payload.doc.data()["color"],
     desc: e.payload.doc.data()["desc"],
+    releaseDate: e.payload.doc.data()["releaseDate"],
+    shutdownDate: e.payload.doc.data()["shutdownDate"],
   };
 
 })
@@ -92,7 +94,7 @@ this.Application = data2.map(e=>{
 //var modelAsText = this.model.toJson();
   //  var jsonDataObjects = JSON.parse(modelAsText);
 //var test = JSON.parse(this.data2.key);
-console.log("Täzt="+this.Application[0].id);
+//console.log("Täzt="+this.Application[0].id);
 
 //if(this.model.nodeDataArray.push==null){
 this.model.addNodeDataCollection(this.Application);
@@ -137,23 +139,30 @@ mySub.unsubscribe(); //ich fick mein leben
     });
   }
 
-  deleteApplication(app_key){
+
+ updateApplication(app_key){
+    let Application = {};
+ 
+    Application['name']=this.data.name;
+    Application['desc']=this.data.desc;
+    Application['color']= "lightblue";
+    Application['cots']= this.data.cots;
+    Application['version']= this.data.version;
+    Application['releaseDate']= this.data.releaseDate;
+    Application['shutdownDate']= this.data.shutdownDate;
+
+    this.crudservice.updateApplication(app_key, Application);
+    alert("Application properties updated !")
+  }
+
+  deleteApplication(app_key, app_name){
 this.crudservice.delete_Application(app_key);
 var Application = this.model.findNodeDataForKey(app_key);
 this.model.removeNodeData(Application);
-alert("deleted"+app_key)
+alert(app_name+" DELETED!")
+this.AppSehen = 'none';
   }
 
-  // addNode() {
-  //   //var data = { name: "Application " + this.model.nodeDataArray.length + 1, color: "lightblue", key: this.model.nodeDataArray.length + 1,
-  //   var data = { name: "Application " + (this.model.nodeDataArray.length+1), color: "lightblue", key: this.model.nodeDataArray.length + 1,
-  //   version: "Default", releaseDate: "01.01.0001", shutdownDate: "31.12.9999"}; 
-  //  this.model.addNodeData(data);
-  //  //var node = this.model.findNodeDataForKey(data.key);
-  //   //var node = e.diagram.findPartForData(data);
-  //   //node.location = e.diagram.lastInput.documentPoint;
-    
-  // }
 
   @Input()
   public model: go.Model;
@@ -436,6 +445,7 @@ alert("deleted"+app_key)
       }
     }
     this.model.commitTransaction();
+   
   }
 
   editData: FormGroup;
@@ -446,7 +456,7 @@ alert("deleted"+app_key)
         key: ['', Validators.required],
         name: ['', Validators.required],
         version: [''],
-        cots: [''],
+        cots: ['', Validators.required],
         desc: ['', Validators.required],
         releaseDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]],
         shutdownDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]]

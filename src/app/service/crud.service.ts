@@ -33,6 +33,10 @@ export class CrudService {
     return this.fireservices.collection("Application").snapshotChanges();
   }
 
+  updateApplication(app_key, Application){
+this.fireservices.doc("Application/"+app_key).update(Application);
+  }
+
   delete_Application(app_key){
     this.fireservices.doc("Application/" + app_key).delete();
   }
