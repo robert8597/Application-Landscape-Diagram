@@ -61,7 +61,8 @@ this.fireservices.doc("Application/"+app_key).update(Application);
   }
 
   create_LinkConnection(DataObject, Counter){
-    return this.fireservices.collection("LinkConnection").doc(Counter).set({
+    var LinkConnectionName = DataObject['dataobject']+Counter;
+    return this.fireservices.collection("LinkConnection").doc(LinkConnectionName).set({
     dataobject: DataObject['dataobject'],
     //personalData: DataObject['personalData'],
     //description: DataObject['description'],
@@ -73,6 +74,13 @@ this.fireservices.doc("Application/"+app_key).update(Application);
 
 updateDataObject(dataobject_name, DataObject){
   this.fireservices.doc("DataObject/"+dataobject_name).update(DataObject);
+    }
+
+    delete_DataObject(dataobject_name){
+      this.fireservices.doc("DataObject/" + dataobject_name).delete();
+      for(var i=0;i<1000;i++){
+      this.fireservices.doc("LinkConnection/" + dataobject_name+i).delete();
+    }
     }
 
   get_AllDataObjects(){
