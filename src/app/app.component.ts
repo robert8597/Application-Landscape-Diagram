@@ -13,6 +13,7 @@ export class AppComponent {
   public selectedNode = null;
   public selectedLink = null;
   public selectedDataObject = null;
+  public selectedLocation = null;
 
   message:string;
 
@@ -59,6 +60,11 @@ public setDataObject(dataobject){
   public setSelectedNode(node)
   {
     this.selectedNode = node;
+  }
+
+  public setLocation(location)
+  {
+    this.selectedLocation = location;
   }
 
 }

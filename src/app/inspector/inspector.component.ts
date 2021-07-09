@@ -19,6 +19,7 @@ export class InspectorComponent implements OnInit {
   public _selectedNode: go.Node;
   public _selectedLink: go.Link;
   public _selectedDataObject: string;
+  public _selectedLocation: any;
   
   key:string;
   name:string;
@@ -159,6 +160,19 @@ this.AppSehen = 'none';
 
   @Input()
   public model: go.Model;
+
+  @Input()
+  get selectedLocation() { return this._selectedLocation; }
+  set selectedLocation(location: any) {
+    if(location!=null){
+    alert("neue location"+location)
+    // updateLocation(this.data.key){
+    //   let Application = {};
+    //   Application['location']=location;
+    //   this.crudservice.updateLocation(this.data.key, Application);
+    // }
+  }
+  }
 
   @Input()
   get selectedLink() { return this._selectedLink; }
@@ -727,6 +741,9 @@ public showCreateDataObject(){
     if (this.model instanceof go.GraphLinksModel) {
        {  this.model.addLinkData(newDataObject);  }
     }
+    if(this.LinkData.dataobject!=null){
+    alert("Data Object "+this.LinkData.dataobject+" created !")
+  }
   }
   
 

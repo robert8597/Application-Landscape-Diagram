@@ -29,8 +29,12 @@ export class DiagramComponent {
   @Output()
   public dataobjectShow = new EventEmitter()
 
+  @Output()
+  public appMoved = new EventEmitter()
+
   public selectedNode = null;
   public selectedLink = null;
+  public selectedLocation = null;
 
   constructor() {
   }
@@ -160,9 +164,9 @@ export class DiagramComponent {
         $("ContextMenuButton",
           $(go.TextBlock, "Count Applications"),
           { click: countNodes }),
-        $("ContextMenuButton",
-          $(go.TextBlock, "Add Application"),
-          { click: addNode }),
+       // $("ContextMenuButton",
+         // $(go.TextBlock, "Add Application"),
+          //{ click: addNode }),
         // more ContextMenuButtons would go here
       );
 
@@ -214,7 +218,18 @@ export class DiagramComponent {
   }
   );
 
+
+  myDiagram.addDiagramListener("SelectionMoved",
+  (e) =>  { 
+    var location = e.diagram.lastInput.documentPoint;
+    this.appMoved.emit(location);
+    
+    //alert("Double-clicked at " + e.diagram.lastInput.documentPoint); 
+  });
+
   }
+
+  
 
 }
 
