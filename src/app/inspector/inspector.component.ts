@@ -137,9 +137,11 @@ mySub.unsubscribe(); //ich fick mein leben
     });
   }
 
-  deleteApplication(data_id){
-this.crudservice.delete_Application(data_id);
-alert("deleted"+data_id)
+  deleteApplication(app_key){
+this.crudservice.delete_Application(app_key);
+var Application = this.model.findNodeDataForKey(app_key);
+this.model.removeNodeData(Application);
+alert("deleted"+app_key)
   }
 
   // addNode() {
