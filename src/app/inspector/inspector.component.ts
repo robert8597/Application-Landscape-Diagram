@@ -128,7 +128,7 @@ mySub.unsubscribe(); //ich fick mein leben
       //  this.data.releaseDate = "";
       //  this.data.shutdownDate = "";
       console.log("RESDING="+res);
-      alert( "Application successfully created & saved in database");
+      alert( "Application created successfully & saved in database");
     }).catch(error => {
       console.log(error)
     });
