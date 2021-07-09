@@ -1,3 +1,4 @@
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Variable } from '@angular/compiler/src/render3/r3_ast';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -18,10 +19,19 @@ export class CrudService {
     version: Application['version'],
    
     cots: Application['cots'],
-    
+    loc: Application['loc'], ///////////////
     shutdownDate: Application['shutdownDate'],
     releaseDate: Application['releaseDate']
 })//.add(Application);
+  }
+
+  updateLocation(DocumentNr, Application){
+    //let Application = {};
+ 
+    //Application['location']=location;
+    
+    this.fireservices.doc("Application/"+DocumentNr).update(Application);
+ 
   }
 
   get_AllApplications(){
@@ -40,4 +50,37 @@ this.fireservices.doc("Application/"+app_key).update(Application);
   delete_Application(app_key){
     this.fireservices.doc("Application/" + app_key).delete();
   }
+
+  create_NewDataObject(DataObject){
+    return this.fireservices.collection("DataObject").doc(DataObject['dataobject']).set({
+    dataobject: DataObject['dataobject'],
+    personalData: DataObject['personalData'],
+    description: DataObject['description'],
+   
+})
+  }
+
+  create_LinkConnection(DataObject, Counter){
+    return this.fireservices.collection("LinkConnection").doc(Counter).set({
+    dataobject: DataObject['dataobject'],
+    //personalData: DataObject['personalData'],
+    //description: DataObject['description'],
+
+    from: DataObject['from'],
+    to: DataObject['to'],
+  })
+}   
+
+updateDataObject(dataobject_name, DataObject){
+  this.fireservices.doc("DataObject/"+dataobject_name).update(DataObject);
+    }
+
+  get_AllDataObjects(){
+    return this.fireservices.collection("DataObject").snapshotChanges();
+  }
+
+  get_AllLinkConnections(){
+    return this.fireservices.collection("LinkConnection").snapshotChanges();
+  }
+
 }

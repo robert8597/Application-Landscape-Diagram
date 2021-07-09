@@ -99,6 +99,7 @@ export class DiagramComponent {
           //return fromnode.linksConnected.count + tonode.linksConnected.count < 1;
         //},
           resizable: false },
+          new go.Binding("location", "loc", go.Point.parse),  // get the Node.location from the data.loc value
         $(go.Shape, "Procedure",
           { 
             width: 150, height: 60, //Standard size
@@ -221,7 +222,9 @@ export class DiagramComponent {
 
   myDiagram.addDiagramListener("SelectionMoved",
   (e) =>  { 
-    var location = e.diagram.lastInput.documentPoint;
+    var node = myDiagram.selection.first();
+    //var location = e.diagram.lastInput.documentPoint;
+    var location = node.location.x+" "+node.location.y;
     this.appMoved.emit(location);
     
     //alert("Double-clicked at " + e.diagram.lastInput.documentPoint); 

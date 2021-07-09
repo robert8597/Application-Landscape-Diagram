@@ -25,6 +25,8 @@ export class InspectorComponent implements OnInit {
   name:string;
   desc:string;
 Application:any;
+DataObject:any;
+LinkConnections:any;
 
   public dataobject: string;
   today = new Date();
@@ -66,8 +68,8 @@ Application:any;
   {
    
 
-this.Application = this.crudservice.get_AllApplications();
-console.log(this.Application);
+//this.Application = this.crudservice.get_AllApplications(); was bruda
+//console.log(this.Application);
    var mySub = this.crudservice.get_AllApplications().subscribe( data2 =>{
 this.Application = data2.map(e=>{
   
@@ -81,20 +83,72 @@ this.Application = data2.map(e=>{
     desc: e.payload.doc.data()["desc"],
     releaseDate: e.payload.doc.data()["releaseDate"],
     shutdownDate: e.payload.doc.data()["shutdownDate"],
+    loc: e.payload.doc.data()["loc"],
   };
 
 })
 
-//var modelAsText = this.model.toJson();
-  //  var jsonDataObjects = JSON.parse(modelAsText);
-//var test = JSON.parse(this.data2.key);
-//console.log("Täzt="+this.Application[0].id);
-
-//if(this.model.nodeDataArray.push==null){
 this.model.addNodeDataCollection(this.Application);
 mySub.unsubscribe(); //ich fick mein leben
-//}
+
     })
+
+
+    var mySub2 = this.crudservice.get_AllDataObjects().subscribe( data2 =>{
+      this.DataObject = data2.map(e=>{
+        
+        return{
+          id: e.payload.doc.id,
+          dataobject: e.payload.doc.data()["dataobject"],
+          description: e.payload.doc.data()["description"],
+          personalData: e.payload.doc.data()["personalData"],
+          text: e.payload.doc.data()["dataobject"],
+          from: e.payload.doc.data()["from"],
+          to: e.payload.doc.data()["to"],
+         
+        };
+      
+      })
+      
+      if (this.model instanceof go.GraphLinksModel) {
+        this.model.addLinkDataCollection(this.DataObject);
+      }
+      //alert(this.DataObject[0].id);
+      mySub2.unsubscribe(); //ich fick mein leben
+      
+          })
+
+
+
+///Link Connections LOADING///////
+          var mySub3 = this.crudservice.get_AllLinkConnections().subscribe( data2 =>{
+            this.LinkConnections = data2.map(e=>{
+              
+              return{
+                id: e.payload.doc.id,
+                dataobject: e.payload.doc.data()["dataobject"],
+                from: e.payload.doc.data()["from"],
+                to: e.payload.doc.data()["to"],
+              };
+            })
+            for(var i=0;i<this.DataObject.length;i++){
+              for(var x=0;x<this.LinkConnections.length;x++){
+              if(this.DataObject[i].dataobject==this.LinkConnections[x].dataobject){
+               this.LinkConnections[x]["description"] = this.DataObject[i].description;
+               this.LinkConnections[x]["personalData"] = this.DataObject[i].personalData;
+               this.LinkConnections[x]["text"] = this.DataObject[i].dataobject;
+              }
+            }
+            }
+
+            if (this.model instanceof go.GraphLinksModel) {
+              this.model.addLinkDataCollection(this.LinkConnections);
+            }
+            //alert(this.DataObject[0].id);
+            mySub3.unsubscribe(); //ich fick mein leben
+            
+                })
+      
    
   }
 
@@ -115,6 +169,7 @@ mySub.unsubscribe(); //ich fick mein leben
     Application['version']= "Default";
     Application['releaseDate']= "01.01.0001";
     Application['shutdownDate']= "31.12.9999";
+    Application['loc']= "";
 
     this.model.addNodeData(Application);
     var DocumentNr = Application['key'];
@@ -158,6 +213,8 @@ this.AppSehen = 'none';
   }
 
 
+
+
   @Input()
   public model: go.Model;
 
@@ -165,12 +222,18 @@ this.AppSehen = 'none';
   get selectedLocation() { return this._selectedLocation; }
   set selectedLocation(location: any) {
     if(location!=null){
-    alert("neue location"+location)
-    // updateLocation(this.data.key){
-    //   let Application = {};
-    //   Application['location']=location;
-    //   this.crudservice.updateLocation(this.data.key, Application);
-    // }
+    //alert("neue location"+location)
+    let Application = {};
+    Application['loc']=location; //TO STRINJG ?
+    //Application['name']=this.data.name;
+    //Application['desc']=this.data.desc;
+    //Application['color']= "lightblue";
+    //Application['cots']= this.data.cots;
+    //Application['version']= this.data.version;
+    //Application['releaseDate']= this.data.releaseDate;
+    //Application['shutdownDate']= this.data.shutdownDate;
+      this.crudservice.updateLocation(this.data.key,  Application);
+    
   }
   }
 
@@ -273,8 +336,18 @@ this.AppSehen = 'none';
     this.model.set(this.selectedLink.data, 'personalData', this.LinkData.personalData);
     this.model.set(this.selectedLink.data, 'description', this.LinkData.description);
     this.model.set(this.selectedLink.data, 'text', this.LinkData.dataobject);
+    
     this.model.commitTransaction();
 
+  var newDataObject = 
+       { text: this.LinkData.dataobject,  description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject, from: this.LinkData.from, to: this.LinkData.to  };
+       var DataObjectCounter = 0;
+       if (this.model instanceof go.GraphLinksModel) {
+        {  DataObjectCounter = this.model.linkDataArray.length+1;  }
+     }
+
+    this.crudservice.create_LinkConnection(newDataObject, DataObjectCounter.toString());
+    
 
   }
 
@@ -311,6 +384,20 @@ this.AppSehen = 'none';
 
       this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
     }
+
+    
+      let DataObject = {};
+   
+      DataObject['dataobject']=this.LinkData.dataobject;
+      DataObject['description']=this.LinkData.description;
+      DataObject['personalData']= this.LinkData.personalData;
+      DataObject['text']= this.LinkData.text;
+      
+  
+      this.crudservice.updateDataObject(this.LinkData.dataobject, DataObject);
+      alert("Data Object properties updated !")
+    
+
   }
 
 
@@ -732,18 +819,20 @@ public showCreateDataObject(){
 
 }
   public createDataObject() {
+    
     if(this.LinkData.personalData==null){
       this.LinkData.personalData = false; //sonst ist personalData = null (wenn nicht gechecked)
     }
     var newDataObject = 
         { text: this.LinkData.dataobject,  description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject };
         
-    if (this.model instanceof go.GraphLinksModel) {
-       {  this.model.addLinkData(newDataObject);  }
-    }
+  
     if(this.LinkData.dataobject!=null){
     alert("Data Object "+this.LinkData.dataobject+" created !")
   }
+ 
+
+this.crudservice.create_NewDataObject(newDataObject);
   }
   
 
