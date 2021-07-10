@@ -201,7 +201,7 @@ mySub.unsubscribe(); //ich fick mein leben
     Application['shutdownDate']= this.data.shutdownDate;
 
     this.crudservice.updateApplication(app_key, Application);
-    alert("Application properties updated !")
+    //alert("Application properties updated !")
   }
 
   deleteApplication(app_key, app_name){
@@ -403,6 +403,7 @@ this.AppSehen = 'none';
 
 
   public onCommitForm() {
+    var check = false;
     this.model.startTransaction();
     if (this.selectedNode.data.key != this.data.key) {
       var keepGoing = true;
@@ -425,19 +426,32 @@ this.AppSehen = 'none';
         }
       }
       )
+      if(keepGoing == true)
+      {
+        check = true;
+      }
       this.model.set(this.selectedNode.data, 'key', this.data.key);
+      console.log(check);
     }
     if (this.selectedNode.data.name != this.data.name) {
       this.model.set(this.selectedNode.data, 'name', this.data.name);
+      check = true;
+      console.log(check);
     }
     if (this.selectedNode.data.version != this.data.version) {
       this.model.set(this.selectedNode.data, 'version', this.data.version);
+      check = true;
+      console.log(check);
     }
     if (this.selectedNode.data.desc != this.data.desc) {
       this.model.set(this.selectedNode.data, 'desc', this.data.desc);
+      check = true;
+      console.log(check);
     }
     if (this.selectedNode.data.cots != this.data.cots) {
       this.model.set(this.selectedNode.data, 'cots', this.data.cots);
+      check = true;
+      console.log(check);
     }
     if (this.selectedNode.data.releaseDate != this.data.releaseDate) {
       const str = this.data.releaseDate;
@@ -460,6 +474,7 @@ this.AppSehen = 'none';
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'releaseDate', this.data.releaseDate);
+        check=true;
         if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
           || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
           this.data.color = "red";
@@ -509,6 +524,7 @@ this.AppSehen = 'none';
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
+        check = true;
         if (wordsTest[2] > wordsShut[2] || wordsTest[2] == wordsShut[2] && wordsTest[1] > wordsShut[1]
           || wordsTest[2] == wordsShut[2] && wordsTest[1] == wordsShut[1] && wordsTest[0] > wordsShut[0]) {
           this.data.color = "red";
@@ -537,6 +553,10 @@ this.AppSehen = 'none';
         }
         )
       }
+    }
+    if(check == true)
+    {
+      alert("Applications Updated!");
     }
     this.model.commitTransaction();
    
