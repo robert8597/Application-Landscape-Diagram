@@ -64,9 +64,6 @@ this.fireservices.doc("Application/"+app_key).update(Application);
     var LinkConnectionName = DataObject['dataobject']+Counter;
     return this.fireservices.collection("LinkConnection").doc(LinkConnectionName).set({
     dataobject: DataObject['dataobject'],
-    //personalData: DataObject['personalData'],
-    //description: DataObject['description'],
-
     from: DataObject['from'],
     to: DataObject['to'],
   })

@@ -634,6 +634,11 @@ this.AppSehen = 'none';
         }
       }
     }
+    var el = document.createElement("option");
+    el.disabled = true;
+    el.text = "Select Data Object";
+    el.selected = true;
+    DropdownList.add(el);
     if (jsonDataObjects2.linkDataArray[0].dataobject != null) {
       for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
 
@@ -751,6 +756,7 @@ this.AppSehen = 'none';
     // console.log("dataooooobject="+jsonDataObjects.linkDataArray[0].dataobject)
     var DropdownList = (document.getElementById("mySelect2")) as HTMLSelectElement;
     while (DropdownList.options.length > 0) {
+     
       DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
     }
 
@@ -768,6 +774,12 @@ this.AppSehen = 'none';
         }
       }
     }
+   // <option disabled selected value> -- select an option -- </option>
+   var el = document.createElement("option");
+   el.disabled = true;
+   el.text = "Select Data Object";
+   el.selected = true;
+   DropdownList.add(el);
     for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
 
       var opt = jsonDataObjects2.linkDataArray[i].dataobject;
@@ -777,6 +789,7 @@ this.AppSehen = 'none';
       el.value = opt;
 
       DropdownList.add(el);
+      
       DropdownList[0].remove;
       console.log(DropdownList[0]);
 

@@ -146,7 +146,7 @@ if(ExcelRow[i][4]!=null){
 }
 
     this.NodeData = {
-    key: this.Key, name: this.Name, desc: this.Description, releaseDate: this.StartDate, shutdownDate: this.ShutdownDate, version: this.Version, cots: this.COTS, color: this.Color
+    key: this.Key, name: this.Name, desc: this.Description, releaseDate: this.StartDate, shutdownDate: this.ShutdownDate, version: this.Version, cots: this.COTS, color: this.Color, loc: ""
     };
     this.NodeDataArray.push(this.NodeData);
     

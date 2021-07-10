@@ -65,16 +65,25 @@
   </div>
 
   <div class="buttonPosition">
-    <button class="commitButton" type="submit" (click)="onCommitForm(); updateApplication(data.key)" [disabled]="!editForm.valid">Update
+    <button class="updateApp" type="submit" (click)="onCommitForm(); updateApplication(data.key)" [disabled]="!editForm.valid">Update
       Application</button>
-    <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
-    <button class="cancelButton" type="submit" (click)="deleteApplication(data.key, data.name)">Delete</button>
-    <button class="cancelButton" type="submit" (click)="cancelChanges()">Reset</button>
+    <button class="cancelButton" type="button" (click)="closeWindows()">Close</button>
+    <button class="cancelButton" type="button" (click)="deleteApplication(data.key, data.name)">Delete</button>
+    <button class="cancelButton" type="button" (click)="cancelChanges()">Reset</button>
   </div>
 </form>
 
 <!-- DataObject aussuchen -->
 <form [formGroup]="editData" [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
+  <div class="buttonPosition">
+    <button type="button" [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data
+      Object</button>
+  </div>
+  <div [ngStyle]="{'display': DataObjectListe}" class="buttonPosition">
+    <label for="selectDO">Select another Data Object</label>
+    <br>
+    <select id="mySelect" #device (change)="onChange($event, device.value)" size="1"></select>
+  </div>
   <div class="group">
     <label for="dataobject">Data Object</label><br />
     <input name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly>
@@ -85,15 +94,6 @@
       formControlName="personalData" readonly>
   </div>
   <br>
-  <div [ngStyle]="{'display': DataObjectListe}" class="group">
-    <label for="selectDO">Select another Data Object</label>
-    <br>
-    <select id="mySelect" #device (change)="onChange($event, device.value)" size="1"></select>
-  </div>
-  <div class="buttonPosition">
-    <button type="button" [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data
-      Object</button>
-  </div>
   <div class="group">
     <label for="description">Description</label> <br />
     <textarea name="description" rows="4" cols="50" [(ngModel)]="LinkData.description" formControlName="description"
@@ -109,6 +109,10 @@
 <!-- DataObject aussuchen -->
 <!-- DataObject bearbeiten -->
 <form [formGroup]="editData" [ngStyle]="{'display': DataObjectCustomize}">
+  <div class="buttonPosition">
+    <label for="selectDO">Select Object</label><br />
+    <select id="mySelect2" #device (change)="onChange($event, device.value)" size="1"></select>
+  </div>
   <div class="group">
     <label for="dataobject">Selected Data Object</label><br />
     <input name="dataobject" [(ngModel)]="LinkData.dataobject" formControlName="dataobject" readonly>
@@ -120,10 +124,6 @@
         formControlName="personalData">
     </div>
   </div>
-  <div class="group">
-    <label for="selectDO">Select Object</label><br />
-    <select id="mySelect2" #device (change)="onChange($event, device.value)" size="1"> </select>
-  </div>
   <br>
   <div class="group">
     <label for="description">Description</label> <br />
@@ -132,7 +132,7 @@
   </div>
   <div class="buttonPosition">
     <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
-    <button class="cancelButton" type="submit" (click)="closeWindows()">Close</button>
+    <button class="cancelButton" type="button" (click)="closeWindows()">Close</button>
     <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
     <button class="cancelButton" type="submit" (click)="removeDataObject()">Delete</button>
   </div>

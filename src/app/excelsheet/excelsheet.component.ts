@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Application } from '../application';
 import * as go from 'gojs';
+import { CrudService } from '../service/crud.service';
 
 @Component({
   selector: 'app-excelsheet',
@@ -18,12 +19,12 @@ export class ExcelsheetComponent implements OnInit {
 
   @Output() messageEvent = new EventEmitter<Object>();
 
-  constructor() { }
+  constructor(public crudservice: CrudService) { }
 
 
   data: [][];
-  NodeData: Object;
-  NodeDataArray: Object[] = [];
+  //NodeData: Object;
+  //NodeDataArray: Object[] = [];
 
   onFileChange(evt: any) {
 
@@ -53,8 +54,13 @@ export class ExcelsheetComponent implements OnInit {
 
       var ExcelImportData = new Application(this.data);
 
+      var AppCounter = this.model.nodeDataArray.length;
+      alert(ExcelImportData.NodeDataArray[5]["Name"]);
       this.model.addNodeDataCollection(ExcelImportData.NodeDataArray);
-
+     // for(var i =5;i<8;i++){
+       // this.crudservice.create_NewApplication(ExcelImportData.NodeDataArray[i],i.toString())
+      //  console.log("küsur"+i)
+      //}
     };
 
     //SENDS MESSAGE TO DIAGRAM COMPONENT / OBJECT EXCEL IMPORT

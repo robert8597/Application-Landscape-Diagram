@@ -53,6 +53,12 @@ width: 80%;
 
 }
 
+.updateApp {
+  height:25px;/* height:40px; */
+    /*width: 50%;*/
+    width: 40%;
+}
+
 .commitButton {
   height:25px;/* height:40px; */
     /*width: 50%;*/
