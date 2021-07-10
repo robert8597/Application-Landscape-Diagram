@@ -194,7 +194,7 @@ mySub.unsubscribe(); //ich fick mein leben
  
     Application['name']=this.data.name;
     Application['desc']=this.data.desc;
-    Application['color']= "lightblue";
+    Application['color']= this.data.color;
     Application['cots']= this.data.cots;
     Application['version']= this.data.version;
     Application['releaseDate']= this.data.releaseDate;
@@ -569,7 +569,7 @@ this.AppSehen = 'none';
     }
     if(check == true)
     {
-      alert("Applications Updated!");
+      alert("Application Updated!");
     }
     this.model.commitTransaction();
    

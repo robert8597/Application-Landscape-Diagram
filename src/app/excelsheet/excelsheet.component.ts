@@ -55,12 +55,13 @@ export class ExcelsheetComponent implements OnInit {
       var ExcelImportData = new Application(this.data);
 
       var AppCounter = this.model.nodeDataArray.length;
-      alert(ExcelImportData.NodeDataArray[5]["Name"]);
+  
       this.model.addNodeDataCollection(ExcelImportData.NodeDataArray);
-     // for(var i =5;i<8;i++){
-       // this.crudservice.create_NewApplication(ExcelImportData.NodeDataArray[i],i.toString())
-      //  console.log("küsur"+i)
-      //}
+     
+      for(var i =AppCounter;i<this.model.nodeDataArray.length;i++){
+        this.crudservice.create_NewApplication(this.model.nodeDataArray[i],this.model.nodeDataArray[i].key)
+      }
+      alert(ExcelImportData.NodeDataArray.length+" Applications imported")
     };
 
     //SENDS MESSAGE TO DIAGRAM COMPONENT / OBJECT EXCEL IMPORT
