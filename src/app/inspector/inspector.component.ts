@@ -303,7 +303,20 @@ this.AppSehen = 'none';
     }
   }
 
-
+  downloadFile(){
+    let link = document.createElement("a");
+    link.download = "GettingStarted";
+    link.href = "assets/GettingStarted.pdf";
+    link.click();
+  }
+  
+  downloadXLS()
+  {
+    let link = document.createElement("a");
+    link.download = "Excel Template";
+    link.href = "assets/ExcelTemplate.xlsx";
+    link.click();
+  }
 
   public cancelChangesData() {
     this.editData.setValue(
