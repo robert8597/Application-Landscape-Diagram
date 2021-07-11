@@ -1,19 +1,25 @@
 <div class="topnav">
-  <!-- <a class="active" href="#home">Home</a> -->
-
-  <button  type="button" (click)="downloadFile()">Help</button>
-  <button  type="button" (click)="exportApplications()">Export Applications</button>
-  <button  type="button" (click)="exportDataObjects()">Export Data Objects</button>
+  <button disabled class="emptyButton" (click)="downloadFile()" ></button>
+  <button  type="button" (click)="downloadFile()">Getting Started</button>
   <button  type="button" (click)="customizeDataObject()">Customize Data Object</button>
   <button  type="button" (click)="showCreateDataObject()">Create Data Object</button>
   <button  type="button" (click)="createApplication()">Create Application</button>
+  
+  <app-excelsheet [model]='model'></app-excelsheet>
+  <div class="dropdown">
+    <button class="dropbtn">Export
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <button  type="button" (click)="exportApplications()">Export Applications as CSV</button>
+      <br>
+  <button  type="button" (click)="exportDataObjects()">Export Data Objects as CSV</button>
+    </div>
+  </div>
   <button  type="button" (click)="downloadXLS()">Download Excel Template</button>
  
- 
-
-  <!-- <input type="file" (change)="onFileChange($event)" multiple="false" /> -->
-  <app-excelsheet [model]='model'></app-excelsheet>
 </div>
+
 <br>
 <form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()">
   <div class="group">

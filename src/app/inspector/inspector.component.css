@@ -7,9 +7,7 @@
   
 }
 
-select{
-  /* overflow: hidden; */
-}
+
 small {
   font-size: 10px;
   font-style: normal;
@@ -52,7 +50,10 @@ height: 35px;
 width: 80%;
 
 }
-
+.emptyButton button:hover {
+  cursor: none;
+  background-color: rgb(0, 0, 0)d;
+}
 .updateApp {
   height:25px;/* height:40px; */
     /*width: 50%;*/
@@ -97,7 +98,7 @@ width: 80%;
     .topnav {
       overflow: hidden;
       background-color: #333;
-     width: 79%;
+     width: 58%;
      margin: auto;
     }
     
@@ -129,3 +130,67 @@ width: 80%;
       cursor:pointer;    
       color: #f2f2f2;
       }
+
+
+
+
+
+
+
+
+      /* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 8px 10px;
+  font-size: 14px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar button:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  /* min-width: 160px; */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content button {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 8px 10px;
+  text-decoration: none;
+  font-size: 14px;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content button:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}

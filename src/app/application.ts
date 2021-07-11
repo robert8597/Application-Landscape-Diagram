@@ -13,7 +13,9 @@ export class Application {
     public Version: String = "default";
     public COTS: String = "Unknown";
     public Color:String = "lightblue";
-   
+    public x: any= -500;
+    public y: any= 0;
+     
     public NodeData:Object;
     public NodeDataArray: Object[] = [ ];
 
@@ -146,10 +148,16 @@ if(ExcelRow[i][4]!=null){
 }
 
     this.NodeData = {
-    key: this.Key, name: this.Name, desc: this.Description, releaseDate: this.StartDate, shutdownDate: this.ShutdownDate, version: this.Version, cots: this.COTS, color: this.Color, loc: ""
+    key: this.Key, name: this.Name, desc: this.Description, releaseDate: this.StartDate, shutdownDate: this.ShutdownDate, version: this.Version, cots: this.COTS, color: this.Color, loc: (this.x.toString()+" "+this.y.toString())
     };
     this.NodeDataArray.push(this.NodeData);
+    this.x = this.x+200;
+    if(this.x>=500){
+      this.x = -500;
+      this.y = this.y+75;
+    }
     
+    console.log("y="+this.y);
 }
 
         console.log("Anzahl="+lengthExcelObjects);
