@@ -61,7 +61,7 @@ export class ExcelsheetComponent implements OnInit {
       for(var i =AppCounter;i<this.model.nodeDataArray.length;i++){
         this.crudservice.create_NewApplication(this.model.nodeDataArray[i],this.model.nodeDataArray[i].key)
       }
-      alert(ExcelImportData.NodeDataArray.length+" Applications imported")
+      //alert(ExcelImportData.NodeDataArray.length+" Applications imported")
     };
 
     //SENDS MESSAGE TO DIAGRAM COMPONENT / OBJECT EXCEL IMPORT

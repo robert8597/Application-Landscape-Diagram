@@ -52,6 +52,15 @@ LinkConnections:any;
     text: null
   }
 
+  AlertSehen = 'none';
+  AlertSehenDate1 = 'none';
+  AlertSehenDate2 = 'none';
+  AlertSehenCreate = 'none';
+  AlertSehenAppDelete = 'none';
+  AlertSehenDataChange = 'none';
+  AlertSehenCreateData = 'none';
+  AlertSehenAppUpdated = 'none';
+  AlertSehenDataDelete = 'none';
   AppSehen = 'none';
   DataObjectSehen = 'none';
   DataObjectCustomize = 'none';
@@ -182,7 +191,7 @@ mySub.unsubscribe(); //ich fick mein leben
       //  this.data.releaseDate = "";
       //  this.data.shutdownDate = "";
       console.log("RESDING="+res);
-      alert( "Application created successfully & saved in database");
+     // alert( "Application created successfully & saved in database");
     }).catch(error => {
       console.log(error)
     });
@@ -210,7 +219,7 @@ mySub.unsubscribe(); //ich fick mein leben
 this.crudservice.delete_Application(app_key);
 var Application = this.model.findNodeDataForKey(app_key);
 this.model.removeNodeData(Application);
-alert(app_name+" DELETED!")
+//alert(app_name+" DELETED!")
 this.AppSehen = 'none';
   }
 
@@ -243,7 +252,15 @@ this.AppSehen = 'none';
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
     if (link) {
-
+      this.AlertSehen = 'none';
+      this.AlertSehenDate1 = 'none';
+      this.AlertSehenDate2 = 'none';
+      this.AlertSehenCreate = 'none';
+      this.AlertSehenAppDelete = 'none';
+      this.AlertSehenDataChange = 'none';
+      this.AlertSehenCreateData = 'none';
+      this.AlertSehenAppUpdated = 'none';
+      this.AlertSehenDataDelete = 'none';
       this.DataObjectSehen = 'block';
       this.AppSehen = 'none';
       this.DataObjectCustomize = 'none';
@@ -268,6 +285,15 @@ this.AppSehen = 'none';
       //} AM END DOCH UNNÖTIG
     }
     else {
+      this.AlertSehen = 'none';
+      this.AlertSehenDate1 = 'none';
+      this.AlertSehenDate2 = 'none';
+      this.AlertSehenCreate = 'none';
+      this.AlertSehenAppDelete = 'none';
+      this.AlertSehenDataChange = 'none';
+      this.AlertSehenCreateData = 'none';
+      this.AlertSehenAppUpdated = 'none';
+      this.AlertSehenDataDelete = 'none';
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.AppSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.DataObjectCustomize = 'none';
@@ -281,6 +307,15 @@ this.AppSehen = 'none';
   set selectedNode(node: go.Node) {
     if (node) {
 
+      this.AlertSehen = 'none';
+      this.AlertSehenDate1 = 'none';
+      this.AlertSehenDate2 = 'none';
+      this.AlertSehenCreate = 'none';
+      this.AlertSehenAppDelete = 'none';
+      this.AlertSehenDataChange = 'none';
+      this.AlertSehenCreateData = 'none';
+      this.AlertSehenAppUpdated = 'none';
+      this.AlertSehenDataDelete = 'none';
       this.AppSehen = 'block';
       this.DataObjectSehen = 'none';
       this.DataObjectCustomize = 'none';
@@ -298,11 +333,137 @@ this.AppSehen = 'none';
       this.data.color = this._selectedNode.data.color;
       
     } else {
+      this.AlertSehen = 'none';
+      this.AlertSehenDate1 = 'none';
+      this.AlertSehenDate2 = 'none';
+      this.AlertSehenCreate = 'none';
+      this.AlertSehenAppDelete = 'none';
+      this.AlertSehenDataChange = 'none';
+      this.AlertSehenCreateData = 'none';
+      this.AlertSehenAppUpdated = 'none';
+      this.AlertSehenDataDelete = 'none';
       this.AppSehen = 'none';//Damit wenn man leer klickt beide verschwinden
       this.DataObjectSehen = 'none'; //Damit wenn man leer klickt beide verschwinden
       this.DataObjectCustomize = 'none';
       this.DataObjectCreate = "none";
     }
+  }
+
+  resetalert() {
+    this.AppSehen = 'block';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehen = "none";
+    this.AlertSehenDate1 = 'none';
+    this.AlertSehenDate2 = 'none';
+  }
+
+  setalert() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehen = "block";
+  }
+  setalertdate1() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDate1 = "block";
+  }
+  setalertdate2() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDate2 = "block";
+  }
+  setalertcreate() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenCreate = 'block';
+  }
+  resetalertcreate() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenCreate = 'none';
+  }
+  setalertappdelete() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenAppDelete = 'block';
+  }
+  resetalertappdelete() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenAppDelete = 'none';
+  }
+  setalertdataobjectchange() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDataChange = 'block';
+  }
+  resetalertdataobjectchange() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDataChange = 'none';
+  }
+  setalertcreatedata() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenCreateData = 'block';
+  }
+  resetalertcreatedata() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenCreateData = 'none';
+  }
+  setalertappupdated() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenAppUpdated = 'block';
+  }
+  resetalertappupdated() {
+    this.AppSehen = 'block';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenAppUpdated = 'none';
+  }
+
+  setalertdataobjectdelete() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDataDelete = 'block';
+  }
+  resetalertdataobjectdelete() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDataDelete = 'none';
   }
 
   downloadFile(){
@@ -411,7 +572,7 @@ this.AppSehen = 'none';
       
   
       this.crudservice.updateDataObject(this.LinkData.dataobject, DataObject);
-      alert("Data Object properties updated !")
+      //alert("Data Object properties updated !")
     
 
   }
@@ -427,7 +588,7 @@ this.AppSehen = 'none';
         if (keepGoing) {
           if (element.key == this.data.key) {
             keepGoing = false;
-            alert("Update not possible there is already an existing Object with that key!");
+            this.setalert();
             this.editForm.setValue({ //wenn key net upgedated werden kann wird auf stanni zurückgesetzt
               key: this.selectedNode.data.key,
               name: this.selectedNode.data.name,
@@ -507,7 +668,7 @@ this.AppSehen = 'none';
         }
       }
       else {
-        alert("Release Date can´t be later than Shutdown Date!");
+        this.setalertdate1();
         this.editForm.setValue({
           key: this.data.key,
           name: this.data.name,
@@ -557,7 +718,7 @@ this.AppSehen = 'none';
         }
       }
       else {
-        alert("Shutdown Date can´t be earlier than Release Date!");
+        this.setalertdate2();
         this.editForm.setValue({
           key: this.data.key,
           name: this.data.name,
@@ -572,7 +733,7 @@ this.AppSehen = 'none';
     }
     if(check == true)
     {
-     alert("Application Updated!");
+      this.setalertappupdated();
     }
     this.model.commitTransaction();
    
@@ -887,7 +1048,7 @@ public showCreateDataObject(){
           }
 
     if(this.LinkData.dataobject!=null){
-    alert("Data Object "+this.LinkData.dataobject+" created !")
+    //alert("Data Object "+this.LinkData.dataobject+" created !")
   }
  
 
@@ -917,7 +1078,7 @@ public removeLinkConnection(){
             jsonDataObjects.linkDataArray[i] = null;
         } 
       }
-      alert(this.LinkData.dataobject+" Deleted !");
+     // alert(this.LinkData.dataobject+" Deleted !");
       this.DataObjectSehen = 'none';
       this.DataObjectCustomize = 'none';
       this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
@@ -946,7 +1107,7 @@ public removeLinkConnection(){
             jsonDataObjects.linkDataArray[i] = null;
         } 
       }
-      alert(this.LinkData.dataobject+" Deleted !");
+     // alert(this.LinkData.dataobject+" Deleted !");
       this.DataObjectSehen = 'none';
       this.DataObjectCustomize = 'none';
       this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);

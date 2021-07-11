@@ -3,7 +3,7 @@
   <button  type="button" (click)="downloadFile()">Getting Started</button>
   <button  type="button" (click)="customizeDataObject()">Customize Data Object</button>
   <button  type="button" (click)="showCreateDataObject()">Create Data Object</button>
-  <button  type="button" (click)="createApplication()">Create Application</button>
+  <button  type="button" (click)="createApplication(); setalertcreate()">Create Application</button>
   
   <app-excelsheet [model]='model'></app-excelsheet>
   <div class="dropdown">
@@ -74,7 +74,7 @@
     <button class="updateApp" type="submit" (click)="onCommitForm(); updateApplication(data.key)" [disabled]="!editForm.valid">Update
       Application</button>
     <button class="cancelButton" type="button" (click)="closeWindows()">Close</button>
-    <button class="cancelButton" type="button" (click)="deleteApplication(data.key, data.name)">Delete</button>
+    <button class="cancelButton" type="button" (click)="deleteApplication(data.key, data.name); setalertappdelete()">Delete</button>
     <button class="cancelButton" type="button" (click)="cancelChanges()">Reset</button>
   </div>
 </form>
@@ -138,16 +138,16 @@
       formControlName="description"></textarea>
   </div>
   <div class="buttonPosition">
-    <button class="commitButton" type="button" (click)="changeDataObject()">Change Data Object</button>
+    <button class="commitButton" type="button" (click)="changeDataObject(); setalertdataobjectchange()">Change Data Object</button>
     <button class="cancelButton" type="button" (click)="closeWindows()">Close</button>
     <!-- <button class="cancelButton" type="submit" (click)="cancelChangesData()">Cancel</button>  -->
-    <button class="cancelButton" type="submit" (click)="removeDataObject()">Delete</button>
+    <button class="cancelButton" type="submit" (click)="removeDataObject(); setalertdataobjectdelete()">Delete</button>
   </div>
 </form>
 <!-- DataObject bearbeiten -->
 
 <!-- DataObject erstellen -->
-<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCreate}" (ngSubmit)="createDataObject()">
+<form [formGroup]="editData" [ngStyle]="{'display': DataObjectCreate}" (ngSubmit)="createDataObject(); setalertcreatedata()">
   <div class="group">
     <label for="dataobject">Name of Data Object</label><br />
 
@@ -183,3 +183,87 @@
   </div>
 </form>
 <!-- DataObject erstellen -->
+
+<!-- ALERTS FOR DIFFRENT EVENTS -->
+<form [ngStyle]="{'display': AlertSehen}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50" >Update not possible there is already an existing Object with that Key! </textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalert()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenDate1}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Release Date can´t be later than Shutdown Date! </textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalert()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenDate2}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Shutdown Date can´t be earlier than Release Date! </textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalert()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenCreate}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Application created successfully & saved in database</textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalertcreate()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenAppDelete}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Application Deleted!</textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalertappdelete()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenDataChange}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Data Object properties updated!</textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalertdataobjectchange()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenCreateData}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Data Object Created!</textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalertcreatedata()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenAppUpdated}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Application Updated!</textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalertappupdated()">Close</button>
+      </div>
+</form>
+<form [ngStyle]="{'display': AlertSehenDataDelete}">
+  <div class="group">
+    <label for="alert">Message</label> <br />
+    <textarea name="description" rows="4" cols="50">Data Object Deleted!</textarea>
+  </div>
+  <div class="buttonPosition">
+    <button class="commitButton" type="button" (click)="resetalertdataobjectdelete()">Close</button>
+      </div>
+</form>
+<!-- ALERTS FOR DIFFRENT EVENTS -->
