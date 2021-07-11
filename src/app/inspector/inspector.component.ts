@@ -202,6 +202,8 @@ mySub.unsubscribe(); //ich fick mein leben
 
     this.crudservice.updateApplication(app_key, Application);
     //alert("Application properties updated !")
+
+
   }
 
   deleteApplication(app_key, app_name){
@@ -354,12 +356,13 @@ this.AppSehen = 'none';
 
   var newDataObject = 
        { text: this.LinkData.dataobject,  description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject, from: this.LinkData.from, to: this.LinkData.to  };
-       var DataObjectCounter = 0;
+       var DataObjectCounter = this.LinkData.from.toString()+this.LinkData.to.toString();
+     
        if (this.model instanceof go.GraphLinksModel) {
         {  DataObjectCounter = this.model.linkDataArray.length+1;  }
      }
 
-    this.crudservice.create_LinkConnection(newDataObject, DataObjectCounter.toString());
+    this.crudservice.create_LinkConnection(newDataObject);
     
 
   }
@@ -569,7 +572,7 @@ this.AppSehen = 'none';
     }
     if(check == true)
     {
-      alert("Application Updated!");
+     alert("Application Updated!");
     }
     this.model.commitTransaction();
    
@@ -887,7 +890,35 @@ this.crudservice.create_NewDataObject(newDataObject);
   }
   
 
+public removeLinkConnection(){
 
+  var modelAsText = this.model.toJson();
+    var jsonDataObjects = JSON.parse(modelAsText);
+
+    //var jsonDataObjects = JSON.parse(this.dataobject);
+   // console.log("txt:" + this.dataobject);
+    if (this.model instanceof go.GraphLinksModel) {
+      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
+        this.model.removeLinkDataCollection(this.model.linkDataArray);
+
+      }
+      this.DataObjectCreate = "none";
+      this.DataObjectSehen = 'none';
+
+      // this.model.addLinkDataCollection(this.LinkDataArray); 
+      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
+
+        if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject && jsonDataObjects.linkDataArray[i].from == this.LinkData.from && jsonDataObjects.linkDataArray[i].to == this.LinkData.to   ) {
+            jsonDataObjects.linkDataArray[i] = null;
+        } 
+      }
+      alert(this.LinkData.dataobject+" Deleted !");
+      this.DataObjectSehen = 'none';
+      this.DataObjectCustomize = 'none';
+      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
+    }
+  this.crudservice.delete_LinkConnection(this.LinkData);
+}
   public removeDataObject() {
 
     var modelAsText = this.model.toJson();
