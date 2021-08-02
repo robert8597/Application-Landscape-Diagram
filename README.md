@@ -7,3 +7,4 @@ test
 täst
 Biite Funktioniere
 npm install --save-dev @angular-devkit/build-angular
+nigga
