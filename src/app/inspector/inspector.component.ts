@@ -418,7 +418,7 @@ this.AppSehen = 'none';
   resetalertdataobjectchange() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
-    this.DataObjectCustomize = 'none';
+    this.DataObjectCustomize = 'block';
     this.DataObjectCreate = "none";
     this.AlertSehenDataChange = 'none';
   }
