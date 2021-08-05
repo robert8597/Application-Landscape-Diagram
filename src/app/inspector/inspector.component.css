@@ -1,12 +1,10 @@
+/*Design of the Inspector Elements*/
 * {
-  /* display: inline-flex; */ 
   padding: 1px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
   margin: 3px;
-  
 }
-
 
 small {
   font-size: 10px;
@@ -23,8 +21,7 @@ form {
   background: lightgray;
    border: 1px solid black;
    border-radius: 30px;
- margin: auto;
- 
+ margin: auto; 
 }
 
 .center {
@@ -36,12 +33,10 @@ form {
 }
 
 input {
- 
   background: white;
 }
 
 input:focus {
-
   outline: none;
 }
 
@@ -61,15 +56,13 @@ width: 80%;
 }
 
 .commitButton {
-  height:25px;/* height:40px; */
-    /*width: 50%;*/
-    width: 50%;
+  height:25px;
+  width: 50%;
 }
 
 .cancelButton {
-  height:25px;/* height:40px; */
-    /*width:80px;*/
-    width: 17%;
+  height:25px;
+  width: 17%;
 }
 .buttonPosition {
   text-align: center;
@@ -126,19 +119,11 @@ width: 80%;
 
     .NavButtons {   
       background-color: Transparent;
-      border: none;             /* Your can add different style/properties of button Here*/
+      border: none; /* Your can add different style/properties of button Here*/
       cursor:pointer;    
       color: #f2f2f2;
       }
-
-
-
-
-
-
-
-
-      /* The dropdown container */
+/* The dropdown container */
 .dropdown {
   float: left;
   overflow: hidden;

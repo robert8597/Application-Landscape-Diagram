@@ -23,8 +23,6 @@ export class ExcelsheetComponent implements OnInit {
 
 
   data: [][];
-  //NodeData: Object;
-  //NodeDataArray: Object[] = [];
 
   onFileChange(evt: any) {
 
@@ -44,13 +42,10 @@ export class ExcelsheetComponent implements OnInit {
           wsname = wb.SheetNames[i]
           break;
         }
-
       }
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
       this.data = (XLSX.utils.sheet_to_json(ws, { header: 1 }));
       let x = this.data.slice(1);
-
-      //var testWort = this.data.toString();
 
       var ExcelImportData = new Application(this.data);
 
@@ -60,8 +55,7 @@ export class ExcelsheetComponent implements OnInit {
      
       for(var i =AppCounter;i<this.model.nodeDataArray.length;i++){
         this.crudservice.create_NewApplication(this.model.nodeDataArray[i],this.model.nodeDataArray[i].key)
-      }
-      //alert(ExcelImportData.NodeDataArray.length+" Applications imported")
+      }  
     };
 
     //SENDS MESSAGE TO DIAGRAM COMPONENT / OBJECT EXCEL IMPORT
