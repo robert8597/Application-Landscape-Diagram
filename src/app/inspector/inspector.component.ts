@@ -141,9 +141,9 @@ export class InspectorComponent implements OnInit {
     let Application = {};
     Application['key'] = (this.model.nodeDataArray.length + 1);
     Application['name'] = "Application " + (this.model.nodeDataArray.length + 1);
-    Application['desc'] = "";
+    Application['desc'] = "Your Description here...";
     Application['color'] = "lightblue";
-    Application['cots'] = "cots";
+    Application['cots'] = "COTS";
     Application['version'] = "Default";
     Application['releaseDate'] = "01.01.0001";
     Application['shutdownDate'] = "31.12.9999";
@@ -296,8 +296,6 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
     this.AlertSehen = "none";
-    this.AlertSehenDate1 = 'none';
-    this.AlertSehenDate2 = 'none';
   }
 
   // Alert Method for when there is already a Node with that Key
@@ -318,6 +316,13 @@ export class InspectorComponent implements OnInit {
     this.AlertSehenDate1 = "block";
   }
 
+  resetalertdate1() {
+    this.AppSehen = 'block';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDate1 = "none";
+  }
   //Alert for when Shutdown date earlier than Release date
   setalertdate2() {
     this.AppSehen = 'none';
@@ -327,6 +332,13 @@ export class InspectorComponent implements OnInit {
     this.AlertSehenDate2 = "block";
   }
 
+  resetalertdate2() {
+    this.AppSehen = 'none';
+    this.DataObjectSehen = 'none';
+    this.DataObjectCustomize = 'none';
+    this.DataObjectCreate = "none";
+    this.AlertSehenDate2 = "block";
+  }
   //Alert for when Node created
   setalertcreate() {
     this.AppSehen = 'none';
@@ -544,16 +556,7 @@ export class InspectorComponent implements OnInit {
           if (element.key == this.data.key) {
             keepGoing = false;
             this.setalert();
-            this.editForm.setValue({ //IF Key cannot be updated reseted to old values
-              key: this.selectedNode.data.key,
-              name: this.selectedNode.data.name,
-              version: this.selectedNode.data.version,
-              desc: this.selectedNode.data.desc,
-              cots: this.selectedNode.data.cots,
-              releaseDate: this.selectedNode.data.releaseDate,
-              shutdownDate: this.selectedNode.data.shutdownDate
-            }
-            )
+            this.cancelChanges();
           }
         }
       }
@@ -618,13 +621,9 @@ export class InspectorComponent implements OnInit {
       }
       else {
         this.setalertdate1();
+        check = false;
         //Reset Values if Release Date is later than Shutdown Date
         this.editForm.setValue({
-          key: this.data.key,
-          name: this.data.name,
-          version: this.data.version,
-          desc: this.data.desc,
-          cots: this.data.cots,
           releaseDate: this.selectedNode.data.releaseDate,
           shutdownDate: this.selectedNode.data.shutdownDate
         }
@@ -672,12 +671,8 @@ export class InspectorComponent implements OnInit {
       else {
         //Reset Values if Shutdown Date is earlier than Release Date
         this.setalertdate2();
+        check = false;
         this.editForm.setValue({
-          key: this.data.key,
-          name: this.data.name,
-          version: this.data.version,
-          desc: this.data.desc,
-          cots: this.data.cots,
           releaseDate: this.selectedNode.data.releaseDate,
           shutdownDate: this.selectedNode.data.shutdownDate
         }
