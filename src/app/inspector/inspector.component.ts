@@ -13,6 +13,8 @@ import { CrudService } from '../service/crud.service';
 })
 export class InspectorComponent implements OnInit {
 
+  //Variable declaration
+  
   public _selectedNode: go.Node;
   public _selectedLink: go.Link;
   public _selectedDataObject: string;
@@ -28,6 +30,7 @@ export class InspectorComponent implements OnInit {
   public dataobject: string;
   today = new Date();
 
+  //Data Array which contains the properties of an Node
   public data = {
     key: null,
     name: null,
@@ -39,6 +42,7 @@ export class InspectorComponent implements OnInit {
     color: null
   };
 
+  //LinkData Array which contains the properties of an DataObject
   public LinkData = {
     dataobject: null,
     personalData: false,
@@ -48,6 +52,7 @@ export class InspectorComponent implements OnInit {
     text: null
   }
 
+  //Variables for Workaround to fix the Electron Alert Bug
   AlertSehen = 'none';
   AlertSehenDate1 = 'none';
   AlertSehenDate2 = 'none';
@@ -187,6 +192,7 @@ export class InspectorComponent implements OnInit {
     }
   }
 
+  //Calling selectedLink() method from diagram.component.ts
   @Input()
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
@@ -233,7 +239,7 @@ export class InspectorComponent implements OnInit {
     }
   }
 
-
+//Calling selectedNode() method from diagram.component.ts
   @Input()
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
@@ -281,6 +287,9 @@ export class InspectorComponent implements OnInit {
     }
   }
 
+  //Methods for each Message - Alert Workaround
+
+  //resets the Message Box
   resetalert() {
     this.AppSehen = 'block';
     this.DataObjectSehen = 'none';
@@ -291,6 +300,7 @@ export class InspectorComponent implements OnInit {
     this.AlertSehenDate2 = 'none';
   }
 
+  // Alert Method for when there is already a Node with that Key
   setalert() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -298,6 +308,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehen = "block";
   }
+
+  //Alert for when Release date later than Shutdown date
   setalertdate1() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -305,6 +317,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenDate1 = "block";
   }
+
+  //Alert for when Shutdown date earlier than Release date
   setalertdate2() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -312,6 +326,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenDate2 = "block";
   }
+
+  //Alert for when Node created
   setalertcreate() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -319,6 +335,7 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenCreate = 'block';
   }
+  //Resets / Closes the Alert
   resetalertcreate() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -326,6 +343,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenCreate = 'none';
   }
+
+  //Alert for when Node deleted
   setalertappdelete() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -333,6 +352,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenAppDelete = 'block';
   }
+
+  //Resets / Closes the Alert
   resetalertappdelete() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -340,6 +361,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenAppDelete = 'none';
   }
+
+  //Alert for when Data Object updated
   setalertdataobjectchange() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -347,6 +370,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenDataChange = 'block';
   }
+
+  //Resets / Closes the Alert
   resetalertdataobjectchange() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -354,6 +379,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenDataChange = 'none';
   }
+
+  //Alert for when Data Object created
   setalertcreatedata() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -361,6 +388,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenCreateData = 'block';
   }
+
+  //Resets / Closes the Alert
   resetalertcreatedata() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -368,6 +397,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenCreateData = 'none';
   }
+
+  //Alert for when Node updated
   setalertappupdated() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -375,6 +406,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenAppUpdated = 'block';
   }
+
+  //Resets / Closes the Alert
   resetalertappupdated() {
     this.AppSehen = 'block';
     this.DataObjectSehen = 'none';
@@ -383,6 +416,8 @@ export class InspectorComponent implements OnInit {
     this.AlertSehenAppUpdated = 'none';
   }
 
+
+  //Alert for when Data Object is deleted
   setalertdataobjectdelete() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -390,6 +425,8 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
     this.AlertSehenDataDelete = 'block';
   }
+
+  //Resets / Closes the Alert
   resetalertdataobjectdelete() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -398,6 +435,7 @@ export class InspectorComponent implements OnInit {
     this.AlertSehenDataDelete = 'none';
   }
 
+  //Method to making the GettingStarted PDF Doc downloadable
   downloadFile() {
     let link = document.createElement("a");
     link.download = "GettingStarted";
@@ -405,6 +443,7 @@ export class InspectorComponent implements OnInit {
     link.click();
   }
 
+  //Method to making the Excel Template downloadable
   downloadXLS() {
     let link = document.createElement("a");
     link.download = "Excel Template";
@@ -412,6 +451,7 @@ export class InspectorComponent implements OnInit {
     link.click();
   }
 
+  //Method for the Reset Button for Data Objects
   public cancelChangesData() {
     this.editData.setValue(
       {
@@ -422,6 +462,7 @@ export class InspectorComponent implements OnInit {
     )
   }
 
+  //Method for the Reset Button for Nodes
   public cancelChanges() {
     this.editForm.setValue(
       {
@@ -460,8 +501,6 @@ export class InspectorComponent implements OnInit {
   }
 
   public changeDataObject() {
-
-
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
 
@@ -494,6 +533,7 @@ export class InspectorComponent implements OnInit {
     this.crudservice.updateDataObject(this.LinkData.dataobject, DataObject);
   }
 
+  //Assign the Values from the Application Editor to the Nodes
   public onCommitForm() {
     var check = false;
     this.model.startTransaction();
@@ -504,7 +544,7 @@ export class InspectorComponent implements OnInit {
           if (element.key == this.data.key) {
             keepGoing = false;
             this.setalert();
-            this.editForm.setValue({ //wenn key net upgedated werden kann wird auf stanni zurückgesetzt
+            this.editForm.setValue({ //IF Key cannot be updated reseted to old values
               key: this.selectedNode.data.key,
               name: this.selectedNode.data.name,
               version: this.selectedNode.data.version,
@@ -522,27 +562,22 @@ export class InspectorComponent implements OnInit {
         check = true;
       }
       this.model.set(this.selectedNode.data, 'key', this.data.key);
-      console.log(check);
     }
     if (this.selectedNode.data.name != this.data.name) {
       this.model.set(this.selectedNode.data, 'name', this.data.name);
       check = true;
-      console.log(check);
     }
     if (this.selectedNode.data.version != this.data.version) {
       this.model.set(this.selectedNode.data, 'version', this.data.version);
       check = true;
-      console.log(check);
     }
     if (this.selectedNode.data.desc != this.data.desc) {
       this.model.set(this.selectedNode.data, 'desc', this.data.desc);
       check = true;
-      console.log(check);
     }
     if (this.selectedNode.data.cots != this.data.cots) {
       this.model.set(this.selectedNode.data, 'cots', this.data.cots);
       check = true;
-      console.log(check);
     }
     if (this.selectedNode.data.releaseDate != this.data.releaseDate) {
       const str = this.data.releaseDate;
@@ -551,7 +586,6 @@ export class InspectorComponent implements OnInit {
       const wordsShut = strShut.split(".");
       const strTest = this.today.toLocaleDateString();
       const Test = strTest.split(".");
-
 
       if (parseInt(Test[0]) < 10) {
         Test[0] = "0" + Test[0];
@@ -562,6 +596,7 @@ export class InspectorComponent implements OnInit {
       const temp = Test[0] + "." + Test[1] + "." + Test[2];
       const wordsTest = temp.split(".");
 
+      //Checking if Release Date is in Past, Future or Current and assigning Color to the nodes wheter its in future or not...
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'releaseDate', this.data.releaseDate);
@@ -583,6 +618,7 @@ export class InspectorComponent implements OnInit {
       }
       else {
         this.setalertdate1();
+        //Reset Values if Release Date is later than Shutdown Date
         this.editForm.setValue({
           key: this.data.key,
           name: this.data.name,
@@ -612,6 +648,8 @@ export class InspectorComponent implements OnInit {
       }
       const temp = Test[0] + "." + Test[1] + "." + Test[2];
       const wordsTest = temp.split(".");
+
+      //Checking if Shutdown Date is in Past, Future or Current and assigning Color to the nodes wheter its in future or not...
       if (words[2] < wordsShut[2] || words[2] == wordsShut[2] && words[1] < wordsShut[1]
         || words[2] == wordsShut[2] && words[1] == wordsShut[1] && words[0] <= wordsShut[0]) {
         this.model.set(this.selectedNode.data, 'shutdownDate', this.data.shutdownDate);
@@ -632,6 +670,7 @@ export class InspectorComponent implements OnInit {
         }
       }
       else {
+        //Reset Values if Shutdown Date is earlier than Release Date
         this.setalertdate2();
         this.editForm.setValue({
           key: this.data.key,
@@ -652,6 +691,8 @@ export class InspectorComponent implements OnInit {
 
   }
 
+  //Creating a Formgroup for the Node and Data Object and setting required Input or if Input is required
+  //Like you can see that for the nodes each property needs an input except the version
   editData: FormGroup;
   editForm: FormGroup;
   constructor(private formBuilder: FormBuilder, public crudservice: CrudService) {
@@ -662,6 +703,7 @@ export class InspectorComponent implements OnInit {
         version: [''],
         cots: ['', Validators.required],
         desc: ['', Validators.required],
+        //Setting the required Input for Release and Shutdown Date
         releaseDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]],
         shutdownDate: ['', [Validators.required, Validators.pattern('(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}')]]
       }
@@ -676,7 +718,6 @@ export class InspectorComponent implements OnInit {
 
     document.addEventListener('click', function () {
       console.log('keys pressed');
-
     });
   }
 
@@ -695,7 +736,7 @@ export class InspectorComponent implements OnInit {
     var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
     if (DropdownList != null) {
       while (DropdownList.options.length > 0) {
-        DropdownList.remove(0); //Damit Dropdown verschwindet mäßig
+        DropdownList.remove(0); //To let the Dropdown Menu disappear
       }
     }
     for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
@@ -727,6 +768,8 @@ export class InspectorComponent implements OnInit {
       }
     }
     //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
+    
+    //Redundant Data Objects are removed from the Dropdown Menu
     var fruits = DropdownList;
     [].slice.call(fruits.options)
       .map(function (a) {
@@ -765,7 +808,7 @@ export class InspectorComponent implements OnInit {
     var jsonDataObjects = JSON.parse(modelAsText);
     var DataObjectsAScsv = [{ dataobject: jsonDataObjects.linkDataArray[0].dataobject, description: jsonDataObjects.linkDataArray[0].description, personalData: jsonDataObjects.linkDataArray[0].personalData }];
     for (var i = 1; i < jsonDataObjects.linkDataArray.length; i++) {
-      function addItem(item) { //durch das ganze hier werden keine duplikate exportiert (CSV)
+      function addItem(item) { //No duplicates are exported
         var index = DataObjectsAScsv.findIndex(x => x.dataobject == item.dataobject)
         if (index === -1) {
           DataObjectsAScsv.push(item);
@@ -818,7 +861,6 @@ export class InspectorComponent implements OnInit {
         }
       }
     }
-    // <option disabled selected value> -- select an option -- </option>
     var el = document.createElement("option");
     el.disabled = true;
     el.text = "Select Data Object";
@@ -834,6 +876,8 @@ export class InspectorComponent implements OnInit {
       console.log(DropdownList[0]);
     }
     //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
+
+    //Redundant Data Objects are removed from Drop Down Menu
     var fruits = DropdownList;
     [].slice.call(fruits.options)
       .map(function (a) {
@@ -845,6 +889,7 @@ export class InspectorComponent implements OnInit {
       }, {});
 
   }
+  //Method to show the the Created Data Object
   public showCreateDataObject() {
     this.DataObjectCreate = "block";
     this.DataObjectSehen = "none";
@@ -858,10 +903,11 @@ export class InspectorComponent implements OnInit {
     this.LinkData.to = null;
     this.LinkData.text = null;
   }
+  //Method to Create the Data Object
   public createDataObject() {
 
     if (this.LinkData.personalData == null) {
-      this.LinkData.personalData = false; //sonst ist personalData = null (wenn nicht gechecked)
+      this.LinkData.personalData = false; 
     }
     var newDataObject =
       { text: this.LinkData.dataobject, description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject };
@@ -877,8 +923,8 @@ export class InspectorComponent implements OnInit {
     this.crudservice.create_NewDataObject(newDataObject);
   }
 
+  //Method to remove Link Conncetions
   public removeLinkConnection() {
-
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
 
@@ -928,6 +974,7 @@ export class InspectorComponent implements OnInit {
     this.crudservice.delete_DataObject(this.LinkData.dataobject);
   }
 
+  //Method for Close Button
   public closeWindows() {
     this.AppSehen = 'none';
     this.DataObjectSehen = 'none';
@@ -937,8 +984,6 @@ export class InspectorComponent implements OnInit {
     this.DataObjectCreate = "none";
   }
 }
-
-
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {

@@ -17,6 +17,7 @@ export class DiagramComponent {
   public diagram: go.Diagram = null;
 
 
+  //Variables/Methodes which are used in other Files like e.g. in inspector.components.ts
   @Input()
   public model: go.Model;
 
@@ -148,8 +149,6 @@ export class DiagramComponent {
           { click: countNodes }),
       );
 
-
-
     myDiagram.linkTemplate =
       $(go.Link,
         {
@@ -170,6 +169,7 @@ export class DiagramComponent {
         //$(go.TextBlock, "Text", { editable: true, segmentOffset: new go.Point(0, 10) })
       );
 
+     //Method to switch between Nodes and Links depends on which is clicked 
     myDiagram.addDiagramListener('ChangedSelection', (e) => {
       var node = myDiagram.selection.first();
       var link = myDiagram.selection.first();
@@ -190,7 +190,7 @@ export class DiagramComponent {
     }
     );
 
-
+    //Method to save the position of Node 
     myDiagram.addDiagramListener("SelectionMoved",
       (e) => {
         var node = myDiagram.selection.first();
