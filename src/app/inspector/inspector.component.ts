@@ -623,11 +623,7 @@ export class InspectorComponent implements OnInit {
         this.setalertdate1();
         check = false;
         //Reset Values if Release Date is later than Shutdown Date
-        this.editForm.setValue({
-          releaseDate: this.selectedNode.data.releaseDate,
-          shutdownDate: this.selectedNode.data.shutdownDate
-        }
-        )
+        this.cancelChanges();
       }
     }
     if (this.selectedNode.data.shutdownDate != this.data.shutdownDate) {
@@ -672,11 +668,7 @@ export class InspectorComponent implements OnInit {
         //Reset Values if Shutdown Date is earlier than Release Date
         this.setalertdate2();
         check = false;
-        this.editForm.setValue({
-          releaseDate: this.selectedNode.data.releaseDate,
-          shutdownDate: this.selectedNode.data.shutdownDate
-        }
-        )
+        this.cancelChanges();
       }
     }
     if (check == true) {
