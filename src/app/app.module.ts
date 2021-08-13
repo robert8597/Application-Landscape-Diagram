@@ -6,8 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DiagramComponent } from './diagram/diagram.component';
 import { InspectorComponent } from './inspector/inspector.component';
-import { SenderComponent } from './sender/sender.component';
-import { EmpfangComponent } from './diagram/empfang/emfpang.component';
 import { ExcelsheetComponent } from './excelsheet/excelsheet.component';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
@@ -21,8 +19,6 @@ import { CrudService } from './service/crud.service';
     AppComponent,
     DiagramComponent,
     InspectorComponent,
-    SenderComponent,
-    EmpfangComponent,
     ExcelsheetComponent
   ],
   imports: [

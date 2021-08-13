@@ -1,4 +1,4 @@
-import { Variable } from "@angular/compiler/src/render3/r3_ast";
+
 
 export class Application {
 
@@ -14,8 +14,8 @@ export class Application {
   public Version: String = "default";
   public COTS: String = "Unknown";
   public Color: String = "lightblue";
-  public x: any = -500;
-  public y: any = 0;
+  public x: any = -500; //Default X value of location in diagram axis
+  public y: any = 0; //Default Y value of location in diagram axis
 
   public NodeData: Object;
   public NodeDataArray: Object[] = [];
@@ -30,12 +30,12 @@ export class Application {
 
     var KeyPosition = 0;
     var NamePosition = 0;
-    console.log("KEYplatz=" + ExcelRow[0][0].toString());
+    
     for (var i = 0; i < lengthHeaders; i++) {
-      if (ExcelRow[0][i].toString().includes("id") || ExcelRow[0][i].toString().includes("key")) {
+      if (ExcelRow[0][i].toString().includes("id") || ExcelRow[0][i].toString().includes("key")) { //Searches for id or key column of excel file
         KeyPosition = i;
         NamePosition = i;
-      } else if (ExcelRow[0][i].toString().includes("Name") || ExcelRow[0][i].toString().includes("name")) {
+      } else if (ExcelRow[0][i].toString().includes("Name") || ExcelRow[0][i].toString().includes("name")) { //Searches for name column of excel file
         NamePosition = i;
       } else {
       }
@@ -45,18 +45,18 @@ export class Application {
       if (ExcelRow[i][1] == null && ExcelRow[i][1] == null) {
         break;
       }
-      this.Key = "default";
+      this.Key = "default"; //Key value (Application) of imported excel file is setted as "default" but will replaced later
 
 
       if (ExcelRow[i][KeyPosition] != null) {
-        this.Key = ExcelRow[i][KeyPosition].toString();
+        this.Key = ExcelRow[i][KeyPosition].toString(); //Declares key value with key of excel file
       }
 
       if (ExcelRow[i][NamePosition] != null) {
-        this.Name = ExcelRow[i][NamePosition].toString();
+        this.Name = ExcelRow[i][NamePosition].toString(); //Declares name value with name of excel file
       }
       if (ExcelRow[i][2] != null) {
-        this.Description = ExcelRow[i][2].toString();
+        this.Description = ExcelRow[i][2].toString(); //Declares description value with description of excel file
       }
 
       if (ExcelRow[i][3] != null) {
@@ -144,12 +144,12 @@ export class Application {
           }
         }
       }
-
+//Creates json with defined/assigned values
       this.NodeData = {
         key: this.Key, name: this.Name, desc: this.Description, releaseDate: this.StartDate, shutdownDate: this.ShutdownDate, version: this.Version, cots: this.COTS, color: this.Color, loc: (this.x.toString() + " " + this.y.toString())
       };
-      this.NodeDataArray.push(this.NodeData);
-      this.x = this.x + 200;
+      this.NodeDataArray.push(this.NodeData); //Adds json of application to application array
+      this.x = this.x + 200; //After added application location is changing. 5 Applications next to each other, after 5 applications it continues in new row
       if (this.x >= 500) {
         this.x = -500;
         this.y = this.y + 75;
@@ -157,7 +157,7 @@ export class Application {
     }
   }
 
-
+//Method for converting excel date into useable date
   public ExcelDateToJSDate(serial) {
     var utc_days = Math.floor(serial - 25569);
     var utc_value = utc_days * 86400;

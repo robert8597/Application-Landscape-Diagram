@@ -1,4 +1,5 @@
 export class CsvDataService {
+  //this class creates a csv file of data (applications/data objects) and starts a download at the client
     static exportToCsv(filename: string, rows: object[]) {
       if (!rows || !rows.length) {
         return;

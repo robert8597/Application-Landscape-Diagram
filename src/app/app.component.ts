@@ -14,18 +14,12 @@ export class AppComponent {
   public selectedDataObject = null;
   public selectedLocation = null;
 
-  message:string;
+  public NodeDataArray: Object[] = [];  //Empty array for applications at startup -> it gets filled by database data
+  public LinkDataArray: Object[] = []; //Empty array for data objects & link connections at startup -> it gets filled by database data
 
-  receiveMessage($event) {
-    this.message = $event
-  };
+  public model: go.GraphLinksModel = new go.GraphLinksModel(this.NodeDataArray,this.LinkDataArray); //Empty arrays used to build diagram. Needed to use "model" to fill it with database data
 
-  public NodeDataArray: Object[] = [];  
-
-  public LinkDataArray: Object[] = [];
-
-  public model: go.GraphLinksModel = new go.GraphLinksModel(this.NodeDataArray,this.LinkDataArray);
-
+  //Methods for transmitting selections(values) to other components
   public setDataObject(dataobject){
   this.selectedDataObject = dataobject;
 }

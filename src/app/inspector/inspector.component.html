@@ -24,7 +24,7 @@
 
 <!--Application Property Editor-->
 <br>
-<form [formGroup]="editForm" [ngStyle]="{'display': AppSehen}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()">
+<form [formGroup]="editForm" [ngStyle]="{'display': ShowApp}" *ngIf="selectedNode" (ngSubmit)="onCommitForm()">
   <div class="group">
     <label class="group">Key</label>
     <small *ngIf="editForm.get('key').touched && editForm.get('key').hasError('required')">Enter Key</small>
@@ -83,9 +83,9 @@
 </form>
 
 <!-- Choose DataObject  -->
-<form [formGroup]="editData" [ngStyle]="{'display': DataObjectSehen}" *ngIf="selectedLink" (ngSubmit)="onCommitForm2()">
+<form [formGroup]="editData" [ngStyle]="{'display':ShowDataObject}" *ngIf="selectedLink" (ngSubmit)="onCommitFormDataObject()">
   <div class="buttonPosition">
-    <button type="button" [ngStyle]="{'display': ChooseDataObject}" (click)="myFunction()">Choose another Data
+    <button type="button" [ngStyle]="{'display': ChooseDataObject}" (click)="listDataObjects()">Choose another Data
       Object</button>
   </div>
   <div [ngStyle]="{'display': DataObjectListe}" class="buttonPosition">
@@ -176,7 +176,7 @@
 </form>
 
 <!-- ALERTS FOR DIFFRENT EVENTS -->
-<form [ngStyle]="{'display': AlertSehen}">
+<form [ngStyle]="{'display': AlertShow}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50" >Update not possible there is already an existing Object with that Key! </textarea>
@@ -186,7 +186,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenDate1}">
+<form [ngStyle]="{'display': AlertShowDate1}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Release Date can´t be later than Shutdown Date! </textarea>
@@ -196,7 +196,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenDate2}">
+<form [ngStyle]="{'display': AlertShowDate2}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Shutdown Date can´t be earlier than Release Date! </textarea>
@@ -206,7 +206,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenCreate}">
+<form [ngStyle]="{'display': AlertShowCreate}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Application created successfully & saved in database</textarea>
@@ -216,7 +216,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenAppDelete}">
+<form [ngStyle]="{'display': AlertShowAppDelete}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Application Deleted!</textarea>
@@ -226,7 +226,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenDataChange}">
+<form [ngStyle]="{'display': AlertShowDataChange}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Data Object properties updated!</textarea>
@@ -236,7 +236,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenCreateData}">
+<form [ngStyle]="{'display': AlertShowCreateData}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Data Object Created!</textarea>
@@ -246,7 +246,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenAppUpdated}">
+<form [ngStyle]="{'display': AlertShowAppUpdated}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Application Updated!</textarea>
@@ -256,7 +256,7 @@
       </div>
 </form>
 
-<form [ngStyle]="{'display': AlertSehenDataDelete}">
+<form [ngStyle]="{'display': AlertShowDataDelete}">
   <div class="group">
     <label for="alert">Message</label> <br />
     <textarea name="description" rows="4" cols="50">Data Object Deleted!</textarea>

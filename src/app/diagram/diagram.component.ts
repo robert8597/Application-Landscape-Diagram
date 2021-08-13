@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as go from 'gojs';
-import * as x from 'convert-excel-to-json';
-import { Application } from '../application';
-import { CsvDataService } from '../csv/csv-data.service';
+
 
 const $ = go.GraphObject.make;
 
@@ -38,12 +36,6 @@ export class DiagramComponent {
   public selectedLocation = null;
 
   constructor() {
-  }
-
-  message: Object[] = [];
-  receiveMessage($event) {
-    this.message = $event
-    this.model.addNodeDataCollection(this.message);
   }
 
   public ngAfterViewInit() {
@@ -140,8 +132,6 @@ export class DiagramComponent {
       node.location = e.diagram.lastInput.documentPoint;
     }
 
-
-
     myDiagram.contextMenu =
       $(go.Adornment, "Vertical",
         $("ContextMenuButton",
@@ -165,8 +155,6 @@ export class DiagramComponent {
           { toArrow: "Standard", stroke: null }),
         $(go.TextBlock, { segmentOffset: new go.Point(0, 10), margin: 3 },
           new go.Binding("text", "text"))
-        // $(go.TextBlock, "Text", { editable: true, segmentOffset: new go.Point(0, -10) }),
-        //$(go.TextBlock, "Text", { editable: true, segmentOffset: new go.Point(0, 10) })
       );
 
      //Method to switch between Nodes and Links depends on which is clicked 

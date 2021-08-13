@@ -1,5 +1,3 @@
-import { DOCUMENT, JsonPipe } from '@angular/common';
-import { ThisReceiver, ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, NgForm, Validators } from '@angular/forms';
 import { CsvDataService } from '../csv/csv-data.service';
@@ -13,9 +11,9 @@ import { CrudService } from '../service/crud.service';
 })
 export class InspectorComponent implements OnInit {
 
-  //Variable declaration
-  
-  public _selectedNode: go.Node;
+  //Variable declaration for later usage
+
+  public _selectedNode: go.Node; // _ = values of selected target
   public _selectedLink: go.Link;
   public _selectedDataObject: string;
   public _selectedLocation: any;
@@ -30,7 +28,7 @@ export class InspectorComponent implements OnInit {
   public dataobject: string;
   today = new Date();
 
-  //Data Array which contains the properties of an Node
+  //Data Array which contains the properties of an Node(Application)
   public data = {
     key: null,
     name: null,
@@ -42,7 +40,7 @@ export class InspectorComponent implements OnInit {
     color: null
   };
 
-  //LinkData Array which contains the properties of an DataObject
+  //LinkData Array which contains the properties of an Data Object
   public LinkData = {
     dataobject: null,
     personalData: false,
@@ -53,22 +51,22 @@ export class InspectorComponent implements OnInit {
   }
 
   //Variables for Workaround to fix the Electron Alert Bug
-  AlertSehen = 'none';
-  AlertSehenDate1 = 'none';
-  AlertSehenDate2 = 'none';
-  AlertSehenCreate = 'none';
-  AlertSehenAppDelete = 'none';
-  AlertSehenDataChange = 'none';
-  AlertSehenCreateData = 'none';
-  AlertSehenAppUpdated = 'none';
-  AlertSehenDataDelete = 'none';
-  AppSehen = 'none';
-  DataObjectSehen = 'none';
+  AlertShow = 'none';
+  AlertShowDate1 = 'none';
+  AlertShowDate2 = 'none';
+  AlertShowCreate = 'none';
+  AlertShowAppDelete = 'none';
+  AlertShowDataChange = 'none';
+  AlertShowCreateData = 'none';
+  AlertShowAppUpdated = 'none';
+  AlertShowDataDelete = 'none';
+  ShowApp = 'none';
+  ShowDataObject = 'none';
   DataObjectCustomize = 'none';
   DataObjectListe = "none";
   ChooseDataObject = "";
   DataObjectCreate = "";
-
+//On application start: load every Application from database
   ngOnInit(): void {
     var mySub = this.crudservice.get_AllApplications().subscribe(data2 => {
       this.Application = data2.map(e => {
@@ -86,9 +84,10 @@ export class InspectorComponent implements OnInit {
           loc: e.payload.doc.data()["loc"],
         };
       })
-      this.model.addNodeDataCollection(this.Application);
+      this.model.addNodeDataCollection(this.Application); //Adds the data from database to the diagram array(collection)
       mySub.unsubscribe();
     })
+    //On application start: load every Data Object from database
     var mySub2 = this.crudservice.get_AllDataObjects().subscribe(data2 => {
       this.DataObject = data2.map(e => {
         return {
@@ -102,14 +101,14 @@ export class InspectorComponent implements OnInit {
         };
       })
       if (this.model instanceof go.GraphLinksModel) {
-        this.model.addLinkDataCollection(this.DataObject);
+        this.model.addLinkDataCollection(this.DataObject); //Adds the data from database to the diagram array(collection)
       }
       mySub2.unsubscribe();
     })
 
 
 
-    ///Link Connections LOADING///////
+    //On application start: load all link connections from database
     var mySub3 = this.crudservice.get_AllLinkConnections().subscribe(data2 => {
       this.LinkConnections = data2.map(e => {
 
@@ -120,6 +119,7 @@ export class InspectorComponent implements OnInit {
           to: e.payload.doc.data()["to"],
         };
       })
+      //Assigns the data object properties to the link connection
       for (var i = 0; i < this.DataObject.length; i++) {
         for (var x = 0; x < this.LinkConnections.length; x++) {
           if (this.DataObject[i].dataobject == this.LinkConnections[x].dataobject) {
@@ -131,12 +131,12 @@ export class InspectorComponent implements OnInit {
       }
 
       if (this.model instanceof go.GraphLinksModel) {
-        this.model.addLinkDataCollection(this.LinkConnections);
+        this.model.addLinkDataCollection(this.LinkConnections); //Adds the data from database to the diagram array(collection)
       }
       mySub3.unsubscribe();
     })
   }
-
+//Creates a new application with default values and adds it to the database
   createApplication() {
     let Application = {};
     Application['key'] = (this.model.nodeDataArray.length + 1);
@@ -149,18 +149,16 @@ export class InspectorComponent implements OnInit {
     Application['shutdownDate'] = "31.12.9999";
     Application['loc'] = "";
 
-    this.model.addNodeData(Application);
+    this.model.addNodeData(Application);//Adds the new application to the diagram 
     var DocumentNr = Application['key'];
-    this.crudservice.create_NewApplication(Application, DocumentNr.toString()).then(res => {
-      console.log("RESDING=" + res);
+    this.crudservice.create_NewApplication(Application, DocumentNr.toString()).then(res => { //Adds the new application to database
     }).catch(error => {
       console.log(error)
     });
   }
-
+//Updates changes of applications
   updateApplication(app_key) {
     let Application = {};
-
     Application['name'] = this.data.name;
     Application['desc'] = this.data.desc;
     Application['color'] = this.data.color;
@@ -171,24 +169,24 @@ export class InspectorComponent implements OnInit {
 
     this.crudservice.updateApplication(app_key, Application);
   }
-
+//Deletes application
   deleteApplication(app_key, app_name) {
-    this.crudservice.delete_Application(app_key);
+    this.crudservice.delete_Application(app_key); //Deletes application in database
     var Application = this.model.findNodeDataForKey(app_key);
-    this.model.removeNodeData(Application);
-    this.AppSehen = 'none';
+    this.model.removeNodeData(Application); //Deletes application in diagram
+    this.ShowApp = 'none';
   }
-
+//Input of model to use go.model methods to modify diagram
   @Input()
   public model: go.Model;
-
+//Input of new location value from application if changed
   @Input()
   get selectedLocation() { return this._selectedLocation; }
   set selectedLocation(location: any) {
     if (location != null) {
       let Application = {};
       Application['loc'] = location;
-      this.crudservice.updateLocation(this.data.key, Application);
+      this.crudservice.updateLocation(this.data.key, Application);//Updates location in database
     }
   }
 
@@ -197,17 +195,17 @@ export class InspectorComponent implements OnInit {
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
     if (link) {
-      this.AlertSehen = 'none';
-      this.AlertSehenDate1 = 'none';
-      this.AlertSehenDate2 = 'none';
-      this.AlertSehenCreate = 'none';
-      this.AlertSehenAppDelete = 'none';
-      this.AlertSehenDataChange = 'none';
-      this.AlertSehenCreateData = 'none';
-      this.AlertSehenAppUpdated = 'none';
-      this.AlertSehenDataDelete = 'none';
-      this.DataObjectSehen = 'block';
-      this.AppSehen = 'none';
+      this.AlertShow = 'none';
+      this.AlertShowDate1 = 'none';
+      this.AlertShowDate2 = 'none';
+      this.AlertShowCreate = 'none';
+      this.AlertShowAppDelete = 'none';
+      this.AlertShowDataChange = 'none';
+      this.AlertShowCreateData = 'none';
+      this.AlertShowAppUpdated = 'none';
+      this.AlertShowDataDelete = 'none';
+      this.ShowDataObject = 'block';
+      this.ShowApp = 'none';
       this.DataObjectCustomize = 'none';
       this.DataObjectListe = "none";
       this.ChooseDataObject = "";
@@ -223,17 +221,17 @@ export class InspectorComponent implements OnInit {
 
     }
     else {
-      this.AlertSehen = 'none';
-      this.AlertSehenDate1 = 'none';
-      this.AlertSehenDate2 = 'none';
-      this.AlertSehenCreate = 'none';
-      this.AlertSehenAppDelete = 'none';
-      this.AlertSehenDataChange = 'none';
-      this.AlertSehenCreateData = 'none';
-      this.AlertSehenAppUpdated = 'none';
-      this.AlertSehenDataDelete = 'none';
-      this.DataObjectSehen = 'none';
-      this.AppSehen = 'none';
+      this.AlertShow = 'none';
+      this.AlertShowDate1 = 'none';
+      this.AlertShowDate2 = 'none';
+      this.AlertShowCreate = 'none';
+      this.AlertShowAppDelete = 'none';
+      this.AlertShowDataChange = 'none';
+      this.AlertShowCreateData = 'none';
+      this.AlertShowAppUpdated = 'none';
+      this.AlertShowDataDelete = 'none';
+      this.ShowDataObject = 'none';
+      this.ShowApp = 'none';
       this.DataObjectCustomize = 'none';
       this.DataObjectCreate = "none";
     }
@@ -245,17 +243,17 @@ export class InspectorComponent implements OnInit {
   set selectedNode(node: go.Node) {
     if (node) {
 
-      this.AlertSehen = 'none';
-      this.AlertSehenDate1 = 'none';
-      this.AlertSehenDate2 = 'none';
-      this.AlertSehenCreate = 'none';
-      this.AlertSehenAppDelete = 'none';
-      this.AlertSehenDataChange = 'none';
-      this.AlertSehenCreateData = 'none';
-      this.AlertSehenAppUpdated = 'none';
-      this.AlertSehenDataDelete = 'none';
-      this.AppSehen = 'block';
-      this.DataObjectSehen = 'none';
+      this.AlertShow = 'none';
+      this.AlertShowDate1 = 'none';
+      this.AlertShowDate2 = 'none';
+      this.AlertShowCreate = 'none';
+      this.AlertShowAppDelete = 'none';
+      this.AlertShowDataChange = 'none';
+      this.AlertShowCreateData = 'none';
+      this.AlertShowAppUpdated = 'none';
+      this.AlertShowDataDelete = 'none';
+      this.ShowApp = 'block';
+      this.ShowDataObject = 'none';
       this.DataObjectCustomize = 'none';
       this.DataObjectCreate = "none";
 
@@ -271,17 +269,17 @@ export class InspectorComponent implements OnInit {
       this.data.color = this._selectedNode.data.color;
 
     } else {
-      this.AlertSehen = 'none';
-      this.AlertSehenDate1 = 'none';
-      this.AlertSehenDate2 = 'none';
-      this.AlertSehenCreate = 'none';
-      this.AlertSehenAppDelete = 'none';
-      this.AlertSehenDataChange = 'none';
-      this.AlertSehenCreateData = 'none';
-      this.AlertSehenAppUpdated = 'none';
-      this.AlertSehenDataDelete = 'none';
-      this.AppSehen = 'none';
-      this.DataObjectSehen = 'none';
+      this.AlertShow = 'none';
+      this.AlertShowDate1 = 'none';
+      this.AlertShowDate2 = 'none';
+      this.AlertShowCreate = 'none';
+      this.AlertShowAppDelete = 'none';
+      this.AlertShowDataChange = 'none';
+      this.AlertShowCreateData = 'none';
+      this.AlertShowAppUpdated = 'none';
+      this.AlertShowDataDelete = 'none';
+      this.ShowApp = 'none';
+      this.ShowDataObject = 'none';
       this.DataObjectCustomize = 'none';
       this.DataObjectCreate = "none";
     }
@@ -291,160 +289,160 @@ export class InspectorComponent implements OnInit {
 
   //resets the Message Box
   resetalert() {
-    this.AppSehen = 'block';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'block';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehen = "none";
+    this.AlertShow = "none";
   }
 
   // Alert Method for when there is already a Node with that Key
   setalert() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehen = "block";
+    this.AlertShow = "block";
   }
 
   //Alert for when Release date later than Shutdown date
   setalertdate1() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDate1 = "block";
+    this.AlertShowDate1 = "block";
   }
 
   resetalertdate1() {
-    this.AppSehen = 'block';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'block';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDate1 = "none";
+    this.AlertShowDate1 = "none";
   }
   //Alert for when Shutdown date earlier than Release date
   setalertdate2() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDate2 = "block";
+    this.AlertShowDate2 = "block";
   }
 
   resetalertdate2() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDate2 = "block";
+    this.AlertShowDate2 = "block";
   }
   //Alert for when Node created
   setalertcreate() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenCreate = 'block';
+    this.AlertShowCreate = 'block';
   }
   //Resets / Closes the Alert
   resetalertcreate() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenCreate = 'none';
+    this.AlertShowCreate = 'none';
   }
 
   //Alert for when Node deleted
   setalertappdelete() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenAppDelete = 'block';
+    this.AlertShowAppDelete = 'block';
   }
 
   //Resets / Closes the Alert
   resetalertappdelete() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenAppDelete = 'none';
+    this.AlertShowAppDelete = 'none';
   }
 
   //Alert for when Data Object updated
   setalertdataobjectchange() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDataChange = 'block';
+    this.AlertShowDataChange = 'block';
   }
 
   //Resets / Closes the Alert
   resetalertdataobjectchange() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'block';
     this.DataObjectCreate = "none";
-    this.AlertSehenDataChange = 'none';
+    this.AlertShowDataChange = 'none';
   }
 
   //Alert for when Data Object created
   setalertcreatedata() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenCreateData = 'block';
+    this.AlertShowCreateData = 'block';
   }
 
   //Resets / Closes the Alert
   resetalertcreatedata() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenCreateData = 'none';
+    this.AlertShowCreateData = 'none';
   }
 
   //Alert for when Node updated
   setalertappupdated() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenAppUpdated = 'block';
+    this.AlertShowAppUpdated = 'block';
   }
 
   //Resets / Closes the Alert
   resetalertappupdated() {
-    this.AppSehen = 'block';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'block';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenAppUpdated = 'none';
+    this.AlertShowAppUpdated = 'none';
   }
 
 
   //Alert for when Data Object is deleted
   setalertdataobjectdelete() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDataDelete = 'block';
+    this.AlertShowDataDelete = 'block';
   }
 
   //Resets / Closes the Alert
   resetalertdataobjectdelete() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectCreate = "none";
-    this.AlertSehenDataDelete = 'none';
+    this.AlertShowDataDelete = 'none';
   }
 
   //Method to making the GettingStarted PDF Doc downloadable
@@ -489,60 +487,49 @@ export class InspectorComponent implements OnInit {
     )
   }
 
-  public onCommitForm2() {
+  public onCommitFormDataObject() { //Updates/creates link connection between applications
+    var oldDataObject = {text: this.selectedLink.data.dataobject, description: this.selectedLink.data.description, personalData: this.selectedLink.data.personalData, dataobject: this.selectedLink.data.dataobject, from: this.selectedLink.data.from, to: this.selectedLink.data.to };
+    this.crudservice.delete_LinkConnection(oldDataObject);  //Deletes old link connection in database
 
     this.model.startTransaction();
     this.model.set(this.selectedLink.data, 'dataobject', this.LinkData.dataobject);
     this.model.set(this.selectedLink.data, 'personalData', this.LinkData.personalData);
     this.model.set(this.selectedLink.data, 'description', this.LinkData.description);
     this.model.set(this.selectedLink.data, 'text', this.LinkData.dataobject);
-
     this.model.commitTransaction();
 
     var newDataObject =
       { text: this.LinkData.dataobject, description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject, from: this.LinkData.from, to: this.LinkData.to };
-    var DataObjectCounter = this.LinkData.from.toString() + this.LinkData.to.toString();
-
-    if (this.model instanceof go.GraphLinksModel) {
-      { DataObjectCounter = this.model.linkDataArray.length + 1; }
-    }
-
-    this.crudservice.create_LinkConnection(newDataObject);
-
-
+  
+    this.crudservice.create_LinkConnection(newDataObject);  //Creates new link connection in database
   }
 
-  public changeDataObject() {
+  public changeDataObject() { //Updates properties of data object with input values of user
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
 
     if (this.model instanceof go.GraphLinksModel) {
-      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
+      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { 
         this.model.removeLinkDataCollection(this.model.linkDataArray);
       }
       this.DataObjectCreate = "none";
-      this.DataObjectSehen = 'none';
-      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
-        if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject) {
+      this.ShowDataObject = 'none';
+      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) { 
+        if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject) { //Looks for same used data objects and overwrites properties with new input values
           jsonDataObjects.linkDataArray[i].personalData = this.LinkData.personalData;
           jsonDataObjects.linkDataArray[i].description = this.LinkData.description;
           jsonDataObjects.linkDataArray[i].text = this.LinkData.dataobject;
         }
-        console.log("test:" + i + jsonDataObjects.linkDataArray[i].dataobject);
       }
-      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
+      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray); //Updated data objects loading into diagram
     }
-
-
     let DataObject = {};
-
     DataObject['dataobject'] = this.LinkData.dataobject;
     DataObject['description'] = this.LinkData.description;
     DataObject['personalData'] = this.LinkData.personalData;
     DataObject['text'] = this.LinkData.text;
 
-
-    this.crudservice.updateDataObject(this.LinkData.dataobject, DataObject);
+    this.crudservice.updateDataObject(this.LinkData.dataobject, DataObject); //Updates properties of data object in database
   }
 
   //Assign the Values from the Application Editor to the Nodes
@@ -702,19 +689,15 @@ export class InspectorComponent implements OnInit {
         description: ['']
       }
     )
-
-    document.addEventListener('click', function () {
-      console.log('keys pressed');
-    });
   }
 
-  @Input()
+  @Input() //Input of selected data object of user
   get selectedDataObject() { return this._selectedDataObject; }
   set selectedDataObject(dataobject: string) {
     this.dataobject = dataobject;
   }
 
-  public myFunction() {
+  public listDataObjects() { //Opens a list with all data objects for selecting/assigning
     this.DataObjectListe = "block";
     this.ChooseDataObject = "none";
     var modelAsText2 = this.model.toJson();
@@ -726,18 +709,7 @@ export class InspectorComponent implements OnInit {
         DropdownList.remove(0); //To let the Dropdown Menu disappear
       }
     }
-    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
-
-      for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
-        if (i != y) {
-
-          if (jsonDataObjects2.linkDataArray[i].dataobject != jsonDataObjects2.linkDataArray[y].dataobject) {
-            console.log(i + "+" + y)
-            break;
-          }
-        }
-      }
-    }
+   //Creates dropdown menu for data object selection/assigning
     var el = document.createElement("option");
     el.disabled = true;
     el.text = "Select Data Object";
@@ -754,8 +726,6 @@ export class InspectorComponent implements OnInit {
         console.log(DropdownList[0]);
       }
     }
-    //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
-    
     //Redundant Data Objects are removed from the Dropdown Menu
     var fruits = DropdownList;
     [].slice.call(fruits.options)
@@ -768,7 +738,7 @@ export class InspectorComponent implements OnInit {
       }, {});
 
   }
-
+//Selected data object propertie values are setted
   public onChange($event, deviceValue) {
     var modelAsText = this.model.toJson();
     var jsonDataObjects = JSON.parse(modelAsText);
@@ -779,13 +749,6 @@ export class InspectorComponent implements OnInit {
         this.LinkData.personalData = jsonDataObjects.linkDataArray[i].personalData;
         this.LinkData.text = jsonDataObjects.linkDataArray[i].dataobject;
       }
-    }
-  }
-  public resetDropdown() {
-    var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
-    while (DropdownList.options.length > 0) {
-      DropdownList.remove(0);
-
     }
   }
 
@@ -806,7 +769,7 @@ export class InspectorComponent implements OnInit {
       var item = { dataobject: jsonDataObjects.linkDataArray[i].dataobject, description: jsonDataObjects.linkDataArray[i].description, personalData: jsonDataObjects.linkDataArray[i].personalData };
       addItem(item);
     }
-    CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv);
+    CsvDataService.exportToCsv('DataObjects.csv', DataObjectsAScsv); //Filtered data objects are transmitted to csv class for csv file preparation
   };
   //EXPORT DATAOBJECTS
   //EXPORT APPLICATIONS
@@ -822,8 +785,8 @@ export class InspectorComponent implements OnInit {
   };
   //EXPORT APPLICATIONS
   public customizeDataObject() {
-    this.DataObjectSehen = "none";
-    this.AppSehen = "none";
+    this.ShowDataObject = "none";
+    this.ShowApp = "none";
     this.DataObjectCustomize = 'block';
     this.DataObjectCreate = "none";
 
@@ -831,23 +794,9 @@ export class InspectorComponent implements OnInit {
     var jsonDataObjects2 = JSON.parse(modelAsText2);
     var DropdownList = (document.getElementById("mySelect2")) as HTMLSelectElement;
     while (DropdownList.options.length > 0) {
-
       DropdownList.remove(0);
     }
-
-    for (var i = 0; i < jsonDataObjects2.linkDataArray.length; i++) {
-
-      for (var y = 1; y < jsonDataObjects2.linkDataArray.length; y++) {
-        if (i != y) {
-
-
-          if (jsonDataObjects2.linkDataArray[i].dataobject != jsonDataObjects2.linkDataArray[y].dataobject) {
-            console.log(i + "+" + y)
-            break;
-          }
-        }
-      }
-    }
+//Creates dropdown menu for data object selection/assigning
     var el = document.createElement("option");
     el.disabled = true;
     el.text = "Select Data Object";
@@ -862,8 +811,6 @@ export class InspectorComponent implements OnInit {
       DropdownList[0].remove;
       console.log(DropdownList[0]);
     }
-    //Doppelte Data Objects werden im Dropwdown damit nicht angezeigt / entfernt
-
     //Redundant Data Objects are removed from Drop Down Menu
     var fruits = DropdownList;
     [].slice.call(fruits.options)
@@ -874,13 +821,12 @@ export class InspectorComponent implements OnInit {
           this[a.value] = 1;
         }
       }, {});
-
   }
-  //Method to show the the Created Data Object
+  //Method to show window for creating new data object
   public showCreateDataObject() {
     this.DataObjectCreate = "block";
-    this.DataObjectSehen = "none";
-    this.AppSehen = "none";
+    this.ShowDataObject = "none";
+    this.ShowApp = "none";
     this.DataObjectCustomize = 'none';
 
     this.LinkData.dataobject = null;
@@ -893,21 +839,17 @@ export class InspectorComponent implements OnInit {
   //Method to Create the Data Object
   public createDataObject() {
 
-    if (this.LinkData.personalData == null) {
+    if (this.LinkData.personalData == null) { //If personal data is not checked it will automatically setted to false
       this.LinkData.personalData = false; 
     }
     var newDataObject =
       { text: this.LinkData.dataobject, description: this.LinkData.description, personalData: this.LinkData.personalData, dataobject: this.LinkData.dataobject };
 
     if (this.model instanceof go.GraphLinksModel) {
-      this.model.addLinkData(newDataObject);
+      this.model.addLinkData(newDataObject); //Adds new data object to model array
     }
 
-    if (this.LinkData.dataobject != null) {
-    }
-
-
-    this.crudservice.create_NewDataObject(newDataObject);
+    this.crudservice.create_NewDataObject(newDataObject); //Adds new data object to database
   }
 
   //Method to remove Link Conncetions
@@ -916,25 +858,22 @@ export class InspectorComponent implements OnInit {
     var jsonDataObjects = JSON.parse(modelAsText);
 
     if (this.model instanceof go.GraphLinksModel) {
-      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
+      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) {
         this.model.removeLinkDataCollection(this.model.linkDataArray);
-
       }
       this.DataObjectCreate = "none";
-      this.DataObjectSehen = 'none';
+      this.ShowDataObject = 'none';
 
-      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
-
+      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) { //Removes duplicates of data objects
         if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject && jsonDataObjects.linkDataArray[i].from == this.LinkData.from && jsonDataObjects.linkDataArray[i].to == this.LinkData.to) {
           jsonDataObjects.linkDataArray[i] = null;
         }
       }
-
-      this.DataObjectSehen = 'none';
+      this.ShowDataObject = 'none';
       this.DataObjectCustomize = 'none';
-      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
+      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray); //Array without data objects & link connections which were deleted by user -> added to diagram
     }
-    this.crudservice.delete_LinkConnection(this.LinkData);
+    this.crudservice.delete_LinkConnection(this.LinkData); //Removes link connection from database
   }
   public removeDataObject() {
 
@@ -942,29 +881,27 @@ export class InspectorComponent implements OnInit {
     var jsonDataObjects = JSON.parse(modelAsText);
 
     if (this.model instanceof go.GraphLinksModel) {
-      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { //Falls doppelte DataObjects kommen +5 erhöhen !
+      for (var z = 0; z < this.model.linkDataArray.length + 5; z++) { 
         this.model.removeLinkDataCollection(this.model.linkDataArray);
-
       }
       this.DataObjectCreate = "none";
-      this.DataObjectSehen = 'none';
-      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) {
+      this.ShowDataObject = 'none';
+      for (var i = 0; i < jsonDataObjects.linkDataArray.length; i++) { //Removes selected data object from array
         if (jsonDataObjects.linkDataArray[i].dataobject == this.LinkData.dataobject) {
           jsonDataObjects.linkDataArray[i] = null;
         }
       }
-      this.DataObjectSehen = 'none';
+      this.ShowDataObject = 'none';
       this.DataObjectCustomize = 'none';
-      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray);
+      this.model.addLinkDataCollection(jsonDataObjects.linkDataArray); //Adds new filtered array to diagram without deleted data object
     }
-
-    this.crudservice.delete_DataObject(this.LinkData.dataobject);
+    this.crudservice.delete_DataObject(this.LinkData.dataobject); //Deletes data object in database
   }
 
   //Method for Close Button
   public closeWindows() {
-    this.AppSehen = 'none';
-    this.DataObjectSehen = 'none';
+    this.ShowApp = 'none';
+    this.ShowDataObject = 'none';
     this.DataObjectCustomize = 'none';
     this.DataObjectListe = "none";
     this.ChooseDataObject = "none";
@@ -972,7 +909,7 @@ export class InspectorComponent implements OnInit {
   }
 }
 
-// Close the dropdown if the user clicks outside of it
+// Close the dropdown menu if the user clicks outside of it
 window.onclick = function (event) {
   if (!event.target.matches('.dropbtn')) {
     var dropdowns = document.getElementsByClassName("dropdown-content");

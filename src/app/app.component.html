@@ -1,5 +1,5 @@
 <!-- Methods and vars are submited to other files -->
-<app-diagram (appMoved)='setLocation($event)' (dataobjectShow)='setDataObject($event)' (linkClicked)='setSelectedLink($event)' (messageEvent)="receiveMessage($event)" [model]='model'  (nodeClicked)='setSelectedNode($event)' ></app-diagram>
+<app-diagram (appMoved)='setLocation($event)' (dataobjectShow)='setDataObject($event)' (linkClicked)='setSelectedLink($event)'  [model]='model'  (nodeClicked)='setSelectedNode($event)' ></app-diagram>
 <app-inspector [selectedLocation]='selectedLocation' [selectedDataObject]='selectedDataObject'[model]='model' [selectedNode]='selectedNode' [selectedLink]='selectedLink' ></app-inspector>
 
 
